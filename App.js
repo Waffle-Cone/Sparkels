@@ -5,6 +5,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text>Sparkles</Text>
+      <Text>Sparkles</Text>
       <StatusBar style="auto" />
     </View>
   );

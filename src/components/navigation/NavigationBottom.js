@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Image, SafeAreaView } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ProjectListScreen from "../screens/ProjectListScreen";
 import Icons from "../UI/Icons";
+import AddProjectScreen from "../screens/AddProjectScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -43,6 +44,27 @@ const NavigationBottom = () => {
           ),
           tabBarLabel: ({ focused }) => (
             <CustomTabLabel label="Project" focused={focused} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="AddProject"
+        component={AddProjectScreen}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ focused }) => (
+            <View
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                top: 10,
+              }}
+            >
+              <Icons.Add color={focused ? "#24325B" : "#BCBCBC"} />
+            </View>
+          ),
+          tabBarLabel: ({ focused }) => (
+            <CustomTabLabel label="Add Project" focused={focused} />
           ),
         }}
       />

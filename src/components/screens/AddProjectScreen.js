@@ -9,8 +9,9 @@ const initialProject = {
   ProjectDescription: null,
 };
 
-const AddProjectScreen = () => {
+const AddProjectScreen = ({ navigation, handleAdd }) => {
   // Initialisations ------------------
+
   // State ----------------------------
   const [project, setProject] = useState(initialProject);
   // Handlers -------------------------

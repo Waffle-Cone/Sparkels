@@ -7,20 +7,30 @@ import Screen from "../layout/screen";
 //const firstProject = new Project(1, "MAD", "This is soooo long");
 
 const ProjectListScreen = () => {
-  //initialisation----
+  // Initialisations ------------------
 
-  const [storage, setStorage] = useState(Database);
+  // State ----------------------------
+  const [projects, setProjects] = useState(Database);
 
   useEffect(() => {
-    setStorage(Database);
+    setProjects(Database);
   }, []);
 
-  console.log(storage.length);
+  console.log(projects.length);
   console.log(Database.length);
+
+  // Handlers -------------------------
+  const handleAdd = (project) => setProjects([...projects, project]);
+
+  const onAdd = (project) => {
+    handleAdd(project);
+    navigation.navigate("ProjectListScreen");
+  };
+  // View -----------------------------
 
   return (
     <View style={styles.container}>
-      {storage.map((project) => (
+      {projects.map((project) => (
         <Text key={project.getId}>{project.getName()}</Text>
       ))}
     </View>

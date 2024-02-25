@@ -1,7 +1,6 @@
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
-import React, { useState } from "react";
-import Project from "../classes/Project";
-import { Database } from "../classes/Database";
+import React, { useContext, useState } from "react";
+import { ProjectContext } from "../classes/ProjectContext";
 
 const initialProject = {
   ProjectID: null,
@@ -9,32 +8,35 @@ const initialProject = {
   ProjectDescription: null,
 };
 
-const AddProjectScreen = ({ navigation, handleAdd }) => {
+const AddProjectScreen = ({ navigation }) => {
   // Initialisations ------------------
-
+  const { handleAdd } = useContext(ProjectContext);
   // State ----------------------------
   const [project, setProject] = useState(initialProject);
+
+  //reset the text inputs back to null
+  React.useEffect(() => {
+    const newPage = navigation.addListener("focus", () => {
+      setProject(initialProject);
+    });
+    return newPage;
+  }, [navigation]);
+
   // Handlers -------------------------
-  const handleChange = (field, value) =>
-    setProject({ ...project, [field]: value });
+  const handleChange = (field, value) => setProject({ ...project, [field]: value });
 
   const handleSubmit = () => {
-    console.log("hello");
-
-    const newProject = new Project(
-      project.ProjectID,
-      project.ProjectName,
-      project.ProjectDescription
-    );
+    handleAdd(project);
   };
 
   // View -----------------------------
   return (
     <View style={styles.container}>
+      <TextInput value={project.ProjectName} placeholder="Enter name" onChangeText={(value) => handleChange("ProjectName", value)} style={styles.itemTextInput} />
       <TextInput
-        value={project.ProjectName}
-        placeholder="Enter name"
-        onChangeText={(value) => handleChange("ProjectName", value)}
+        value={project.ProjectDescription}
+        placeholder="Enter Dexcription"
+        onChangeText={(value) => handleChange("ProjectDescription", value)}
         style={styles.itemTextInput}
       />
       <Pressable onPress={handleSubmit}>
@@ -52,5 +54,12 @@ const styles = StyleSheet.create({
     padding: 20,
     justifyContent: "center",
     alignItems: "center",
+    gap: 20,
+  },
+  itemTextInput: {
+    height: 30,
+    width: "100%",
+    borderWidth: 1,
+    borderColor: "lightgrey",
   },
 });

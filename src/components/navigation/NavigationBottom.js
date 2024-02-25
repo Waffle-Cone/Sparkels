@@ -42,9 +42,7 @@ const NavigationBottom = () => {
               <Icons.Home color={focused ? "#24325B" : "#BCBCBC"} />
             </View>
           ),
-          tabBarLabel: ({ focused }) => (
-            <CustomTabLabel label="Project" focused={focused} />
-          ),
+          tabBarLabel: ({ focused }) => <CustomTabLabel label="Project" focused={focused} />,
         }}
       />
       <Tab.Screen
@@ -63,9 +61,7 @@ const NavigationBottom = () => {
               <Icons.Add color={focused ? "#24325B" : "#BCBCBC"} />
             </View>
           ),
-          tabBarLabel: ({ focused }) => (
-            <CustomTabLabel label="Add Project" focused={focused} />
-          ),
+          tabBarLabel: ({ focused }) => <CustomTabLabel label="Add Project" focused={focused} />,
         }}
       />
     </Tab.Navigator>

@@ -8,26 +8,6 @@ class Project {
     this.description = description;
   }
   //methods
-
-  getId = () => {
-    return this.id;
-  };
-
-  getName = () => {
-    return this.name;
-  };
-
-  getDescription = () => {
-    return this.description;
-  };
-
-  addTask = (task) => {
-    this.tasks.push(task);
-  };
-
-  getTasks = () => {
-    return this.tasks;
-  };
 }
 
 export default Project;

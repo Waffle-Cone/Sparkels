@@ -11,7 +11,13 @@ const ProjectListScreen = () => {
   // Handlers -------------------------
   // View -----------------------------
 
-  return <View style={styles.container}></View>;
+  return (
+    <View style={styles.container}>
+      {projects.map((project) => {
+        return <Text>{project.name}</Text>;
+      })}
+    </View>
+  );
 };
 
 export default ProjectListScreen;

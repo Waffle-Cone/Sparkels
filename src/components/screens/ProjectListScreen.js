@@ -5,7 +5,6 @@ import { ProjectContext } from "../classes/ProjectContext";
 const ProjectListScreen = () => {
   // Initialisations ------------------
   const { projects } = useContext(ProjectContext);
-  console.log(projects);
 
   // State ---------------------------
   // Handlers -------------------------
@@ -14,7 +13,11 @@ const ProjectListScreen = () => {
   return (
     <View style={styles.container}>
       {projects.map((project) => {
-        return <Text>{project.name}</Text>;
+        return (
+          <Text key={project.id}>
+            {project.name} {project.description} {project.dueDate}
+          </Text>
+        );
       })}
     </View>
   );

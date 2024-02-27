@@ -15,7 +15,7 @@ const AddProjectScreen = ({ navigation }) => {
   // View -----------------------------
   return (
     <SafeAreaView style={styles.container}>
-      <ProjectForm navigation={navigation} submitType="Add" />
+      <ProjectForm navigation={navigation} submitType="Add" formTitle="New Project" />
     </SafeAreaView>
   );
 };

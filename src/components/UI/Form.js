@@ -2,9 +2,10 @@ import { Platform, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput
 import { Picker } from "@react-native-picker/picker";
 import FormLayout from "../layout/FormLayout";
 
-const Form = ({ children, submitType, onSubmit, onCancel }) => {
+const Form = ({ children, submitType, onSubmit, onCancel, title }) => {
   return (
     <FormLayout>
+      <Text style={styles.title}>{title}</Text>
       <KeyboardAvoidingView keyboardVerticalOffset={115} behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.formContainer} enabled>
         <ScrollView contentContainerStyle={styles.formItems}>{children}</ScrollView>
       </KeyboardAvoidingView>
@@ -61,6 +62,11 @@ const styles = StyleSheet.create({
     padding: 20,
     //backgroundColor: "blue",
   },
+  title: {
+    alignSelf: "center",
+    padding: 5,
+    fontSize: 25,
+  },
   formItems: {
     gap: 9,
   },
@@ -97,9 +103,10 @@ const styles = StyleSheet.create({
     gap: 100,
     maxHeight: 0, // use only what is needed for the buttons
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "flex-end",
     padding: 50,
+    paddingBottom: 20,
   },
   button: {
     minHeight: 50,

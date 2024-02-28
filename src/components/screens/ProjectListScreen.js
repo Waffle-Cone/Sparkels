@@ -9,21 +9,22 @@ import React, { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 import Icons from "../UI/Icons";
 
-const ProjectListScreen = () => {
+const ProjectListScreen = ({ navigation }) => {
   // Initialisations ------------------
   const { projects } = useContext(ProjectContext);
 
   // State ---------------------------
   // Handlers -------------------------
-  // View -----------------------------
+  const gotoTaskListScreen = () => navigation.navigate("TaskListScreen");
 
+  // View -----------------------------
   return (
     <View style={styles.container}>
       <Text style={styles.h1}>Your Projects</Text>
 
       {projects.map((project) => {
         return (
-          <TouchableOpacity key={project.id}>
+          <TouchableOpacity key={project.id} onPress={gotoTaskListScreen}>
             <View style={styles.projectContainer}>
               <View style={styles.projectDetails}>
                 <Text>Project name: {project.name}</Text>

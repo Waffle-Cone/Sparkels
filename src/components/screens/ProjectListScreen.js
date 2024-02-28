@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   },
   projectContainer: {
     borderRadius: 10,
-    borderColor: "black",
+    borderColor: "#BCBCBC",
     borderWidth: 1,
     backgroundColor: "white",
     marginVertical: 10,

@@ -32,7 +32,7 @@ const TaskListScreen = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.h1}>Your Tasks for Project {projectName}</Text>
+      <Text style={styles.h1}>Tasks for Project "{projectName}"</Text>
       <Text style={styles.h2}>Description: {projectDescription}</Text>
       <Text style={styles.h2}>Due Date: {projectDueDate}</Text>
       <View style={styles.buttonTray}>
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 2,
     borderRightWidth: 2,
     borderBottomWidth: 4,
-    borderColor: "black",
+    borderColor: "#DE485A",
     backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
-    color: "#24325B",
+    color: "#DE485A",
     paddingVertical: 8,
   },
 });

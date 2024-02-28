@@ -26,7 +26,7 @@ export default function App() {
           <Stack.Screen
             name="TaskListScreen"
             component={TaskListScreen}
-            options={{ title: "Your Project" }}
+            options={{ title: " " }}
           />
         </Stack.Navigator>
       </NavigationContainer>

@@ -15,7 +15,15 @@ const ProjectListScreen = ({ navigation }) => {
 
   // State ---------------------------
   // Handlers -------------------------
-  const gotoTaskListScreen = () => navigation.navigate("TaskListScreen");
+
+  //passing also the project object clicked
+  const gotoTaskListScreen = (project) =>
+    navigation.navigate("TaskListScreen", {
+      projectId: project.id,
+      projectName: project.name,
+      projectDescription: project.description,
+      projectDueDate: project.dueDate,
+    });
 
   // View -----------------------------
   return (
@@ -24,7 +32,10 @@ const ProjectListScreen = ({ navigation }) => {
 
       {projects.map((project) => {
         return (
-          <TouchableOpacity key={project.id} onPress={gotoTaskListScreen}>
+          <TouchableOpacity
+            key={project.id}
+            onPress={() => gotoTaskListScreen(project)}
+          >
             <View style={styles.projectContainer}>
               <View style={styles.projectDetails}>
                 <Text>Project name: {project.name}</Text>

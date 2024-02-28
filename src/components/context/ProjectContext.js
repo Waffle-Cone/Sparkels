@@ -45,9 +45,16 @@ export const ProjectProvider = ({ children }) => {
     const updatedProjects = [...projects, newProject];
     setProjects(updatedProjects);
   };
+
+  const handleDelete = async (projectId) => {
+    const updatedProjects = projects.filter(
+      (project) => project.id !== projectId
+    );
+    setProjects(updatedProjects);
+  };
   // View -----------------------------
   return (
-    <ProjectContext.Provider value={{ projects, handleAdd }}>
+    <ProjectContext.Provider value={{ projects, handleAdd, handleDelete }}>
       {children}
     </ProjectContext.Provider>
   );

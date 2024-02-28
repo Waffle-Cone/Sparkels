@@ -31,12 +31,12 @@ const Account = ({ color }) => (
 );
 
 //Utility Icons
-const Add = () => <MaterialIcons name="add" size={16} />;
+const Add = ({ color }) => <MaterialIcons name="add" size={24} color={color} />;
 const Delete = () => <MaterialIcons name="delete" size={16} />;
 const Edit = () => <MaterialIcons name="edit" size={16} />;
 
 const RightArrow = () => (
-  <AntDesign name="rightcircle" size={24} color="#24325B" />
+  <AntDesign name="rightcircle" size={24} color="black" />
 );
 
 // Compose

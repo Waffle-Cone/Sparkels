@@ -9,7 +9,7 @@ const Tab = createBottomTabNavigator();
 
 const CustomTabLabel = ({ label, focused }) => (
   <View style={{ alignItems: "center", justifyContent: "center", top: 10 }}>
-    <Text style={{ color: focused ? "#24325B" : "#BCBCBC" }}>{label}</Text>
+    <Text style={{ color: focused ? "black" : "#BCBCBC" }}>{label}</Text>
   </View>
 );
 
@@ -39,10 +39,12 @@ const NavigationBottom = () => {
                 top: 10,
               }}
             >
-              <Icons.Home color={focused ? "#24325B" : "#BCBCBC"} />
+              <Icons.Home color={focused ? "black" : "#BCBCBC"} />
             </View>
           ),
-          tabBarLabel: ({ focused }) => <CustomTabLabel label="Project" focused={focused} />,
+          tabBarLabel: ({ focused }) => (
+            <CustomTabLabel label="Project" focused={focused} />
+          ),
         }}
       />
       <Tab.Screen
@@ -58,10 +60,12 @@ const NavigationBottom = () => {
                 top: 10,
               }}
             >
-              <Icons.Add color={focused ? "#24325B" : "#BCBCBC"} />
+              <Icons.Add color={focused ? "black" : "#BCBCBC"} />
             </View>
           ),
-          tabBarLabel: ({ focused }) => <CustomTabLabel label="Add Project" focused={focused} />,
+          tabBarLabel: ({ focused }) => (
+            <CustomTabLabel label="Add Project" focused={focused} />
+          ),
         }}
       />
     </Tab.Navigator>

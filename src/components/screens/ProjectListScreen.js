@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
-import { ProjectContext } from "../classes/ProjectContext";
+import { ProjectContext } from "../context/ProjectContext";
 
 const ProjectListScreen = () => {
   // Initialisations ------------------
@@ -15,7 +15,7 @@ const ProjectListScreen = () => {
       {projects.map((project) => {
         return (
           <Text key={project.id}>
-            {project.name} {project.description} {project.dueDate}
+            {project.name} || {project.description} || {project.dueDate}
           </Text>
         );
       })}

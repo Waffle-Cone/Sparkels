@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import NavigationBottom from "./src/components/navigation/NavigationBottom";
 import { StyleSheet, Text, View } from "react-native";
 import AddProjectScreen from "./src/components/screens/AddProjectScreen";
-import { ProjectProvider } from "./src/components/classes/ProjectContext";
+import { ProjectProvider } from "./src/components/context/ProjectContext";
 
 const Stack = createNativeStackNavigator();
 

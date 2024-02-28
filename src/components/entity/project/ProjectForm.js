@@ -2,11 +2,11 @@ import { Button, Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } fr
 import React, { useContext, useEffect, useState } from "react";
 import { Calendar } from "react-native-calendars";
 import Project from "../../classes/Project";
-import { ProjectContext } from "../../classes/ProjectContext";
+import { ProjectContext } from "../../context/ProjectContext";
 import Form from "../../UI/Form";
 import { useIsFocused } from "@react-navigation/native";
 
-const ProjectForm = ({ navigation, submitType, formTitle }) => {
+const ProjectForm = ({ navigation, submitType, formTitle, selectedProject }) => {
   // Initialisations ------------------
   const newProject = new Project();
 
@@ -34,7 +34,7 @@ const ProjectForm = ({ navigation, submitType, formTitle }) => {
   };
 
   // State ----------------------------
-  const [project, setProject] = useState(newProject);
+  const [project, setProject] = useState(newProject || selectedProject);
   const [selectedDate, setSelectedDate] = useState("");
   const [errors, setErrors] = useState(Object.keys(project).reduce((acc, key) => ({ ...acc, [key]: null }), {})); // = [name: null, description: null, dueDate: null, task: null, id: null]
 
@@ -43,6 +43,7 @@ const ProjectForm = ({ navigation, submitType, formTitle }) => {
     const newPage = navigation.addListener("focus", () => {
       setProject(newProject);
       setSelectedDate("");
+      setErrors(Object.keys(project).reduce((acc, key) => ({ ...acc, [key]: null }), {})); // = [name: null, description: null, dueDate: null, task: null, id: null]);
     });
     return newPage;
   }, [navigation]);
@@ -89,6 +90,7 @@ const ProjectForm = ({ navigation, submitType, formTitle }) => {
 
       {isFocused ? (
         <Calendar
+          current={project.dueDate}
           enableSwipeMonths={true}
           onDayPress={(day) => {
             setSelectedDate(day.dateString);

@@ -1,4 +1,10 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 import Icons from "../UI/Icons";
@@ -17,12 +23,16 @@ const ProjectListScreen = () => {
 
       {projects.map((project) => {
         return (
-          <Pressable key={project.id} style={styles.projectItem}>
-            <Text>
-              {project.name} || {project.description} || {project.dueDate}
-            </Text>
-            <Icons.RightArrow />
-          </Pressable>
+          <TouchableOpacity key={project.id}>
+            <View style={styles.projectContainer}>
+              <View style={styles.projectDetails}>
+                <Text>Project name: {project.name}</Text>
+                <Text>Description: {project.description}</Text>
+                <Text>Due date: {project.dueDate}</Text>
+              </View>
+              <Icons.RightArrow />
+            </View>
+          </TouchableOpacity>
         );
       })}
     </View>
@@ -46,7 +56,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "black",
   },
-  projectItem: {
+  projectContainer: {
     borderRadius: 10,
     borderColor: "black",
     borderWidth: 1,
@@ -56,5 +66,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+  projectDetails: {
+    flex: 1,
   },
 });

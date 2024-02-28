@@ -4,28 +4,22 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 const Icons = {};
 
-//Home Screen Icons
-const Form = () => (
-  <AntDesign name="form" size={40} color="#24325B" marginTop={20} />
+//Navigation Bar Icons
+const Project = ({ color }) => (
+  <FontAwesome5 name="list-alt" size={24} color={color} />
 );
-const LiveChat = () => (
-  <Entypo name="chat" size={40} color="#24325B" marginTop={20} />
-);
-const Call = () => (
-  <Ionicons name="call" size={40} color="#24325B" marginTop={20} />
+const Home = ({ color }) => <FontAwesome name="home" size={30} color={color} />;
+
+const Tasks = () => <FontAwesome5 name="tasks" size={24} color="black" />;
+
+const AddProject = ({ color }) => (
+  <Ionicons name="add-circle-sharp" size={24} color={color} />
 );
 
-//Navigation Bar Icons
-const Home = ({ color }) => <FontAwesome name="home" size={30} color={color} />;
-const Plane = ({ color }) => (
-  <FontAwesome name="plane" size={30} color={color} />
-);
-const CallSupport = ({ color }) => (
-  <Ionicons name="call" size={30} color={color} />
-);
 const Account = ({ color }) => (
   <MaterialCommunityIcons name="account" size={30} color={color} />
 );
@@ -41,15 +35,13 @@ const RightArrow = () => (
 
 // Compose
 Icons.Account = Account;
+Icons.AddProject = AddProject;
 Icons.Add = Add;
-Icons.Call = Call;
-Icons.CallSupport = CallSupport;
 Icons.Delete = Delete;
 Icons.Edit = Edit;
-Icons.Form = Form;
+Icons.Project = Project;
 Icons.Home = Home;
-Icons.LiveChat = LiveChat;
-Icons.Plane = Plane;
 Icons.RightArrow = RightArrow;
+Icons.Tasks = Tasks;
 
 export default Icons;

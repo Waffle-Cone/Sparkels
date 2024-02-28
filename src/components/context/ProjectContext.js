@@ -10,19 +10,6 @@ export const ProjectProvider = ({ children }) => {
   // State ----------------------------
   const [projects, setProjects] = useState(initialProjects);
   // Handlers -------------------------
-  const saveProjects = async () => {
-    console.log("SAVING:", projects);
-    try {
-      await AsyncStorage.setItem("projects", JSON.stringify(projects));
-    } catch (error) {
-      console.log("Failed to save project to AsyncStorage", error);
-    }
-  };
-
-  useEffect(() => {
-    saveProjects();
-  }, [projects]);
-
   const loadProjects = async () => {
     try {
       const storedProjects = await AsyncStorage.getItem("projects");
@@ -40,6 +27,19 @@ export const ProjectProvider = ({ children }) => {
   useEffect(() => {
     loadProjects();
   }, []);
+
+  const saveProjects = async () => {
+    console.log("SAVING:", projects);
+    try {
+      await AsyncStorage.setItem("projects", JSON.stringify(projects));
+    } catch (error) {
+      console.log("Failed to save project to AsyncStorage", error);
+    }
+  };
+
+  useEffect(() => {
+    saveProjects();
+  }, [projects]);
 
   const handleAdd = async (newProject) => {
     const updatedProjects = [...projects, newProject];

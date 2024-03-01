@@ -13,7 +13,7 @@ const TaskListScreen = ({ navigation, route }) => {
   // State ----------------------------
   // Handlers -------------------------
   const onDelete = () => {
-    handleDelete(projectId);
+    handleDelete(project.id);
     navigation.goBack();
   };
 

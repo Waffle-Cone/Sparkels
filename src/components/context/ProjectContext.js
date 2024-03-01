@@ -13,7 +13,6 @@ export const ProjectProvider = ({ children }) => {
   const loadProjects = async () => {
     try {
       const storedProjects = await AsyncStorage.getItem("projects");
-      console.log("LOADED:", storedProjects);
       if (storedProjects !== null) {
         setProjects(JSON.parse(storedProjects));
       } else {
@@ -24,18 +23,17 @@ export const ProjectProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    loadProjects();
-  }, []);
-
   const saveProjects = async () => {
-    console.log("SAVING:", projects);
     try {
       await AsyncStorage.setItem("projects", JSON.stringify(projects));
     } catch (error) {
       console.log("Failed to save project to AsyncStorage", error);
     }
   };
+
+  useEffect(() => {
+    loadProjects();
+  }, []);
 
   useEffect(() => {
     saveProjects();

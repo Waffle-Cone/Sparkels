@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ProjectListScreen from "../screens/ProjectListScreen";
 import Icons from "../UI/Icons";
 import AddProjectScreen from "../screens/AddProjectScreen";
+import AddTaskScreen from "../screens/AddTaskScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -42,9 +43,7 @@ const NavigationBottom = () => {
               <Icons.Project color={focused ? "black" : "#BCBCBC"} />
             </View>
           ),
-          tabBarLabel: ({ focused }) => (
-            <CustomTabLabel label="Project" focused={focused} />
-          ),
+          tabBarLabel: ({ focused }) => <CustomTabLabel label="Project" focused={focused} />,
         }}
       />
       <Tab.Screen
@@ -63,9 +62,7 @@ const NavigationBottom = () => {
               <Icons.AddProject color={focused ? "black" : "#BCBCBC"} />
             </View>
           ),
-          tabBarLabel: ({ focused }) => (
-            <CustomTabLabel label="Add Project" focused={focused} />
-          ),
+          tabBarLabel: ({ focused }) => <CustomTabLabel label="Add Project" focused={focused} />,
         }}
       />
     </Tab.Navigator>

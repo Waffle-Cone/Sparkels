@@ -2,13 +2,15 @@ import { Button, Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } fr
 import React, { useContext, useState } from "react";
 import TaskForm from "../entity/task/TaskForm";
 
-const AddTaskScreen = ({ navigation }) => {
+const AddTaskScreen = ({ navigation, route }) => {
   // Initialisations ------------------
+  const { project } = route.params;
+
   //++ getting submition handler from context
   // State ----------------------------
   // Handlers -------------------------
   // View -----------------------------
-  return <TaskForm />;
+  return <TaskForm project={project} />;
 };
 
 export default AddTaskScreen;

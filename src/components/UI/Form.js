@@ -1,4 +1,4 @@
-import { Platform, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, View, Pressable } from "react-native";
+import { Platform, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, View, Pressable, TouchableOpacity } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import FormLayout from "../layout/FormLayout";
 
@@ -11,17 +11,17 @@ const Form = ({ children, submitType, onSubmit, onCancel, title }) => {
       </KeyboardAvoidingView>
 
       <View style={styles.buttonTray}>
-        <Pressable onPress={onCancel} style={styles.button}>
-          <Text style={styles.buttonText}> cancel</Text>
-        </Pressable>
+        <TouchableOpacity onPress={onCancel} style={styles.button}>
+          <Text style={styles.buttonText}> Cancel</Text>
+        </TouchableOpacity>
         {submitType === "Add" ? (
-          <Pressable onPress={onSubmit} style={styles.button}>
+          <TouchableOpacity onPress={onSubmit} style={styles.button}>
             <Text style={styles.buttonText}> Add</Text>
-          </Pressable>
+          </TouchableOpacity>
         ) : (
-          <Pressable onPress={onSubmit} style={styles.button}>
+          <TouchableOpacity onPress={onSubmit} style={styles.button}>
             <Text style={styles.buttonText}> Modify</Text>
-          </Pressable>
+          </TouchableOpacity>
         )}
       </View>
     </FormLayout>

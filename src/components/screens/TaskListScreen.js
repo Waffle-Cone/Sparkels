@@ -2,11 +2,13 @@ import { Pressable, StyleSheet, Text, TouchableOpacity, View, Alert } from "reac
 import React, { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 import Icons from "../UI/Icons";
+import Project from "../classes/Project";
 
 const TaskListScreen = ({ navigation, route }) => {
   // Initialisations ------------------
-  const { projectId, projectName, projectDescription, projectDueDate } = route.params;
+  const { project } = route.params;
   const { handleDelete } = useContext(ProjectContext);
+
   // State ---------------------------
   // Handlers -------------------------
   const onDelete = () => {
@@ -18,21 +20,21 @@ const TaskListScreen = ({ navigation, route }) => {
     Alert.alert("Delete warning", `Are you sure that you want to delete Project ${projectName}`, [{ text: "Cancel" }, { text: "Delete", onPress: onDelete }]);
 
   const goToAddTask = () => {
-    navigation.navigate("AddTaskScreen");
+    navigation.navigate("AddTaskScreen", { project });
   };
   // View -----------------------------
 
   return (
     <View style={styles.container}>
-      <Text style={styles.h1}>Tasks for Project "{projectName}"</Text>
-      <Text style={styles.h2}>Description: {projectDescription}</Text>
-      <Text style={styles.h2}>Due Date: {projectDueDate}</Text>
+      <Text style={styles.h1}>Tasks for Project "{project.name}"</Text>
+      <Text style={styles.h2}>Description: {}</Text>
+      <Text style={styles.h2}>Due Date: {}</Text>
       <View style={styles.buttonTray}>
         <TouchableOpacity style={styles.deleteButton} onPress={requestDelete}>
           <Text style={styles.textDeleteButton}>Delete</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.deleteButton} onPress={goToAddTask}>
-          <Text style={styles.textDeleteButton}>Task</Text>
+          <Text style={styles.textDeleteButton}> Add Task</Text>
         </TouchableOpacity>
       </View>
     </View>

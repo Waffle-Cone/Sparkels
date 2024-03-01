@@ -9,6 +9,7 @@ export const ProjectProvider = ({ children }) => {
 
   // State ----------------------------
   const [projects, setProjects] = useState(initialProjects);
+
   // Handlers -------------------------
   const loadProjects = async () => {
     try {
@@ -24,10 +25,6 @@ export const ProjectProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    loadProjects();
-  }, []);
-
   const saveProjects = async () => {
     console.log("SAVING:", projects);
     try {
@@ -36,6 +33,9 @@ export const ProjectProvider = ({ children }) => {
       console.log("Failed to save project to AsyncStorage", error);
     }
   };
+  useEffect(() => {
+    loadProjects();
+  }, []);
 
   useEffect(() => {
     saveProjects();
@@ -47,15 +47,9 @@ export const ProjectProvider = ({ children }) => {
   };
 
   const handleDelete = async (projectId) => {
-    const updatedProjects = projects.filter(
-      (project) => project.id !== projectId
-    );
+    const updatedProjects = projects.filter((project) => project.id !== projectId);
     setProjects(updatedProjects);
   };
   // View -----------------------------
-  return (
-    <ProjectContext.Provider value={{ projects, handleAdd, handleDelete }}>
-      {children}
-    </ProjectContext.Provider>
-  );
+  return <ProjectContext.Provider value={{ projects, handleAdd, handleDelete }}>{children}</ProjectContext.Provider>;
 };

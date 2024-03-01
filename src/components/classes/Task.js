@@ -1,6 +1,5 @@
 class Task {
-  //task objects list
-  tasks = [];
+  // ALL TIME IS IN SECONDS !!!!!!!
 
   constructor(id, name, description, goalTime, actualTime, breakTime) {
     this.id = id;

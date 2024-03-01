@@ -2,8 +2,10 @@ import { Button, Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } fr
 import React, { useContext, useState } from "react";
 import ProjectForm from "../entity/project/ProjectForm";
 
-const AddProjectScreen = ({ navigation }) => {
+const AddProjectScreen = ({ navigation, route }) => {
   // Initialisations ------------------
+  const { project } = route.params;
+
   //++ getting submition handler from context
   // State ----------------------------
   // Handlers -------------------------

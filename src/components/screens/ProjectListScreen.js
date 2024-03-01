@@ -18,17 +18,13 @@ const ProjectListScreen = ({ navigation }) => {
 
   //passing also the project object clicked
   const gotoTaskListScreen = (project) =>
-    navigation.navigate("TaskListScreen", {
-      projectId: project.id,
-      projectName: project.name,
-      projectDescription: project.description,
-      projectDueDate: project.dueDate,
-    });
+    navigation.navigate("TaskListScreen", { project });
 
   // View -----------------------------
   return (
     <View style={styles.container}>
       <Text style={styles.h1}>Your Projects</Text>
+      <Text style={styles.h2}>Upcoming</Text>
 
       {projects.map((project) => {
         return (
@@ -66,6 +62,15 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     fontSize: 24,
     fontWeight: "bold",
+    color: "black",
+  },
+  h2: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: 5,
+    paddingBottom: 10,
+    fontSize: 20,
+    fontWeight: "500",
     color: "black",
   },
   projectContainer: {

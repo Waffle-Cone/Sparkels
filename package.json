@@ -20,7 +20,9 @@
     "react": "18.2.0",
     "react-native": "0.73.4",
     "react-native-calendars": "^1.1304.0",
-    "react-native-countdown-circle-timer": "^3.2.1"
+    "react-native-countdown-circle-timer": "^3.2.1",
+    "react-native-gesture-handler": "~2.14.0",
+    "react-native-swipeable": "^0.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

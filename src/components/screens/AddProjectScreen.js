@@ -4,7 +4,6 @@ import ProjectForm from "../entity/project/ProjectForm";
 
 const AddProjectScreen = ({ navigation, route }) => {
   // Initialisations ------------------
-  const { project } = route.params;
 
   //++ getting submition handler from context
   // State ----------------------------

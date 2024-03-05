@@ -35,14 +35,14 @@ const ProjectForm = ({ navigation, submitType, formTitle, selectedProject, goBac
 
   // State ----------------------------
   const [project, setProject] = useState(selectedProject || newProject);
-  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedDate, setSelectedDate] = useState(project.dueDate || "");
   const [errors, setErrors] = useState(Object.keys(project).reduce((acc, key) => ({ ...acc, [key]: null }), {})); // = [name: null, description: null, dueDate: null, task: null, id: null]
 
   //+++ reset the text inputs back to null when re - visiting
   React.useEffect(() => {
     const newPage = navigation.addListener("focus", () => {
       setProject(selectedProject || newProject);
-      setSelectedDate("");
+      setSelectedDate(project.dueDate || "");
       setErrors(Object.keys(project).reduce((acc, key) => ({ ...acc, [key]: null }), {})); // = [name: null, description: null, dueDate: null, task: null, id: null]);
     });
     return newPage;
@@ -74,11 +74,15 @@ const ProjectForm = ({ navigation, submitType, formTitle, selectedProject, goBac
     setErrors({ ...errors });
     if (check) {
       if (selectedProject) {
+        selectedProject.name = project.name;
+        selectedProject.description = project.description;
+        selectedProject.dueDate = project.dueDate;
         handleModify(project);
+        navigation.goBack();
       } else {
         handleAdd(project);
+        navigation.navigate("Project");
       }
-      navigation.navigate("Project");
     }
   };
 

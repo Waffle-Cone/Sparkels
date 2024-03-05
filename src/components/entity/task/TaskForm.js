@@ -6,10 +6,20 @@ import Task from "../../classes/Task";
 import Form from "../../UI/Form";
 import { ProjectContext } from "../../context/ProjectContext";
 
-const TaskForm = ({ navigation, submitType, formTitle, project }) => {
+const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) => {
   // Initialisations ------------------
   const newTask = new Task();
   const { projects, handleAdd, handleModify } = useContext(ProjectContext);
+
+  let radioButtonNope = true;
+  let radioButtonYup = false;
+
+  if (selectedTask) {
+    if (selectedTask.breakTime) {
+      radioButtonNope = false;
+      radioButtonYup = true;
+    }
+  }
 
   //find max id number and add 1 for new task id
   const getNextID = () => {
@@ -25,7 +35,8 @@ const TaskForm = ({ navigation, submitType, formTitle, project }) => {
   // State ----------------------------
   const [task, setTask] = useState(newTask);
   const [errors, setErrors] = useState(Object.keys(task).reduce((acc, key) => ({ ...acc, [key]: null }), {})); // = [name: null, description: null, dueDate: null, task: null, id: null]
-
+  const [radioButtonNo, setRadioButtonNo] = useState(radioButtonNope);
+  const [radioButtonYes, setRadioButtonYes] = useState(radioButtonYup);
   // Handlers -------------------------
 
   const getSeconds = (value) => {
@@ -43,7 +54,7 @@ const TaskForm = ({ navigation, submitType, formTitle, project }) => {
   };
 
   const handleChange = (field, value) => {
-    if (field === "goalTime") {
+    if (field === "goalTime" || field === "breakTime") {
       value = getSeconds(value);
       console.log(`The time in seconds: ${value}`);
     }
@@ -63,6 +74,19 @@ const TaskForm = ({ navigation, submitType, formTitle, project }) => {
     navigation.goBack();
   };
 
+  const handleRadioButtonYes = () => {
+    if (radioButtonNo) {
+      setRadioButtonNo(false);
+    }
+    setRadioButtonYes(true);
+  };
+  const handleRadioButtonNo = () => {
+    if (radioButtonYes) {
+      setRadioButtonYes(false);
+    }
+    setRadioButtonNo(true);
+  };
+
   // View -----------------------------
 
   return (
@@ -80,13 +104,26 @@ const TaskForm = ({ navigation, submitType, formTitle, project }) => {
         />
         <Text style={styles.radioItemLabel}>Would you like to take breaks?</Text>
         <View style={styles.radioTray}>
-          <TouchableOpacity style={styles.radioButtonNo}>
+          <TouchableOpacity onPress={handleRadioButtonNo} style={radioButtonNo ? [styles.radioButtonNo, { backgroundColor: "black" }] : styles.radioButtonNo}>
             <Text style={styles.textRadioNo}>No</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.radioButtonYes}>
+          <TouchableOpacity onPress={handleRadioButtonYes} style={radioButtonYes ? [styles.radioButtonYes, { backgroundColor: "black" }] : styles.radioButtonYes}>
             <Text style={styles.textRadioYes}>Yes</Text>
           </TouchableOpacity>
         </View>
+
+        {radioButtonYes ? (
+          <>
+            <Text style={styles.radioItemLabel}>How often?</Text>
+            <DateTimePicker
+              value={new Date(1598054400000)}
+              minuteInterval={5}
+              mode={"countdown"}
+              display="spinner"
+              onChange={(value) => handleChange("breakTime", value.nativeEvent.timestamp)}
+            />
+          </>
+        ) : null}
       </Form>
     </View>
   );
@@ -115,6 +152,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     gap: 50,
+    marginBottom: 10,
   },
   radioButtonNo: {
     flexDirection: "row",
@@ -157,5 +195,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "green",
     paddingVertical: 8,
+  },
+  radioSelected: {
+    backgroundColor: "red",
   },
 });

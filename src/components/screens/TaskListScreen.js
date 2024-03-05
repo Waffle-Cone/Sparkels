@@ -10,7 +10,9 @@ const TaskListScreen = ({ navigation, route }) => {
   // Initialisations ------------------
   const { project } = route.params;
   const { handleDelete } = useContext(ProjectContext);
+
   // State ----------------------------
+
   // Handlers -------------------------
   const onDelete = () => {
     handleDelete(project.id);
@@ -22,6 +24,10 @@ const TaskListScreen = ({ navigation, route }) => {
 
   const goToAddTask = () => {
     navigation.navigate("AddTaskScreen", { project });
+  };
+
+  const goToModifyProject = () => {
+    navigation.navigate("ModifyProjectScreen", { project });
   };
 
   const leftSwipe = (progress, dragX) => {
@@ -52,7 +58,7 @@ const TaskListScreen = ({ navigation, route }) => {
         <View style={styles.projectContainer}>
           <View style={styles.project}>
             <Text style={styles.h1Project}>Project "{project.name}"</Text>
-            <TouchableOpacity style={styles.editButton}>
+            <TouchableOpacity style={styles.editButton} onPress={goToModifyProject}>
               <Text style={styles.textEditButton}>Edit</Text>
             </TouchableOpacity>
           </View>

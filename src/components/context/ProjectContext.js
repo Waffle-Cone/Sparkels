@@ -43,10 +43,16 @@ export const ProjectProvider = ({ children }) => {
     setProjects(updatedProjects);
   };
 
+  const handleModify = async (updatedProject) => {
+    const modifiedProjects = projects.map((project) => (project.id == updatedProject.id ? updatedProject : project));
+    setProjects(modifiedProjects);
+  };
+
   const handleDelete = async (projectId) => {
     const updatedProjects = projects.filter((project) => project.id !== projectId);
     setProjects(updatedProjects);
   };
+
   // View -----------------------------
-  return <ProjectContext.Provider value={{ projects, handleAdd, handleDelete }}>{children}</ProjectContext.Provider>;
+  return <ProjectContext.Provider value={{ projects, handleAdd, handleDelete, handleModify }}>{children}</ProjectContext.Provider>;
 };

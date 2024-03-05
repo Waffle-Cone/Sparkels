@@ -10,7 +10,7 @@ const AddTaskScreen = ({ navigation, route }) => {
   // State ----------------------------
   // Handlers -------------------------
   // View -----------------------------
-  return <TaskForm project={project} />;
+  return <TaskForm navigation={navigation} submitType={"Add"} formTitle={"Add Task"} project={project} />;
 };
 
 export default AddTaskScreen;

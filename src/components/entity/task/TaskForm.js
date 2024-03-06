@@ -1,7 +1,7 @@
 import { Button, Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Task from "../../classes/Task";
 import Form from "../../UI/Form";
 import { ProjectContext } from "../../context/ProjectContext";
@@ -9,7 +9,7 @@ import { ProjectContext } from "../../context/ProjectContext";
 const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) => {
   // Initialisations ------------------
   const newTask = new Task();
-  const { projects, handleAdd, handleModify } = useContext(ProjectContext);
+  const { handleModify } = useContext(ProjectContext);
 
   let radioButtonNope = true;
   let radioButtonYup = false;
@@ -20,6 +20,30 @@ const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) 
       radioButtonYup = true;
     }
   }
+
+  const getSeconds = (value) => {
+    const hours = new Date(value).getHours();
+    const minutes = new Date(value).getMinutes();
+
+    const minuteSeconds = minutes * 60;
+    const hourSeconds = hours * 3600;
+    const seconds = minuteSeconds + hourSeconds;
+
+    return seconds;
+  };
+
+  const getBreakTimeText = (value) => {
+    const hours = new Date(value).getHours();
+    const minutes = new Date(value).getMinutes();
+    const breakText = `${hours} Hour(s) and ${minutes} Minute(s)`;
+
+    return breakText;
+  };
+
+  const modifyTasks = (updatedTask) => {
+    let newProjectTasks = project.tasks.map((task) => (task.id == updatedTask.id ? updatedTask : task));
+    project.tasks = newProjectTasks;
+  };
 
   //find max id number and add 1 for new task id
   const getNextID = () => {
@@ -33,40 +57,40 @@ const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) 
   };
 
   // State ----------------------------
-  const [task, setTask] = useState(newTask);
+  const [task, setTask] = useState(selectedTask || newTask);
   const [errors, setErrors] = useState(Object.keys(task).reduce((acc, key) => ({ ...acc, [key]: null }), {})); // = [name: null, description: null, dueDate: null, task: null, id: null]
   const [radioButtonNo, setRadioButtonNo] = useState(radioButtonNope);
   const [radioButtonYes, setRadioButtonYes] = useState(radioButtonYup);
+  const [goalTimeStamp, setGoalTimeStamp] = useState(task.goalTimeStamp || 1598054400000);
+  const [breakTimeStamp, setBreakTimeStamp] = useState(task.breakTimeStamp || 1598052600000);
+  const [breakTimeText, setBreakTimeText] = useState(getBreakTimeText(breakTimeStamp));
+
+  useEffect(() => {
+    setTask({ ...task, ["goalTime"]: getSeconds(1598054400000), ["goalTimeStamp"]: 1598054400000 });
+  }, []);
   // Handlers -------------------------
 
-  const getSeconds = (value) => {
-    const hours = new Date(value).getHours();
-    const minutes = new Date(value).getMinutes();
-
-    const minuteSeconds = minutes * 60;
-    const hourSeconds = hours * 3600;
-    const seconds = minuteSeconds + hourSeconds;
-
-    console.log(`Hours: ${hours}`);
-    console.log(`Minutes: ${minutes}`);
-
-    return seconds;
-  };
-
   const handleChange = (field, value) => {
-    if (field === "goalTime" || field === "breakTime") {
-      value = getSeconds(value);
-      console.log(`The time in seconds: ${value}`);
+    if (field === "breakTime") {
+      setBreakTimeText(getBreakTimeText(value));
+      setTask({ ...task, ["breakTime"]: getSeconds(value), ["breakTimeStamp"]: value });
+    } else if (field === "goalTime") {
+      setTask({ ...task, ["goalTime"]: getSeconds(value), ["goalTimeStamp"]: value });
+    } else {
+      setTask({ ...task, [field]: value });
     }
-
-    setTask({ ...task, [field]: value });
   };
 
   const handleSubmit = () => {
-    console.log(getNextID());
-    task.id = getNextID();
-    project.tasks.push(task);
+    if (selectedTask) {
+      modifyTasks(task);
+    } else {
+      task.id = getNextID();
+      console.log(task.id);
+      project.tasks.push(task);
+    }
     handleModify(project);
+    console.log(task);
     navigation.goBack();
   };
 
@@ -78,12 +102,14 @@ const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) 
     if (radioButtonNo) {
       setRadioButtonNo(false);
     }
+    setTask({ ...task, ["breakTime"]: getSeconds(1598052600000), ["breakTimeStamp"]: 1598052600000 });
     setRadioButtonYes(true);
   };
   const handleRadioButtonNo = () => {
     if (radioButtonYes) {
       setRadioButtonYes(false);
     }
+    setTask({ ...task, ["breakTime"]: undefined, ["breakTimeStamp"]: undefined });
     setRadioButtonNo(true);
   };
 
@@ -94,15 +120,15 @@ const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) 
       <Form submitType={submitType} onSubmit={handleSubmit} onCancel={handleCancel} title={formTitle}>
         <Form.InputText label={"Task Name"} value={task.name} onChange={(value) => handleChange("name", value)} error={errors["name"]} />
         <Form.InputText label={"Task Description"} value={task.description} onChange={(value) => handleChange("description", value)} error={errors["description"]} />
-        <Text style={styles.itemLabel}>How long to finish task?</Text>
+        <Text style={styles.itemLabel}>Goal time to finish task?</Text>
         <DateTimePicker
-          value={new Date(1598054400000)}
+          value={new Date(goalTimeStamp)}
           minuteInterval={5}
           mode={"countdown"}
           display="spinner"
           onChange={(value) => handleChange("goalTime", value.nativeEvent.timestamp)}
         />
-        <Text style={styles.radioItemLabel}>Would you like to take breaks?</Text>
+        <Text style={styles.radioItemLabel}>Turn on break time reminders?</Text>
         <View style={styles.radioTray}>
           <TouchableOpacity onPress={handleRadioButtonNo} style={radioButtonNo ? [styles.radioButtonNo, { backgroundColor: "black" }] : styles.radioButtonNo}>
             <Text style={styles.textRadioNo}>No</Text>
@@ -114,9 +140,9 @@ const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) 
 
         {radioButtonYes ? (
           <>
-            <Text style={styles.radioItemLabel}>How often?</Text>
+            <Text style={styles.radioItemLabel}>Every: {breakTimeText}</Text>
             <DateTimePicker
-              value={new Date(1598054400000)}
+              value={new Date(breakTimeStamp)}
               minuteInterval={5}
               mode={"countdown"}
               display="spinner"

@@ -29,8 +29,12 @@ const TaskListScreen = ({ navigation, route }) => {
   const goToModifyProject = () => {
     navigation.navigate("ModifyProjectScreen", { project });
   };
+  const goToModifyTask = (task) => {
+    navigation.navigate("ModifyTaskScreen", { project, task });
+  };
 
   const leftSwipe = (progress, dragX) => {
+    //goToModifyTask(task);
     const scale = dragX.interpolate({
       inputRange: [0, 100],
       outputRange: [0, 1],
@@ -42,7 +46,7 @@ const TaskListScreen = ({ navigation, route }) => {
     );
   };
 
-  const rightSwipe = () => {
+  const rightSwipe = (progress, dragX) => {
     return (
       <View style={styles.deleteSwipe}>
         <Text>Delete</Text>
@@ -78,10 +82,12 @@ const TaskListScreen = ({ navigation, route }) => {
 
           {project.tasks.map((task) => {
             return (
-              <Swipeable renderLeftActions={leftSwipe} renderRightActions={rightSwipe}>
-                <View key={task.id} style={styles.taskItem}>
+              <Swipeable key={task.id} onSwipeableLeftOpen={() => goToModifyTask(task)} renderLeftActions={leftSwipe} renderRightActions={rightSwipe}>
+                <View style={styles.taskItem}>
                   <View style={styles.taskDetails}>
-                    <Text>Task name: {task.name}</Text>
+                    <Text>
+                      Task name: {task.name} {task.id}
+                    </Text>
                     <Text>Description: {task.description}</Text>
                   </View>
                 </View>

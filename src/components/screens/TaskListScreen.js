@@ -10,7 +10,7 @@ const TaskListScreen = ({ navigation, route }) => {
   // Initialisations ------------------
   const { project } = route.params;
   const { handleDelete } = useContext(ProjectContext);
-
+  console.log(` task list screen ${project}`);
   // State ----------------------------
 
   // Handlers -------------------------

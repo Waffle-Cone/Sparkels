@@ -12,6 +12,8 @@ export const ProjectProvider = ({ children }) => {
 
   // Handlers -------------------------
   const loadProjects = async () => {
+    console.log("load");
+
     try {
       const storedProjects = await AsyncStorage.getItem("projects");
       if (storedProjects !== null) {
@@ -35,16 +37,19 @@ export const ProjectProvider = ({ children }) => {
     loadProjects();
   }, []);
   useEffect(() => {
+    console.log("saved");
     saveProjects();
   }, [projects]);
 
   const handleAdd = async (newProject) => {
     const updatedProjects = [...projects, newProject];
+    console.log(updatedProjects);
+
     setProjects(updatedProjects);
   };
 
   const handleModify = async (updatedProject) => {
-    const modifiedProjects = projects.map((project) => (project.id == updatedProject.id ? updatedProject : project));
+    const modifiedProjects = projects.map((project) => (project.id === updatedProject.id ? updatedProject : project));
     setProjects(modifiedProjects);
   };
 
@@ -53,6 +58,18 @@ export const ProjectProvider = ({ children }) => {
     setProjects(updatedProjects);
   };
 
+  const handleAddTask = async (projectId, task) => {
+    const project = projects.find((project) => project.id === projectId);
+    project.tasks = [...project.tasks, task];
+    handleModify(project);
+  };
+  const handleModifyTask = async (projectId, updatedTask) => {
+    const project = projects.find((project) => project.id === projectId);
+    let newProjectTasks = project.tasks.map((task) => (task.id == updatedTask.id ? updatedTask : task));
+    project.tasks = newProjectTasks;
+    handleModify(project);
+  };
+
   // View -----------------------------
-  return <ProjectContext.Provider value={{ projects, handleAdd, handleDelete, handleModify }}>{children}</ProjectContext.Provider>;
+  return <ProjectContext.Provider value={{ projects, handleAdd, handleDelete, handleModify, handleAddTask, handleModifyTask }}>{children}</ProjectContext.Provider>;
 };

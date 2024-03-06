@@ -9,8 +9,7 @@ import { ProjectContext } from "../../context/ProjectContext";
 const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) => {
   // Initialisations ------------------
   const newTask = new Task();
-  const { handleModify } = useContext(ProjectContext);
-
+  const { handleAddTask, handleModifyTask } = useContext(ProjectContext);
   let radioButtonNope = true;
   let radioButtonYup = false;
 
@@ -21,6 +20,7 @@ const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) 
     }
   }
 
+  // timetamp to seconds converter
   const getSeconds = (value) => {
     const hours = new Date(value).getHours();
     const minutes = new Date(value).getMinutes();
@@ -32,17 +32,13 @@ const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) 
     return seconds;
   };
 
+  // Sting is displayed to user
   const getBreakTimeText = (value) => {
     const hours = new Date(value).getHours();
     const minutes = new Date(value).getMinutes();
     const breakText = `${hours} Hour(s) and ${minutes} Minute(s)`;
 
     return breakText;
-  };
-
-  const modifyTasks = (updatedTask) => {
-    let newProjectTasks = project.tasks.map((task) => (task.id == updatedTask.id ? updatedTask : task));
-    project.tasks = newProjectTasks;
   };
 
   //find max id number and add 1 for new task id
@@ -52,13 +48,18 @@ const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) 
       iDList.push(task.id);
     });
     const max = Math.max(...iDList);
-    const newID = max + 0.1;
+    let newID = max + 0.1;
+    if (project.tasks.length === 0) {
+      newID = project.id;
+    }
+
     return Math.round(newID * 1000) / 1000;
   };
 
   // State ----------------------------
   const [task, setTask] = useState(selectedTask || newTask);
   const [errors, setErrors] = useState(Object.keys(task).reduce((acc, key) => ({ ...acc, [key]: null }), {})); // = [name: null, description: null, dueDate: null, task: null, id: null]
+
   const [radioButtonNo, setRadioButtonNo] = useState(radioButtonNope);
   const [radioButtonYes, setRadioButtonYes] = useState(radioButtonYup);
   const [goalTimeStamp, setGoalTimeStamp] = useState(task.goalTimeStamp || 1598054400000);
@@ -81,23 +82,6 @@ const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) 
     }
   };
 
-  const handleSubmit = () => {
-    if (selectedTask) {
-      modifyTasks(task);
-    } else {
-      task.id = getNextID();
-      console.log(task.id);
-      project.tasks.push(task);
-    }
-    handleModify(project);
-    console.log(task);
-    navigation.goBack();
-  };
-
-  const handleCancel = () => {
-    navigation.goBack();
-  };
-
   const handleRadioButtonYes = () => {
     if (radioButtonNo) {
       setRadioButtonNo(false);
@@ -113,6 +97,19 @@ const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) 
     setRadioButtonNo(true);
   };
 
+  const handleSubmit = () => {
+    if (selectedTask) {
+      handleModifyTask(project.id, task);
+    } else {
+      task.id = getNextID();
+      handleAddTask(project.id, task);
+    }
+    navigation.goBack();
+  };
+
+  const handleCancel = () => {
+    navigation.goBack();
+  };
   // View -----------------------------
 
   return (

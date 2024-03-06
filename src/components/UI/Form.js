@@ -63,8 +63,6 @@ const InputSelect = ({ label, prompt, options, value, onChange }) => {
 const styles = StyleSheet.create({
   formContainer: {
     flex: 1,
-    padding: 20,
-    //backgroundColor: "blue",
   },
   title: {
     alignSelf: "center",
@@ -73,6 +71,8 @@ const styles = StyleSheet.create({
   },
   formItems: {
     gap: 9,
+    paddingLeft: 40,
+    paddingRight: 40,
   },
   itemLabel: {
     color: "grey",

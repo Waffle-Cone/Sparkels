@@ -33,6 +33,7 @@ export const ProjectProvider = ({ children }) => {
       console.log("Failed to save project to AsyncStorage", error);
     }
   };
+
   useEffect(() => {
     loadProjects();
   }, []);

@@ -56,9 +56,19 @@ const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) 
     return Math.round(newID * 1000) / 1000;
   };
 
+  const errorMessage = {
+    name: "Enter task name",
+    description: "Enter task description",
+    goalTime: "goal time",
+    actualTime: "actual time",
+    breakTime: "break time",
+    goalTimeStamp: "goal time stamp",
+    breakTimeStamp: "break time stamp",
+  };
+
   // State ----------------------------
   const [task, setTask] = useState(selectedTask || newTask);
-  const [errors, setErrors] = useState(Object.keys(task).reduce((acc, key) => ({ ...acc, [key]: null }), {})); // = [name: null, description: null, dueDate: null, task: null, id: null]
+  const [errors, setErrors] = useState(Object.keys(task).reduce((acc, key) => ({ ...acc, [key]: null }), {}));
 
   const [radioButtonNo, setRadioButtonNo] = useState(radioButtonNope);
   const [radioButtonYes, setRadioButtonYes] = useState(radioButtonYup);
@@ -97,14 +107,35 @@ const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) 
     setRadioButtonNo(true);
   };
 
+  const checkTask = (task) => {
+    console.log(task);
+    let isTaskValid = true;
+    Object.keys(task).forEach((key) => {
+      if (key === "name" || key === "description") {
+        if (!task[key]) {
+          errors[key] = errorMessage[key];
+          isTaskValid = false;
+        } else {
+          errors[key] = null;
+        }
+      }
+    });
+    setErrors({ ...errors });
+    return isTaskValid;
+  };
+
   const handleSubmit = () => {
-    if (selectedTask) {
-      handleModifyTask(project.id, task);
-    } else {
-      task.id = getNextID();
-      handleAddTask(project.id, task);
+    const check = checkTask(task);
+    console.log(errors);
+    if (check) {
+      if (selectedTask) {
+        handleModifyTask(project.id, task);
+      } else {
+        task.id = getNextID();
+        handleAddTask(project.id, task);
+      }
+      navigation.goBack();
     }
-    navigation.goBack();
   };
 
   const handleCancel = () => {

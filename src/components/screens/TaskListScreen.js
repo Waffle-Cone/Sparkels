@@ -3,7 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View, Alert, Animated } from "react
 import React, { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 import Icons from "../UI/Icons";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { GestureHandlerRootView, ScrollView } from "react-native-gesture-handler";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 
 const TaskListScreen = ({ navigation, route }) => {
@@ -79,21 +79,22 @@ const TaskListScreen = ({ navigation, route }) => {
               <Icons.AddProject />
             </TouchableOpacity>
           </View>
-
-          {project.tasks.map((task) => {
-            return (
-              <Swipeable key={task.id} onSwipeableLeftOpen={() => goToModifyTask(task)} renderLeftActions={leftSwipe} renderRightActions={rightSwipe}>
-                <View style={styles.taskItem}>
-                  <View style={styles.taskDetails}>
-                    <Text>
-                      Task name: {task.name} {task.id}
-                    </Text>
-                    <Text>Description: {task.description}</Text>
+          <ScrollView contentContainerStyle={{ maxHeight: 350 }}>
+            {project.tasks.map((task) => {
+              return (
+                <Swipeable key={task.id} onSwipeableLeftOpen={() => goToModifyTask(task)} renderLeftActions={leftSwipe} renderRightActions={rightSwipe}>
+                  <View style={styles.taskItem}>
+                    <View style={styles.taskDetails}>
+                      <Text>
+                        Task name: {task.name} {task.id}
+                      </Text>
+                      <Text>Description: {task.description}</Text>
+                    </View>
                   </View>
-                </View>
-              </Swipeable>
-            );
-          })}
+                </Swipeable>
+              );
+            })}
+          </ScrollView>
         </View>
         <View style={styles.buttonTray}>
           <TouchableOpacity style={styles.deleteButton} onPress={requestDelete}>

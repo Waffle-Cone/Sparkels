@@ -1,5 +1,12 @@
 import "react-native-gesture-handler";
-import { StyleSheet, Text, TouchableOpacity, View, Alert, Animated } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Alert,
+  Animated,
+} from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 import Icons from "../UI/Icons";
@@ -18,7 +25,11 @@ const TaskListScreen = ({ navigation, route }) => {
   };
 
   const requestDelete = () =>
-    Alert.alert("Delete warning", `Are you sure that you want to delete Project ${project.name}`, [{ text: "Cancel" }, { text: "Delete", onPress: onDelete }]);
+    Alert.alert(
+      "Delete warning",
+      `Are you sure that you want to delete Project ${project.name}`,
+      [{ text: "Cancel" }, { text: "Delete", onPress: onDelete }]
+    );
 
   const goToAddTask = () => {
     navigation.navigate("AddTaskScreen", { project });
@@ -31,7 +42,9 @@ const TaskListScreen = ({ navigation, route }) => {
     });
     return (
       <View style={styles.editSwipe}>
-        <Animated.Text style={{ transform: [{ scale: scale }] }}>Edit</Animated.Text>
+        <Animated.Text style={{ transform: [{ scale: scale }] }}>
+          Edit
+        </Animated.Text>
       </View>
     );
   };
@@ -64,7 +77,10 @@ const TaskListScreen = ({ navigation, route }) => {
         <View style={styles.taskContainer}>
           <View style={styles.task}>
             <Text style={styles.h1Tasks}>Tasks</Text>
-            <TouchableOpacity style={styles.addTaskButton} onPress={goToAddTask}>
+            <TouchableOpacity
+              style={styles.addTaskButton}
+              onPress={goToAddTask}
+            >
               <Text style={styles.textTaskButton}>Add a Task</Text>
               <Icons.AddProject />
             </TouchableOpacity>
@@ -72,8 +88,12 @@ const TaskListScreen = ({ navigation, route }) => {
 
           {project.tasks.map((task) => {
             return (
-              <Swipeable renderLeftActions={leftSwipe} renderRightActions={rightSwipe}>
-                <View key={task.id} style={styles.taskItem}>
+              <Swipeable
+                key={task.id}
+                renderLeftActions={leftSwipe}
+                renderRightActions={rightSwipe}
+              >
+                <View style={styles.taskItem}>
                   <View style={styles.taskDetails}>
                     <Text>Task name: {task.name}</Text>
                     <Text>Description: {task.description}</Text>

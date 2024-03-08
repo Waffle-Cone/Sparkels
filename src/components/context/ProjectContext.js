@@ -44,9 +44,30 @@ export const ProjectProvider = ({ children }) => {
   };
 
   const handleDelete = async (projectId) => {
-    const updatedProjects = projects.filter((project) => project.id !== projectId);
+    const updatedProjects = projects.filter(
+      (project) => project.id !== projectId
+    );
     setProjects(updatedProjects);
   };
+
+  const handleDeleteTask = async (projectId, taskId) => {
+    const updatedProjects = projects.map((project) => {
+      if (project.id === projectId) {
+        const updatedTasks = project.tasks.filter((task) => task.id !== taskId);
+        return { ...project, tasks: updatedTasks };
+      }
+      return project;
+    });
+    setProjects(updatedProjects);
+    console.log("DELETING", updatedProjects);
+  };
+
   // View -----------------------------
-  return <ProjectContext.Provider value={{ projects, handleAdd, handleDelete }}>{children}</ProjectContext.Provider>;
+  return (
+    <ProjectContext.Provider
+      value={{ projects, handleAdd, handleDelete, handleDeleteTask }}
+    >
+      {children}
+    </ProjectContext.Provider>
+  );
 };

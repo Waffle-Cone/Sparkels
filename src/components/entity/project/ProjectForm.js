@@ -6,7 +6,7 @@ import { ProjectContext } from "../../context/ProjectContext";
 import Form from "../../UI/Form";
 import { useIsFocused } from "@react-navigation/native";
 
-const ProjectForm = ({ navigation, submitType, formTitle, selectedProject }) => {
+const ProjectForm = ({ navigation, submitType, formTitle, selectedProject, goBack }) => {
   // Initialisations ------------------
   const newProject = new Project();
 
@@ -20,7 +20,7 @@ const ProjectForm = ({ navigation, submitType, formTitle, selectedProject }) => 
   };
 
   //++ getting submition handler from context
-  const { projects, handleAdd } = useContext(ProjectContext);
+  const { projects, handleAdd, handleModify } = useContext(ProjectContext);
 
   //find max id number and add 1 for new project id
   const getNextID = () => {
@@ -34,15 +34,15 @@ const ProjectForm = ({ navigation, submitType, formTitle, selectedProject }) => 
   };
 
   // State ----------------------------
-  const [project, setProject] = useState(newProject || selectedProject);
-  const [selectedDate, setSelectedDate] = useState("");
+  const [project, setProject] = useState(selectedProject || newProject);
+  const [selectedDate, setSelectedDate] = useState(project.dueDate || "");
   const [errors, setErrors] = useState(Object.keys(project).reduce((acc, key) => ({ ...acc, [key]: null }), {})); // = [name: null, description: null, dueDate: null, task: null, id: null]
 
   //+++ reset the text inputs back to null when re - visiting
   React.useEffect(() => {
     const newPage = navigation.addListener("focus", () => {
-      setProject(newProject);
-      setSelectedDate("");
+      setProject(selectedProject || newProject);
+      setSelectedDate(project.dueDate || "");
       setErrors(Object.keys(project).reduce((acc, key) => ({ ...acc, [key]: null }), {})); // = [name: null, description: null, dueDate: null, task: null, id: null]);
     });
     return newPage;
@@ -67,19 +67,31 @@ const ProjectForm = ({ navigation, submitType, formTitle, selectedProject }) => 
   const handleChange = (field, value) => setProject({ ...project, [field]: value });
 
   const handleSubmit = () => {
-    project.id = getNextID();
+    if (!selectedProject) {
+      project.id = getNextID();
+    }
     const check = checkProject(project);
     setErrors({ ...errors });
-    console.log(errors);
-    console.log(project);
     if (check) {
-      handleAdd(project);
-      navigation.navigate("Project");
+      if (selectedProject) {
+        selectedProject.name = project.name;
+        selectedProject.description = project.description;
+        selectedProject.dueDate = project.dueDate;
+        handleModify(project);
+        navigation.goBack();
+      } else {
+        handleAdd(project);
+        navigation.navigate("Project");
+      }
     }
   };
 
   const handleCancel = () => {
-    navigation.navigate("Project");
+    if (selectedProject) {
+      navigation.goBack();
+    } else {
+      navigation.navigate("Project");
+    }
   };
 
   // View -----------------------------

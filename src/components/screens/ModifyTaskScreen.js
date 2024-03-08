@@ -1,21 +1,23 @@
 import { Button, Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useContext, useState } from "react";
-import ProjectForm from "../entity/project/ProjectForm";
+import TaskForm from "../entity/task/TaskForm";
 
-const AddProjectScreen = ({ navigation, route }) => {
+const ModifyTaskScreen = ({ navigation, route }) => {
   // Initialisations ------------------
+  const { project, task } = route.params;
+
   //++ getting submition handler from context
   // State ----------------------------
   // Handlers -------------------------
   // View -----------------------------
   return (
     <SafeAreaView style={styles.container}>
-      <ProjectForm navigation={navigation} submitType="Add" formTitle="New Project" />
+      <TaskForm navigation={navigation} submitType="Modify" formTitle="Modify Task" project={project} selectedTask={task} />
     </SafeAreaView>
   );
 };
 
-export default AddProjectScreen;
+export default ModifyTaskScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,

@@ -12,6 +12,8 @@ export const ProjectProvider = ({ children }) => {
 
   // Handlers -------------------------
   const loadProjects = async () => {
+    console.log("load");
+
     try {
       const storedProjects = await AsyncStorage.getItem("projects");
       if (storedProjects !== null) {
@@ -31,16 +33,25 @@ export const ProjectProvider = ({ children }) => {
       console.log("Failed to save project to AsyncStorage", error);
     }
   };
+
   useEffect(() => {
     loadProjects();
   }, []);
   useEffect(() => {
+    console.log("saved");
     saveProjects();
   }, [projects]);
 
   const handleAdd = async (newProject) => {
     const updatedProjects = [...projects, newProject];
+    console.log(updatedProjects);
+
     setProjects(updatedProjects);
+  };
+
+  const handleModify = async (updatedProject) => {
+    const modifiedProjects = projects.map((project) => (project.id === updatedProject.id ? updatedProject : project));
+    setProjects(modifiedProjects);
   };
 
   const handleDelete = async (projectId) => {
@@ -50,7 +61,22 @@ export const ProjectProvider = ({ children }) => {
     setProjects(updatedProjects);
   };
 
-  const handleDeleteTask = async (projectId, taskId) => {
+  const handleAddTask = async (projectId, task) => {
+    const project = projects.find((project) => project.id === projectId);
+    project.tasks = [...project.tasks, task];
+    handleModify(project);
+  };
+  const handleModifyTask = async (projectId, updatedTask) => {
+    const project = projects.find((project) => project.id === projectId);
+    let newProjectTasks = project.tasks.map((task) => (task.id == updatedTask.id ? updatedTask : task));
+    project.tasks = newProjectTasks;
+    handleModify(project);
+  };
+
+  // View -----------------------------
+  return <ProjectContext.Provider value={{ projects, handleAdd, handleDelete, handleModify, handleAddTask, handleModifyTask }}>{children}</ProjectContext.Provider>;
+
+const handleDeleteTask = async (projectId, taskId) => {
     const updatedProjects = projects.map((project) => {
       if (project.id === projectId) {
         const updatedTasks = project.tasks.filter((task) => task.id !== taskId);

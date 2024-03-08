@@ -1,10 +1,4 @@
-import {
-  Pressable,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 import Icons from "../UI/Icons";
@@ -17,8 +11,7 @@ const ProjectListScreen = ({ navigation }) => {
   // Handlers -------------------------
 
   //passing also the project object clicked
-  const gotoTaskListScreen = (project) =>
-    navigation.navigate("TaskListScreen", { project });
+  const gotoTaskListScreen = (project) => navigation.navigate("TaskListScreen", { project });
 
   // View -----------------------------
   return (
@@ -28,10 +21,7 @@ const ProjectListScreen = ({ navigation }) => {
 
       {projects.map((project) => {
         return (
-          <TouchableOpacity
-            key={project.id}
-            onPress={() => gotoTaskListScreen(project)}
-          >
+          <TouchableOpacity key={project.id} onPress={() => gotoTaskListScreen(project)}>
             <View style={styles.projectContainer}>
               <View style={styles.projectDetails}>
                 <Text>Project name: {project.name}</Text>

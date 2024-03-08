@@ -10,14 +10,16 @@ import {
 import React, { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 import Icons from "../UI/Icons";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { GestureHandlerRootView, ScrollView } from "react-native-gesture-handler";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 
 const TaskListScreen = ({ navigation, route }) => {
   // Initialisations ------------------
   const { project } = route.params;
+
   const { handleDelete, handleDeleteTask } = useContext(ProjectContext);
   // State ----------------------------
+
   // Handlers -------------------------
 
   const onDelete = () => {
@@ -36,6 +38,13 @@ const TaskListScreen = ({ navigation, route }) => {
     navigation.navigate("AddTaskScreen", { project });
   };
 
+  const goToModifyProject = () => {
+    navigation.navigate("ModifyProjectScreen", { project });
+  };
+  const goToModifyTask = (task) => {
+    navigation.navigate("ModifyTaskScreen", { project, task });
+  };
+
   const leftSwipe = (progress, dragX) => {
     const scale = dragX.interpolate({
       inputRange: [0, 100],
@@ -48,6 +57,7 @@ const TaskListScreen = ({ navigation, route }) => {
     );
   };
 
+<
   const rightSwipe = (progress, dragX, projectId, taskId) => {
     return (
       <TouchableOpacity
@@ -67,7 +77,7 @@ const TaskListScreen = ({ navigation, route }) => {
         <View style={styles.projectContainer}>
           <View style={styles.project}>
             <Text style={styles.h1Project}>Project "{project.name}"</Text>
-            <TouchableOpacity style={styles.editButton}>
+            <TouchableOpacity style={styles.editButton} onPress={goToModifyProject}>
               <Text style={styles.textEditButton}>Edit</Text>
             </TouchableOpacity>
           </View>
@@ -87,6 +97,8 @@ const TaskListScreen = ({ navigation, route }) => {
               <Icons.AddIcon />
             </TouchableOpacity>
           </View>
+          <ScrollView contentContainerStyle={{ maxHeight: 350 }}>
+  
 
           {project.tasks.map((task) => {
             return (
@@ -102,10 +114,10 @@ const TaskListScreen = ({ navigation, route }) => {
                     <Text>Task name: {task.name}</Text>
                     <Text>Description: {task.description}</Text>
                   </View>
-                </View>
-              </Swipeable>
-            );
-          })}
+                </Swipeable>
+              );
+            })}
+          </ScrollView>
         </View>
         <View style={styles.buttonTray}>
           <TouchableOpacity style={styles.deleteButton} onPress={requestDelete}>

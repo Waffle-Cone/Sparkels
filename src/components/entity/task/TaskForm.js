@@ -151,7 +151,7 @@ const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) 
         <Text style={styles.itemLabel}>Goal time to finish task?</Text>
         <DateTimePicker
           value={new Date(goalTimeStamp)}
-          minuteInterval={5}
+          minuteInterval={1}
           mode={"countdown"}
           display="spinner"
           onChange={(value) => handleChange("goalTime", value.nativeEvent.timestamp)}

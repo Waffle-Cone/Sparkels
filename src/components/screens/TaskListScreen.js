@@ -9,6 +9,14 @@ import Swipeable from "react-native-gesture-handler/Swipeable";
 const TaskListScreen = ({ navigation, route }) => {
   // Initialisations ------------------
   const { project } = route.params;
+  // Sting is displayed to user
+  const displayTaskTime = (value) => {
+    const hours = new Date(value).getHours();
+    const minutes = new Date(value).getMinutes();
+    const breakText = `${hours} Hour(s) and ${minutes} Minute(s)`;
+
+    return breakText;
+  };
 
   const { handleDelete, handleDeleteTask } = useContext(ProjectContext);
   // State ----------------------------
@@ -97,6 +105,7 @@ const TaskListScreen = ({ navigation, route }) => {
                       <View style={styles.taskDetails}>
                         <Text>Task name: {task.name}</Text>
                         <Text>Description: {task.description}</Text>
+                        <Text>Time: {displayTaskTime(task.goalTimeStamp)}</Text>
                       </View>
                     </View>
                   </Pressable>

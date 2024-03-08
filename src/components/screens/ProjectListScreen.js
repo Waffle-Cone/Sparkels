@@ -28,7 +28,7 @@ const ProjectListScreen = ({ navigation }) => {
                 <Text>Description: {project.description}</Text>
                 <Text>Due date: {project.dueDate}</Text>
               </View>
-              <Icons.RightArrow />
+              <Icons.ArrowRight />
             </View>
           </TouchableOpacity>
         );
@@ -42,8 +42,10 @@ export default ProjectListScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 50,
-    margin: 20,
+    padding: 20,
+    paddingTop: 80,
+    //margin: 20,
+    backgroundColor: "white",
   },
   h1: {
     alignItems: "center",
@@ -65,9 +67,12 @@ const styles = StyleSheet.create({
   },
   projectContainer: {
     borderRadius: 10,
-    borderColor: "#BCBCBC",
-    borderWidth: 1,
-    backgroundColor: "white",
+    borderColor: "#607C9E",
+    borderBottomWidth: 6,
+    borderTopWidth: 1,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    backgroundColor: "#C7DCF5",
     marginVertical: 10,
     padding: 20,
     flexDirection: "row",

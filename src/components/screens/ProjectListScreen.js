@@ -1,38 +1,43 @@
-import { Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Keyboard, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
-import Icons from "../UI/Icons";
+import SearchBar from "../UI/SearchBar.js";
+import ProjectList from "../entity/project/ProjectList";
 
 const ProjectListScreen = ({ navigation }) => {
   // Initialisations ------------------
   const { projects } = useContext(ProjectContext);
 
   // State ---------------------------
+  const [search, setSearch] = useState(null);
+  const [searchResults, setSearchResults] = useState([]);
+
   // Handlers -------------------------
+  const handleSearch = (search) => {
+    setSearch(search);
+    if (search != null) {
+      setSearchResults(
+        projects.filter((project) => {
+          return project.name.includes(search);
+        })
+      );
+    }
+  };
 
   //passing also the project object clicked
-  const gotoTaskListScreen = (project) => navigation.navigate("TaskListScreen", { project });
+  const gotoTaskListScreen = (project) => {
+    navigation.navigate("TaskListScreen", { project });
+    setSearch(null);
+    Keyboard.dismiss();
+  };
 
   // View -----------------------------
   return (
     <View style={styles.container}>
       <Text style={styles.h1}>Your Projects</Text>
       <Text style={styles.h2}>Upcoming</Text>
-
-      {projects.map((project) => {
-        return (
-          <TouchableOpacity key={project.id} onPress={() => gotoTaskListScreen(project)}>
-            <View style={styles.projectContainer}>
-              <View style={styles.projectDetails}>
-                <Text>Project name: {project.name}</Text>
-                <Text>Description: {project.description}</Text>
-                <Text>Due date: {project.dueDate}</Text>
-              </View>
-              <Icons.ArrowRight />
-            </View>
-          </TouchableOpacity>
-        );
-      })}
+      <SearchBar placeholder={"Project Name"} value={search} onChange={handleSearch} />
+      {!search ? <ProjectList projects={projects} onPress={gotoTaskListScreen} /> : <ProjectList projects={searchResults} onPress={gotoTaskListScreen} />}
     </View>
   );
 };

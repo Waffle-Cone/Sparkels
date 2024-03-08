@@ -79,14 +79,14 @@ const TaskListScreen = ({ navigation, route }) => {
               <Icons.AddIcon />
             </TouchableOpacity>
           </View>
-
           <ScrollView contentContainerStyle={{ maxHeight: 350 }}>
             {project.tasks.map((task) => {
               return (
                 <Swipeable
                   key={task.id}
-                  onLeftActionRelease={() => goToModifyTask(task)}
+                  onSwipeableLeftOpen={() => goToModifyTask(task)}
                   renderLeftActions={leftSwipe}
+                  on
                   renderRightActions={(progress, dragX) => rightSwipe(progress, dragX, project.id, task.id)}
                 >
                   <View style={styles.taskItem}>

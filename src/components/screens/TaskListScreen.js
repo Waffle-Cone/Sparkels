@@ -34,7 +34,6 @@ const TaskListScreen = ({ navigation, route }) => {
   };
 
   const leftSwipe = (progress, dragX) => {
-    //goToModifyTask(task);
     const scale = dragX.interpolate({
       inputRange: [0, 100],
       outputRange: [0, 1],

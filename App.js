@@ -19,30 +19,9 @@ export default function App() {
           <Stack.Screen name="ProjectListScreen" component={NavigationBottom} options={{ headerShown: false }} />
           <Stack.Screen name="AddProjectScreen" component={AddProjectScreen} options={{ headerShown: false }} />
           <Stack.Screen name="TaskListScreen" component={TaskListScreen} options={{ title: " " }} />
-          <Stack.Screen name="ModifyProjectScreen" component={ModifyProjectScreen} options={{ title: " " }} />
           <Stack.Screen name="AddTaskScreen" component={AddTaskScreen} options={{ title: " " }} />
           <Stack.Screen name="ModifyTaskScreen" component={ModifyTaskScreen} options={{ title: " " }} />
-
-          <Stack.Screen
-            name="ProjectListScreen"
-            component={NavigationBottom}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="AddProjectScreen"
-            component={AddProjectScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="TaskListScreen"
-            component={TaskListScreen}
-            options={{ title: " " }}
-          />
-          <Stack.Screen
-            name="AddTaskScreen"
-            component={AddTaskScreen}
-            options={{ title: " " }}
-          />
+          <Stack.Screen name="ModifyProjectScreen" component={ModifyProjectScreen} options={{ title: " " }} />
         </Stack.Navigator>
       </NavigationContainer>
     </ProjectProvider>

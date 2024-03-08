@@ -1,12 +1,5 @@
 import "react-native-gesture-handler";
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Alert,
-  Animated,
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, Alert, Animated } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 import Icons from "../UI/Icons";
@@ -28,11 +21,7 @@ const TaskListScreen = ({ navigation, route }) => {
   };
 
   const requestDelete = () =>
-    Alert.alert(
-      "Delete warning",
-      `Are you sure that you want to delete Project ${project.name}`,
-      [{ text: "Cancel" }, { text: "Delete", onPress: onDelete }]
-    );
+    Alert.alert("Delete warning", `Are you sure that you want to delete Project ${project.name}`, [{ text: "Cancel" }, { text: "Delete", onPress: onDelete }]);
 
   const goToAddTask = () => {
     navigation.navigate("AddTaskScreen", { project });
@@ -57,13 +46,9 @@ const TaskListScreen = ({ navigation, route }) => {
     );
   };
 
-<
   const rightSwipe = (progress, dragX, projectId, taskId) => {
     return (
-      <TouchableOpacity
-        style={styles.deleteSwipe}
-        onPress={() => handleDeleteTask(projectId, taskId)}
-      >
+      <TouchableOpacity style={styles.deleteSwipe} onPress={() => handleDeleteTask(projectId, taskId)}>
         <Text style={styles.deleteSwipeText}>Delete</Text>
       </TouchableOpacity>
     );
@@ -89,30 +74,26 @@ const TaskListScreen = ({ navigation, route }) => {
         <View style={styles.taskContainer}>
           <View style={styles.task}>
             <Text style={styles.h1Tasks}>Tasks</Text>
-            <TouchableOpacity
-              style={styles.addTaskButton}
-              onPress={goToAddTask}
-            >
+            <TouchableOpacity style={styles.addTaskButton} onPress={goToAddTask}>
               <Text style={styles.textTaskButton}>Add a Task</Text>
               <Icons.AddIcon />
             </TouchableOpacity>
           </View>
-          <ScrollView contentContainerStyle={{ maxHeight: 350 }}>
-  
 
-          {project.tasks.map((task) => {
-            return (
-              <Swipeable
-                key={task.id}
-                renderLeftActions={leftSwipe}
-                renderRightActions={(progress, dragX) =>
-                  rightSwipe(progress, dragX, project.id, task.id)
-                }
-              >
-                <View style={styles.taskItem}>
-                  <View style={styles.taskDetails}>
-                    <Text>Task name: {task.name}</Text>
-                    <Text>Description: {task.description}</Text>
+          <ScrollView contentContainerStyle={{ maxHeight: 350 }}>
+            {project.tasks.map((task) => {
+              return (
+                <Swipeable
+                  key={task.id}
+                  onLeftActionRelease={() => goToModifyTask(task)}
+                  renderLeftActions={leftSwipe}
+                  renderRightActions={(progress, dragX) => rightSwipe(progress, dragX, project.id, task.id)}
+                >
+                  <View style={styles.taskItem}>
+                    <View style={styles.taskDetails}>
+                      <Text>Task name: {task.name}</Text>
+                      <Text>Description: {task.description}</Text>
+                    </View>
                   </View>
                 </Swipeable>
               );

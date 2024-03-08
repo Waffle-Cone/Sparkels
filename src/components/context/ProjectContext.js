@@ -55,9 +55,7 @@ export const ProjectProvider = ({ children }) => {
   };
 
   const handleDelete = async (projectId) => {
-    const updatedProjects = projects.filter(
-      (project) => project.id !== projectId
-    );
+    const updatedProjects = projects.filter((project) => project.id !== projectId);
     setProjects(updatedProjects);
   };
 
@@ -74,9 +72,7 @@ export const ProjectProvider = ({ children }) => {
   };
 
   // View -----------------------------
-  return <ProjectContext.Provider value={{ projects, handleAdd, handleDelete, handleModify, handleAddTask, handleModifyTask }}>{children}</ProjectContext.Provider>;
-
-const handleDeleteTask = async (projectId, taskId) => {
+  const handleDeleteTask = async (projectId, taskId) => {
     const updatedProjects = projects.map((project) => {
       if (project.id === projectId) {
         const updatedTasks = project.tasks.filter((task) => task.id !== taskId);
@@ -90,10 +86,6 @@ const handleDeleteTask = async (projectId, taskId) => {
 
   // View -----------------------------
   return (
-    <ProjectContext.Provider
-      value={{ projects, handleAdd, handleDelete, handleDeleteTask }}
-    >
-      {children}
-    </ProjectContext.Provider>
+    <ProjectContext.Provider value={{ projects, handleAdd, handleDelete, handleDeleteTask, handleModify, handleAddTask, handleModifyTask }}>{children}</ProjectContext.Provider>
   );
 };

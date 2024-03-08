@@ -36,7 +36,7 @@ const ProjectListScreen = ({ navigation }) => {
     <View style={styles.container}>
       <Text style={styles.h1}>Your Projects</Text>
       <Text style={styles.h2}>Upcoming</Text>
-      <SearchBar placeholder={"Project Name"} value={search} onChange={handleSearch} />
+      <SearchBar placeholder={"Project name"} value={search} onChange={handleSearch} />
       {!search ? <ProjectList projects={projects} onPress={gotoTaskListScreen} /> : <ProjectList projects={searchResults} onPress={gotoTaskListScreen} />}
     </View>
   );

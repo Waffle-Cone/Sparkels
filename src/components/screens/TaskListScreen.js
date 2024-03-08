@@ -1,5 +1,5 @@
 import "react-native-gesture-handler";
-import { StyleSheet, Text, TouchableOpacity, View, Alert, Animated } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, Alert, Animated, Pressable } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 import Icons from "../UI/Icons";
@@ -32,6 +32,10 @@ const TaskListScreen = ({ navigation, route }) => {
   };
   const goToModifyTask = (task) => {
     navigation.navigate("ModifyTaskScreen", { project, task });
+  };
+
+  const goToViewTaskScreen = (task) => {
+    navigation.navigate("ViewTaskScreen", { project, task });
   };
 
   const leftSwipe = (progress, dragX) => {
@@ -86,15 +90,16 @@ const TaskListScreen = ({ navigation, route }) => {
                   key={task.id}
                   onSwipeableLeftOpen={() => goToModifyTask(task)}
                   renderLeftActions={leftSwipe}
-                  on
                   renderRightActions={(progress, dragX) => rightSwipe(progress, dragX, project.id, task.id)}
                 >
-                  <View style={styles.taskItem}>
-                    <View style={styles.taskDetails}>
-                      <Text>Task name: {task.name}</Text>
-                      <Text>Description: {task.description}</Text>
+                  <Pressable delayLongPress={200} onLongPress={() => goToViewTaskScreen(task)}>
+                    <View style={styles.taskItem}>
+                      <View style={styles.taskDetails}>
+                        <Text>Task name: {task.name}</Text>
+                        <Text>Description: {task.description}</Text>
+                      </View>
                     </View>
-                  </View>
+                  </Pressable>
                 </Swipeable>
               );
             })}

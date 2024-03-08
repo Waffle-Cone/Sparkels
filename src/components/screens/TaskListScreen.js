@@ -16,9 +16,10 @@ import Swipeable from "react-native-gesture-handler/Swipeable";
 const TaskListScreen = ({ navigation, route }) => {
   // Initialisations ------------------
   const { project } = route.params;
-  const { handleDelete } = useContext(ProjectContext);
+  const { handleDelete, handleDeleteTask } = useContext(ProjectContext);
   // State ----------------------------
   // Handlers -------------------------
+
   const onDelete = () => {
     handleDelete(project.id);
     navigation.goBack();
@@ -41,19 +42,20 @@ const TaskListScreen = ({ navigation, route }) => {
       outputRange: [0, 1],
     });
     return (
-      <View style={styles.editSwipe}>
-        <Animated.Text style={{ transform: [{ scale: scale }] }}>
-          Edit
-        </Animated.Text>
-      </View>
+      <TouchableOpacity style={styles.editSwipe}>
+        <Text style={styles.editSwipeText}>Edit</Text>
+      </TouchableOpacity>
     );
   };
 
-  const rightSwipe = () => {
+  const rightSwipe = (progress, dragX, projectId, taskId) => {
     return (
-      <View style={styles.deleteSwipe}>
-        <Text>Delete</Text>
-      </View>
+      <TouchableOpacity
+        style={styles.deleteSwipe}
+        onPress={() => handleDeleteTask(projectId, taskId)}
+      >
+        <Text style={styles.deleteSwipeText}>Delete</Text>
+      </TouchableOpacity>
     );
   };
 
@@ -82,7 +84,7 @@ const TaskListScreen = ({ navigation, route }) => {
               onPress={goToAddTask}
             >
               <Text style={styles.textTaskButton}>Add a Task</Text>
-              <Icons.AddProject />
+              <Icons.AddIcon />
             </TouchableOpacity>
           </View>
 
@@ -91,7 +93,9 @@ const TaskListScreen = ({ navigation, route }) => {
               <Swipeable
                 key={task.id}
                 renderLeftActions={leftSwipe}
-                renderRightActions={rightSwipe}
+                renderRightActions={(progress, dragX) =>
+                  rightSwipe(progress, dragX, project.id, task.id)
+                }
               >
                 <View style={styles.taskItem}>
                   <View style={styles.taskDetails}>
@@ -118,17 +122,21 @@ export default TaskListScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 20,
-    backgroundColor: "",
+    padding: 20,
+    backgroundColor: "white",
   },
   //PROJECT
   projectContainer: {
     backgroundColor: "white",
     padding: 15,
     marginBottom: 20,
-    borderWidth: 1,
+    borderBottomWidth: 6,
+    borderTopWidth: 1,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    backgroundColor: "#C7DCF5",
     borderRadius: 10,
-    borderColor: "gray",
+    borderColor: "#607C9E",
   },
   project: {
     flexDirection: "row",
@@ -144,7 +152,7 @@ const styles = StyleSheet.create({
     height: 50,
     width: 80,
     borderRadius: 10,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: "black",
     backgroundColor: "white",
     justifyContent: "center",
@@ -159,9 +167,8 @@ const styles = StyleSheet.create({
   //TASKS
   taskContainer: {
     backgroundColor: "white",
-    padding: 15,
+    //padding: 10,
     marginBottom: 20,
-    borderWidth: 1,
     borderRadius: 10,
     borderColor: "gray",
   },
@@ -179,7 +186,7 @@ const styles = StyleSheet.create({
     color: "black",
   },
   h2: {
-    paddingBottom: 10,
+    //paddingBottom: 10,
     alignItems: "center",
     justifyContent: "center",
     fontSize: 16,
@@ -188,7 +195,7 @@ const styles = StyleSheet.create({
   taskItem: {
     padding: 15,
     marginVertical: 10,
-    borderWidth: 1,
+    borderBottomWidth: 1,
     borderRadius: 10,
     borderColor: "gray",
   },
@@ -199,7 +206,7 @@ const styles = StyleSheet.create({
     padding: 5,
     height: 50,
     borderRadius: 10,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: "black",
     backgroundColor: "white",
   },
@@ -237,10 +244,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: 100,
   },
+  editSwipeText: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "500",
+  },
   deleteSwipe: {
     backgroundColor: "red",
     justifyContent: "center",
     alignItems: "center",
     width: 100,
+  },
+  deleteSwipeText: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "500",
   },
 });

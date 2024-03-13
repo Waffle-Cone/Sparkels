@@ -10,6 +10,7 @@ class Task {
     this.breakTime = breakTime; // This is how often you want to take a break (Example: if a user sets it to 30 mins then, every 30mins there is a break)
     this.goalTimeStamp = goalTimeStamp;
     this.breakTimeStamp = breakTimeStamp;
+    this.isCompleted = false;
   }
   //methods
 }

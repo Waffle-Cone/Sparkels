@@ -31,6 +31,8 @@ const RightArrow = () => <AntDesign name="rightcircle" size={24} color="black" /
 const ArrowRight = () => <EvilIcons name="arrow-right" size={34} color="black" />;
 const SearchCancel = () => <MaterialIcons name="cancel" size={25} />;
 const Search = () => <MaterialIcons name="search" size={20} />;
+const PlayArrow = () => <MaterialIcons name="play-arrow" size={20} />;
+const Pause = () => <MaterialIcons name="pause" size={20} />;
 
 // Compose
 Icons.Account = Account;
@@ -46,5 +48,7 @@ Icons.RightArrow = RightArrow;
 Icons.Tasks = Tasks;
 Icons.SearchCancel = SearchCancel;
 Icons.Search = Search;
+Icons.PlayArrow = PlayArrow;
+Icons.Pause = Pause;
 
 export default Icons;

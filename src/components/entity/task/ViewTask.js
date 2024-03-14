@@ -1,13 +1,13 @@
 import { Alert, StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Vibration } from "react-native";
 import React, { useEffect, useState } from "react";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
-import { Audio } from "expo-av";
 
 import Icons from "../../UI/Icons";
 
 const ViewTask = ({ navigation, task }) => {
   // Initialisations ------------------
   let loadCountdownTime = 0;
+
   if (task.completedStatus === 1) {
     // Task not started yet
     console.log("lets start");
@@ -22,23 +22,15 @@ const ViewTask = ({ navigation, task }) => {
   } else if (task.completedStatus === 4) {
     // task in overtime mode
     console.log("Overtime");
-    loadCountdownTime = task.goalTime - task.actualTime;
+    loadCountdownTime = (task.goalTime - task.actualTime) * -1;
   }
 
   // State ----------------------------
   const [countdownTime, setCountdownTime] = useState(loadCountdownTime);
   const [isPlaying, setIsPlaying] = useState(false);
   const [actualTime, setActualTime] = useState(task.actualTime);
-  const [sound, setSound] = useState();
-
-  async function playSound() {
-    console.log("Loading Sound");
-    const { sound } = await Audio.Sound.createAsync(require("../../../../assets/alarm.mp3"));
-    setSound(sound);
-
-    console.log("Playing Sound");
-    await sound.playAsync();
-  }
+  const [completedStatus, setCompletedStatus] = useState(task.completedStatus);
+  const [hideOverTimeButton, setHideOverTimeButton] = useState(true);
 
   // Handlers -------------------------
   const handleStartTimer = () => {
@@ -49,13 +41,19 @@ const ViewTask = ({ navigation, task }) => {
           text: "Yes",
           onPress: () => {
             setIsPlaying(true);
-            task.completedStatus = 2; // task has started but not completed yet
+            task.completedStatus = 2;
+            setCompletedStatus(2);
+            // task has started but not completed yet
           },
         },
       ]);
+    } else if (task.completedStatus !== 4) {
+      setIsPlaying(true);
+      task.completedStatus = 2;
+      setCompletedStatus(2);
+      // task has started but not completed yet
     } else {
       setIsPlaying(true);
-      task.completedStatus = 2; // task has started but not completed yet
     }
   };
   const handleStopTimer = () => {
@@ -65,13 +63,22 @@ const ViewTask = ({ navigation, task }) => {
   };
   const hasCompletedTask = () => {
     console.log("Well done!");
-    task.completedStatus = 3; // completed successfully
+    task.completedStatus = 3;
+    setCompletedStatus(3);
+    // completed successfully
     navigation.goBack();
   };
 
   const needsOvertime = () => {
     console.log("overtime!!");
-    task.completedStatus = 4; // task is in overtime mode
+    task.completedStatus = 4;
+    setCompletedStatus(4);
+    // task is in overtime mode
+    return { shouldRepeat: true, delay: 1.5 };
+  };
+
+  const handleOvertime = () => {
+    setCountdownTime(30);
   };
 
   const testVibrate = () => {
@@ -79,6 +86,7 @@ const ViewTask = ({ navigation, task }) => {
   };
 
   const handleCountdownOver = () => {
+    setIsPlaying(false);
     Alert.alert("Time is up!", `Have you completed the task?`, [
       { text: "No", onPress: needsOvertime },
       { text: "Yes", onPress: hasCompletedTask },
@@ -107,11 +115,11 @@ const ViewTask = ({ navigation, task }) => {
       <Text>ViewTask</Text>
       <Text>Task name: {task.name}</Text>
       <Text>Description: {task.description}</Text>
-      {task.completedStatus !== 3 ? (
+      {completedStatus !== 3 ? (
         <>
           <CountdownCircleTimer
             isPlaying={isPlaying}
-            duration={10}
+            duration={2}
             colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
             colorsTime={[task.goalTime * 0.75, task.goalTime * 0.5, task.goalTime * 0.25, 0]}
             onUpdate={() => {
@@ -131,17 +139,27 @@ const ViewTask = ({ navigation, task }) => {
               );
             }}
           </CountdownCircleTimer>
-          {!isPlaying ? (
-            <TouchableOpacity style={styles.timerButton} onPress={playSound}>
-              <Text style={styles.timerText}>Start</Text>
+
+          {completedStatus === 4 ? (
+            <TouchableOpacity style={styles.timerButtonOverTime} onPress={handleOvertime}>
+              <Text style={styles.timerTextOvertime}>Start Overtime</Text>
               <Icons.AddIcon />
+            </TouchableOpacity>
+          ) : null}
+
+          {hideOverTimeButton}
+          {!isPlaying ? (
+            <TouchableOpacity style={styles.timerButton} onPress={handleStartTimer}>
+              <Text style={styles.timerButtonText}>Start</Text>
+              <Icons.PlayArrow />
             </TouchableOpacity>
           ) : (
             <TouchableOpacity style={styles.timerButton} onPress={handleStopTimer}>
-              <Text style={styles.timerText}>Pause</Text>
-              <Icons.AddIcon />
+              <Text style={styles.timerButtonText}>Pause</Text>
+              <Icons.Pause />
             </TouchableOpacity>
           )}
+
           <View style={styles.buttonTray}>
             <TouchableOpacity style={styles.completeTask} onPress={hasCompletedTask}>
               <Text style={styles.textCompleteTask}>Complete Task</Text>
@@ -170,12 +188,25 @@ const styles = StyleSheet.create({
     borderColor: "black",
     backgroundColor: "white",
   },
-  timerText: {
+  timerButtonText: {
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
     color: "black",
     padding: 8,
+  },
+  timerButtonOverTime: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 5,
+    width: 130,
+    height: 50,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderBottomWidth: 6,
+    borderColor: "red",
+    backgroundColor: "white",
   },
   timerContainer: {
     flex: 1,
@@ -194,9 +225,9 @@ const styles = StyleSheet.create({
     width: 390,
     borderRadius: 10,
     borderWidth: 2,
+    borderBottomWidth: 6,
     borderColor: "green",
     backgroundColor: "white",
-    borderBottomWidth: 6,
   },
   textCompleteTask: {
     fontSize: 16,

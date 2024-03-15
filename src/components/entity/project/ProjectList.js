@@ -27,12 +27,12 @@ export default ProjectList;
 const styles = StyleSheet.create({
   projectContainer: {
     borderRadius: 10,
-    borderColor: "#607C9E",
+    borderColor: "#484F8A",
     borderBottomWidth: 6,
-    borderTopWidth: 1,
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
-    backgroundColor: "#C7DCF5",
+    borderTopWidth: 0.5,
+    borderLeftWidth: 0.5,
+    borderRightWidth: 0.5,
+    backgroundColor: "#D8DCFF",
     marginVertical: 10,
     padding: 20,
     flexDirection: "row",

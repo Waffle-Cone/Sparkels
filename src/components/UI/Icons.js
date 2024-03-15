@@ -10,20 +10,14 @@ import { EvilIcons } from "@expo/vector-icons";
 const Icons = {};
 
 //Navigation Bar Icons
-const Project = ({ color }) => (
-  <FontAwesome5 name="list-alt" size={24} color={color} />
-);
+const Project = ({ color }) => <FontAwesome5 name="list-alt" size={24} color={color} />;
 const Home = ({ color }) => <FontAwesome name="home" size={30} color={color} />;
 
 const Tasks = () => <FontAwesome5 name="tasks" size={24} color="black" />;
 
-const AddProject = ({ color }) => (
-  <Ionicons name="add-circle-sharp" size={24} color={color} />
-);
+const AddProject = ({ color }) => <Ionicons name="add-circle-sharp" size={24} color={color} />;
 
-const Account = ({ color }) => (
-  <MaterialCommunityIcons name="account" size={30} color={color} />
-);
+const Account = ({ color }) => <MaterialCommunityIcons name="account" size={30} color={color} />;
 
 //Utility Icons
 const Add = ({ color }) => <MaterialIcons name="add" size={24} color={color} />;
@@ -32,13 +26,13 @@ const Edit = () => <MaterialIcons name="edit" size={16} />;
 
 const AddIcon = () => <AntDesign name="pluscircleo" size={24} color="black" />;
 
-const RightArrow = () => (
-  <AntDesign name="rightcircle" size={24} color="black" />
-);
+const RightArrow = () => <AntDesign name="rightcircle" size={24} color="black" />;
 
-const ArrowRight = () => (
-  <EvilIcons name="arrow-right" size={34} color="black" />
-);
+const ArrowRight = () => <EvilIcons name="arrow-right" size={34} color="black" />;
+const SearchCancel = () => <MaterialIcons name="cancel" size={25} />;
+const Search = () => <MaterialIcons name="search" size={20} />;
+const PlayArrow = () => <MaterialIcons name="play-arrow" size={20} />;
+const Pause = () => <MaterialIcons name="pause" size={20} />;
 
 // Compose
 Icons.Account = Account;
@@ -52,5 +46,9 @@ Icons.Project = Project;
 Icons.Home = Home;
 Icons.RightArrow = RightArrow;
 Icons.Tasks = Tasks;
+Icons.SearchCancel = SearchCancel;
+Icons.Search = Search;
+Icons.PlayArrow = PlayArrow;
+Icons.Pause = Pause;
 
 export default Icons;

@@ -8,7 +8,7 @@ import { ProjectContext } from "../../context/ProjectContext";
 
 const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) => {
   // Initialisations ------------------
-  const newTask = new Task();
+
   const { handleAddTask, handleModifyTask } = useContext(ProjectContext);
   let radioButtonNope = true;
   let radioButtonYup = false;
@@ -31,6 +31,10 @@ const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) 
 
     return seconds;
   };
+
+  const newTask = new Task();
+  newTask.goalTimeStamp = 1598054400000;
+  newTask.goalTime = getSeconds(1598054400000);
 
   // Sting is displayed to user
   const getBreakTimeText = (value) => {
@@ -75,10 +79,10 @@ const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) 
   const [goalTimeStamp, setGoalTimeStamp] = useState(task.goalTimeStamp || 1598054400000);
   const [breakTimeStamp, setBreakTimeStamp] = useState(task.breakTimeStamp || 1598052600000);
   const [breakTimeText, setBreakTimeText] = useState(getBreakTimeText(breakTimeStamp));
-
+  /*
   useEffect(() => {
     setTask({ ...task, ["goalTime"]: getSeconds(1598054400000), ["goalTimeStamp"]: 1598054400000 });
-  }, []);
+  }, []);*/
   // Handlers -------------------------
 
   const handleChange = (field, value) => {
@@ -151,7 +155,7 @@ const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) 
         <Text style={styles.itemLabel}>Goal time to finish task?</Text>
         <DateTimePicker
           value={new Date(goalTimeStamp)}
-          minuteInterval={5}
+          minuteInterval={1}
           mode={"countdown"}
           display="spinner"
           onChange={(value) => handleChange("goalTime", value.nativeEvent.timestamp)}

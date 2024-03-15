@@ -1,5 +1,5 @@
 import "react-native-gesture-handler";
-import { StyleSheet, Text, TouchableOpacity, View, Alert, Animated } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, Alert, Animated, Pressable } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 import Icons from "../UI/Icons";
@@ -9,6 +9,14 @@ import Swipeable from "react-native-gesture-handler/Swipeable";
 const TaskListScreen = ({ navigation, route }) => {
   // Initialisations ------------------
   const { project } = route.params;
+  // Sting is displayed to user
+  const displayTaskTime = (value) => {
+    const hours = new Date(value).getHours();
+    const minutes = new Date(value).getMinutes();
+    const breakText = `${hours} Hour(s) and ${minutes} Minute(s)`;
+
+    return breakText;
+  };
 
   const { handleDelete, handleDeleteTask } = useContext(ProjectContext);
   // State ----------------------------
@@ -32,6 +40,10 @@ const TaskListScreen = ({ navigation, route }) => {
   };
   const goToModifyTask = (task) => {
     navigation.navigate("ModifyTaskScreen", { project, task });
+  };
+
+  const goToViewTaskScreen = (task) => {
+    navigation.navigate("ViewTaskScreen", { project, task });
   };
 
   const leftSwipe = (progress, dragX) => {
@@ -79,22 +91,24 @@ const TaskListScreen = ({ navigation, route }) => {
               <Icons.AddIcon />
             </TouchableOpacity>
           </View>
-
           <ScrollView contentContainerStyle={{ maxHeight: 350 }}>
             {project.tasks.map((task) => {
               return (
                 <Swipeable
                   key={task.id}
-                  onLeftActionRelease={() => goToModifyTask(task)}
+                  onSwipeableLeftOpen={() => goToModifyTask(task)}
                   renderLeftActions={leftSwipe}
                   renderRightActions={(progress, dragX) => rightSwipe(progress, dragX, project.id, task.id)}
                 >
-                  <View style={styles.taskItem}>
-                    <View style={styles.taskDetails}>
-                      <Text>Task name: {task.name}</Text>
-                      <Text>Description: {task.description}</Text>
+                  <Pressable delayLongPress={200} onLongPress={() => goToViewTaskScreen(task)}>
+                    <View style={styles.taskItem}>
+                      <View style={styles.taskDetails}>
+                        <Text>Task name: {task.name}</Text>
+                        <Text>Description: {task.description}</Text>
+                        <Text>Time: {displayTaskTime(task.goalTimeStamp)}</Text>
+                      </View>
                     </View>
-                  </View>
+                  </Pressable>
                 </Swipeable>
               );
             })}

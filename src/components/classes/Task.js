@@ -11,7 +11,6 @@ class Task {
     breakTimeStamp,
     isCompleted
   ) {
-  constructor(id, name, description, goalTime, breakTime, goalTimeStamp, breakTimeStamp) {
     this.id = id;
     this.name = name;
     this.description = description;
@@ -31,5 +30,4 @@ class Task {
   }
   //methods
 }
-
 export default Task;

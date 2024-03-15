@@ -8,6 +8,8 @@ import {
   Vibration,
 } from "react-native";
 import React, { useContext, useState } from "react";
+import { StyleSheet, Text, TouchableOpacity, View, Alert, Animated, Pressable } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 import Icons from "../UI/Icons";
 import DraggableFlatList from "react-native-draggable-flatlist";
@@ -16,6 +18,14 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 const TaskListScreen = ({ navigation, route }) => {
   // Initialisations ------------------
   const { project } = route.params;
+  // Sting is displayed to user
+  const displayTaskTime = (value) => {
+    const hours = new Date(value).getHours();
+    const minutes = new Date(value).getMinutes();
+    const breakText = `${hours} Hour(s) and ${minutes} Minute(s)`;
+
+    return breakText;
+  };
 
   const { handleDelete, handleDeleteTask, updateProjectTasks } =
     useContext(ProjectContext);
@@ -69,9 +79,25 @@ const TaskListScreen = ({ navigation, route }) => {
     navigation.navigate("ModifyTaskScreen", { project, task });
   };
 
+
   const onDragEnd = ({ data }) => {
     setTasks(data);
     updateProjectTasks(project.id, data);
+    
+  const goToViewTaskScreen = (task) => {
+    navigation.navigate("ViewTaskScreen", { project, task });
+  };
+
+  const leftSwipe = (progress, dragX) => {
+    const scale = dragX.interpolate({
+      inputRange: [0, 100],
+      outputRange: [0, 1],
+    });
+    return (
+      <TouchableOpacity style={styles.editSwipe}>
+        <Text style={styles.editSwipeText}>Edit</Text>
+      </TouchableOpacity>
+    );
   };
 
   const renderTaskItem = ({ item, drag, isActive }) => {
@@ -148,12 +174,36 @@ const TaskListScreen = ({ navigation, route }) => {
             </TouchableOpacity>
           </View>
 
+
           <DraggableFlatList
             data={tasks}
             renderItem={renderTaskItem}
             keyExtractor={(item) => `draggable-item-${item.id}`}
             onDragEnd={onDragEnd}
           />
+
+          <ScrollView contentContainerStyle={{ maxHeight: 350 }}>
+            {project.tasks.map((task) => {
+              return (
+                <Swipeable
+                  key={task.id}
+                  onSwipeableLeftOpen={() => goToModifyTask(task)}
+                  renderLeftActions={leftSwipe}
+                  renderRightActions={(progress, dragX) => rightSwipe(progress, dragX, project.id, task.id)}
+                >
+                  <Pressable delayLongPress={200} onLongPress={() => goToViewTaskScreen(task)}>
+                    <View style={styles.taskItem}>
+                      <View style={styles.taskDetails}>
+                        <Text>Task name: {task.name}</Text>
+                        <Text>Description: {task.description}</Text>
+                        <Text>Time: {displayTaskTime(task.goalTimeStamp)}</Text>
+                      </View>
+                    </View>
+                  </Pressable>
+                </Swipeable>
+              );
+            })}
+          </ScrollView>
         </View>
 
         <View style={styles.buttonTray}>

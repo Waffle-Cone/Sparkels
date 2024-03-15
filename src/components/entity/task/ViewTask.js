@@ -6,6 +6,7 @@ import { formatTimeString } from "../../util/formatTimerString";
 import Icons from "../../UI/Icons";
 import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 import { ProjectContext } from "../../context/ProjectContext";
+import HeaderCard from "../../UI/HeaderCard";
 
 const ViewTask = ({ navigation, task, project }) => {
   // Initialisations ------------------
@@ -143,106 +144,102 @@ const ViewTask = ({ navigation, task, project }) => {
     }
     return breakText;
   };
+
   // View -----------------------------
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.headerContainer}>
-        <Text>ViewTask</Text>
-        <Text>Task name: {task.name}</Text>
-        <Text>Description: {task.description}</Text>
-      </View>
-
+    <View>
+      <HeaderCard title={task.name} description={task.description} time={`Status: ${task.completedStatus}`} />
       {completedStatus !== 3 ? (
-        <>
-          {completedStatus !== 4 ? (
-            <CountdownCircleTimer
-              isPlaying={isPlaying}
-              duration={countdownTime}
-              colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
-              colorsTime={[task.goalTime * 0.75, task.goalTime * 0.5, task.goalTime * 0.25, 0]}
-              onUpdate={() => {
-                setActualTime(actualTime + 1);
-                task.actualTime = actualTime;
-              }}
-              onComplete={() => {
-                handleCountdownOver();
-              }}
-            >
-              {({ remainingTime }) => {
-                return (
-                  <View style={styles.timerContainer}>
-                    <Text>Remaining Time:</Text>
-                    <Text>{handleCountdownText(remainingTime)}</Text>
-                  </View>
-                );
-              }}
-            </CountdownCircleTimer>
-          ) : (
-            <Text>{formatTimeString(counter)[0]}</Text>
-          )}
+        <View style={styles.body}>
+          <>
+            {completedStatus !== 4 ? (
+              <CountdownCircleTimer
+                isPlaying={isPlaying}
+                duration={countdownTime}
+                colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
+                colorsTime={[task.goalTime * 0.75, task.goalTime * 0.5, task.goalTime * 0.25, 0]}
+                onUpdate={() => {
+                  setActualTime(actualTime + 1);
+                  task.actualTime = actualTime;
+                }}
+                onComplete={() => {
+                  handleCountdownOver();
+                }}
+              >
+                {({ remainingTime }) => {
+                  return (
+                    <View style={styles.stopWatchContainer}>
+                      <Text>Remaining Time:</Text>
+                      <Text>{handleCountdownText(remainingTime)}</Text>
+                    </View>
+                  );
+                }}
+              </CountdownCircleTimer>
+            ) : (
+              <Text>{formatTimeString(counter)[0]}</Text>
+            )}
 
-          {completedStatus === 4 ? (
-            <>
-              {!isStart ? (
-                <TouchableOpacity style={styles.timerButtonOverTime} onPress={start}>
-                  <Text style={styles.timerTextOvertime}>Start Overtime</Text>
-                  <Icons.AddIcon />
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity style={styles.timerButton} onPress={stop}>
-                  <Text style={styles.timerButtonText}>Pause OverTime</Text>
-                  <Icons.Pause />
-                </TouchableOpacity>
-              )}
-            </>
-          ) : (
-            <>
-              {!isPlaying ? (
-                <TouchableOpacity style={styles.timerButton} onPress={handleStartTimer}>
-                  <Text style={styles.timerButtonText}>Start</Text>
-                  <Icons.PlayArrow />
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity style={styles.timerButton} onPress={handleStopTimer}>
-                  <Text style={styles.timerButtonText}>Pause</Text>
-                  <Icons.Pause />
-                </TouchableOpacity>
-              )}
-            </>
-          )}
+            {completedStatus === 4 ? (
+              <>
+                {!isStart ? (
+                  <TouchableOpacity style={styles.timerButtonOverTime} onPress={start}>
+                    <Text style={styles.timerTextOvertime}>Start Overtime</Text>
+                    <Icons.AddIcon />
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity style={styles.timerButtonOverTime} onPress={stop}>
+                    <Text style={styles.timerTextOvertime}>Pause OverTime</Text>
+                    <Icons.Pause />
+                  </TouchableOpacity>
+                )}
+              </>
+            ) : (
+              <>
+                {!isPlaying ? (
+                  <TouchableOpacity style={styles.timerButton} onPress={handleStartTimer}>
+                    <Text style={styles.timerButtonText}>Start</Text>
+                    <Icons.PlayArrow />
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity style={styles.timerButton} onPress={handleStopTimer}>
+                    <Text style={styles.timerButtonText}>Pause</Text>
+                    <Icons.Pause />
+                  </TouchableOpacity>
+                )}
+              </>
+            )}
 
-          <View style={styles.buttonTray}>
             <TouchableOpacity style={styles.completeTask} onPress={hasCompletedTask}>
               <Text style={styles.textCompleteTask}>Complete Task</Text>
             </TouchableOpacity>
-          </View>
-        </>
+          </>
+        </View>
       ) : (
-        <Text>Task has been completed</Text>
+        <View style={styles.taskInfoContainer}>
+          <View style={styles.taskInfo}>
+            <Text style={styles.taskInfoText}>Finished Task in: {handleCountdownText(task.actualTime)}</Text>
+            <Text style={styles.taskInfoText}>Goal Time: {handleCountdownText(task.actualTime)}</Text>
+          </View>
+          <View style={styles.completionBanner}>
+            <Text style={styles.completionText}>Task has been completed</Text>
+          </View>
+        </View>
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 
 export default ViewTask;
 
 const styles = StyleSheet.create({
-  container: {
+  body: {
     flex: 1,
-    backgroundColor: "white",
+    gap: 20,
+    alignItems: "center",
+    backgroundColor: "red",
   },
-  headerContainer: {
-    backgroundColor: "white",
-    padding: 15,
-    marginBottom: 20,
-    borderBottomWidth: 6,
-    borderTopWidth: 1,
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
-    backgroundColor: "#C7DCF5",
-    borderRadius: 10,
-    borderColor: "#607C9E",
-  },
+
+  //Countdown Timer
   timerButton: {
     flexDirection: "row",
     justifyContent: "center",
@@ -275,16 +272,16 @@ const styles = StyleSheet.create({
     borderColor: "red",
     backgroundColor: "white",
   },
-  timerContainer: {
+
+  //stop watch
+  stopWatchContainer: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
     gap: 10,
   },
-  buttonTray: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
+
+  //bottom button
   completeTask: {
     alignItems: "center",
     justifyContent: "center",
@@ -293,14 +290,48 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 2,
     borderBottomWidth: 6,
-    borderColor: "green",
+    borderColor: "#33d436",
     backgroundColor: "white",
   },
   textCompleteTask: {
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
-    color: "green",
+    color: "#33d436",
     paddingVertical: 8,
+  },
+  // task info when completed
+  taskInfoContainer: {
+    height: 200,
+    flexDirection: "column",
+    padding: 5,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderBottomWidth: 6,
+    borderColor: "#33d436",
+  },
+  completionBanner: {
+    height: 100,
+    borderBottomWidth: 6,
+    borderTopWidth: 1,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    backgroundColor: "#33d436",
+    borderRadius: 10,
+    borderColor: "#0fb811",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  completionText: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  taskInfo: {
+    flex: 1,
+    gap: 30,
+  },
+  taskInfoText: {
+    fontSize: 16,
+    color: "black",
   },
 });

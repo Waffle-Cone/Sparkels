@@ -145,17 +145,19 @@ const ViewTask = ({ navigation, task, project }) => {
   };
   // View -----------------------------
   return (
-    <SafeAreaView>
-      <Text>ViewTask</Text>
-      <Text>Task name: {task.name}</Text>
-      <Text>Description: {task.description}</Text>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.headerContainer}>
+        <Text>ViewTask</Text>
+        <Text>Task name: {task.name}</Text>
+        <Text>Description: {task.description}</Text>
+      </View>
 
       {completedStatus !== 3 ? (
         <>
           {completedStatus !== 4 ? (
             <CountdownCircleTimer
               isPlaying={isPlaying}
-              duration={2}
+              duration={countdownTime}
               colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
               colorsTime={[task.goalTime * 0.75, task.goalTime * 0.5, task.goalTime * 0.25, 0]}
               onUpdate={() => {
@@ -225,6 +227,22 @@ const ViewTask = ({ navigation, task, project }) => {
 export default ViewTask;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+  },
+  headerContainer: {
+    backgroundColor: "white",
+    padding: 15,
+    marginBottom: 20,
+    borderBottomWidth: 6,
+    borderTopWidth: 1,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    backgroundColor: "#C7DCF5",
+    borderRadius: 10,
+    borderColor: "#607C9E",
+  },
   timerButton: {
     flexDirection: "row",
     justifyContent: "center",

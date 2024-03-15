@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import * as Font from "expo-font";
 import React, { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 import SearchBar from "../UI/SearchBar.js";
@@ -13,11 +14,31 @@ import ProjectList from "../entity/project/ProjectList";
 
 const ProjectListScreen = ({ navigation }) => {
   // Initialisations ------------------
+  const useFonts = async () => {
+    await Font.loadAsync({
+      Anybody: require("./../../../assets/fonts/Anybody-Bold.ttf"),
+    });
+  };
+
   const { projects } = useContext(ProjectContext);
 
   // State ---------------------------
   const [search, setSearch] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+
+  useEffect(() => {
+    const loadFonts = async () => {
+      await useFonts();
+      setFontsLoaded(true);
+    };
+
+    loadFonts();
+  }, []);
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   // Handlers -------------------------
   const handleSearch = (search) => {
@@ -73,8 +94,9 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     paddingBottom: 10,
     fontSize: 24,
-    fontWeight: "bold",
     color: "black",
+    fontFamily: "Anybody",
+    fontWeight: "bold",
   },
   h2: {
     alignItems: "center",

@@ -1,11 +1,16 @@
 import { Alert, StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Vibration } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
-
+import { useTimer, useCountdown } from "react-native-timestamp-timer-hooks";
+import { formatTimeString } from "../../util/formatTimerString";
 import Icons from "../../UI/Icons";
+import { useFocusEffect, useIsFocused } from "@react-navigation/native";
+import { ProjectContext } from "../../context/ProjectContext";
 
-const ViewTask = ({ navigation, task }) => {
+const ViewTask = ({ navigation, task, project }) => {
   // Initialisations ------------------
+  const { handleModifyTask } = useContext(ProjectContext);
+
   let loadCountdownTime = 0;
 
   if (task.completedStatus === 1) {
@@ -21,16 +26,45 @@ const ViewTask = ({ navigation, task }) => {
     console.log("completed!!");
   } else if (task.completedStatus === 4) {
     // task in overtime mode
-    console.log("Overtime");
-    loadCountdownTime = (task.goalTime - task.actualTime) * -1;
+    //console.log("Overtime");
+    loadCountdownTime = task.actualTime - task.goalTime;
+    console.log(loadCountdownTime);
   }
+  console.log(task);
 
   // State ----------------------------
   const [countdownTime, setCountdownTime] = useState(loadCountdownTime);
   const [isPlaying, setIsPlaying] = useState(false);
   const [actualTime, setActualTime] = useState(task.actualTime);
   const [completedStatus, setCompletedStatus] = useState(task.completedStatus);
-  const [hideOverTimeButton, setHideOverTimeButton] = useState(true);
+
+  //the ovettime timer
+  const { counter, start, stop, reset, isStart } = useTimer({
+    from: countdownTime * 1000,
+    interval: 1000,
+  });
+
+  //I need to skip initial page render so that task does not increment on page load
+  const hasPageRendered = useRef(false);
+
+  useEffect(() => {
+    if (hasPageRendered.current) {
+      task.actualTime = task.actualTime + 1;
+      console.log("heyo");
+    }
+
+    hasPageRendered.current = true;
+  }, [counter]);
+
+  // do this stuff when user exists page
+  React.useEffect(() => {
+    const newPage = navigation.addListener("beforeRemove", () => {
+      console.log("goodbye");
+      console.log(task);
+      handleModifyTask(project.id, task);
+    });
+    return newPage;
+  }, [navigation]);
 
   // Handlers -------------------------
   const handleStartTimer = () => {
@@ -64,28 +98,28 @@ const ViewTask = ({ navigation, task }) => {
   const hasCompletedTask = () => {
     console.log("Well done!");
     task.completedStatus = 3;
-    setCompletedStatus(3);
     // completed successfully
+    setCompletedStatus(3);
     navigation.goBack();
   };
 
   const needsOvertime = () => {
     console.log("overtime!!");
     task.completedStatus = 4;
-    setCompletedStatus(4);
     // task is in overtime mode
-    return { shouldRepeat: true, delay: 1.5 };
+    setCompletedStatus(4);
   };
 
-  const handleOvertime = () => {
-    setCountdownTime(30);
-  };
+  const ONE_SECOND_IN_MS = 1000;
 
-  const testVibrate = () => {
-    Vibration.vibrate(10000000);
+  const PATTERN = [1 * ONE_SECOND_IN_MS, 1 * ONE_SECOND_IN_MS, 1 * ONE_SECOND_IN_MS];
+
+  const vibratePhone = () => {
+    Vibration.vibrate(PATTERN);
   };
 
   const handleCountdownOver = () => {
+    vibratePhone();
     setIsPlaying(false);
     Alert.alert("Time is up!", `Have you completed the task?`, [
       { text: "No", onPress: needsOvertime },
@@ -115,49 +149,64 @@ const ViewTask = ({ navigation, task }) => {
       <Text>ViewTask</Text>
       <Text>Task name: {task.name}</Text>
       <Text>Description: {task.description}</Text>
+
       {completedStatus !== 3 ? (
         <>
-          <CountdownCircleTimer
-            isPlaying={isPlaying}
-            duration={2}
-            colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
-            colorsTime={[task.goalTime * 0.75, task.goalTime * 0.5, task.goalTime * 0.25, 0]}
-            onUpdate={() => {
-              setActualTime(actualTime + 1);
-              task.actualTime = actualTime;
-            }}
-            onComplete={() => {
-              handleCountdownOver();
-            }}
-          >
-            {({ remainingTime }) => {
-              return (
-                <View style={styles.timerContainer}>
-                  <Text>Remaining Time:</Text>
-                  <Text>{handleCountdownText(remainingTime)}</Text>
-                </View>
-              );
-            }}
-          </CountdownCircleTimer>
+          {completedStatus !== 4 ? (
+            <CountdownCircleTimer
+              isPlaying={isPlaying}
+              duration={2}
+              colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
+              colorsTime={[task.goalTime * 0.75, task.goalTime * 0.5, task.goalTime * 0.25, 0]}
+              onUpdate={() => {
+                setActualTime(actualTime + 1);
+                task.actualTime = actualTime;
+              }}
+              onComplete={() => {
+                handleCountdownOver();
+              }}
+            >
+              {({ remainingTime }) => {
+                return (
+                  <View style={styles.timerContainer}>
+                    <Text>Remaining Time:</Text>
+                    <Text>{handleCountdownText(remainingTime)}</Text>
+                  </View>
+                );
+              }}
+            </CountdownCircleTimer>
+          ) : (
+            <Text>{formatTimeString(counter)[0]}</Text>
+          )}
 
           {completedStatus === 4 ? (
-            <TouchableOpacity style={styles.timerButtonOverTime} onPress={handleOvertime}>
-              <Text style={styles.timerTextOvertime}>Start Overtime</Text>
-              <Icons.AddIcon />
-            </TouchableOpacity>
-          ) : null}
-
-          {hideOverTimeButton}
-          {!isPlaying ? (
-            <TouchableOpacity style={styles.timerButton} onPress={handleStartTimer}>
-              <Text style={styles.timerButtonText}>Start</Text>
-              <Icons.PlayArrow />
-            </TouchableOpacity>
+            <>
+              {!isStart ? (
+                <TouchableOpacity style={styles.timerButtonOverTime} onPress={start}>
+                  <Text style={styles.timerTextOvertime}>Start Overtime</Text>
+                  <Icons.AddIcon />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity style={styles.timerButton} onPress={stop}>
+                  <Text style={styles.timerButtonText}>Pause OverTime</Text>
+                  <Icons.Pause />
+                </TouchableOpacity>
+              )}
+            </>
           ) : (
-            <TouchableOpacity style={styles.timerButton} onPress={handleStopTimer}>
-              <Text style={styles.timerButtonText}>Pause</Text>
-              <Icons.Pause />
-            </TouchableOpacity>
+            <>
+              {!isPlaying ? (
+                <TouchableOpacity style={styles.timerButton} onPress={handleStartTimer}>
+                  <Text style={styles.timerButtonText}>Start</Text>
+                  <Icons.PlayArrow />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity style={styles.timerButton} onPress={handleStopTimer}>
+                  <Text style={styles.timerButtonText}>Pause</Text>
+                  <Icons.Pause />
+                </TouchableOpacity>
+              )}
+            </>
           )}
 
           <View style={styles.buttonTray}>
@@ -167,7 +216,7 @@ const ViewTask = ({ navigation, task }) => {
           </View>
         </>
       ) : (
-        <Text>Task has been completed </Text>
+        <Text>Task has been completed</Text>
       )}
     </SafeAreaView>
   );

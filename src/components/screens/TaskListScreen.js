@@ -1,10 +1,19 @@
 import "react-native-gesture-handler";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Alert,
+  Vibration,
+} from "react-native";
+import React, { useContext, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View, Alert, Animated, Pressable } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 import Icons from "../UI/Icons";
-import { GestureHandlerRootView, ScrollView } from "react-native-gesture-handler";
-import Swipeable from "react-native-gesture-handler/Swipeable";
+import DraggableFlatList from "react-native-draggable-flatlist";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const TaskListScreen = ({ navigation, route }) => {
   // Initialisations ------------------
@@ -18,8 +27,10 @@ const TaskListScreen = ({ navigation, route }) => {
     return breakText;
   };
 
-  const { handleDelete, handleDeleteTask } = useContext(ProjectContext);
+  const { handleDelete, handleDeleteTask, updateProjectTasks } =
+    useContext(ProjectContext);
   // State ----------------------------
+  const [tasks, setTasks] = useState(project.tasks);
 
   // Handlers -------------------------
 
@@ -29,7 +40,33 @@ const TaskListScreen = ({ navigation, route }) => {
   };
 
   const requestDelete = () =>
-    Alert.alert("Delete warning", `Are you sure that you want to delete Project ${project.name}`, [{ text: "Cancel" }, { text: "Delete", onPress: onDelete }]);
+    Alert.alert(
+      "Delete warning",
+      `Are you sure that you want to delete this Project ${project.name}`,
+      [
+        { text: "Cancel" },
+        { text: "Delete", onPress: onDelete, style: "destructive" },
+      ]
+    );
+
+  const requestDeleteTask = (projectId, taskId) => {
+    Alert.alert(
+      "Delete Task",
+      "Are you sure that you want to delete this Task?",
+      [
+        { text: "Cancel" },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: async () => {
+            await handleDeleteTask(projectId, taskId);
+            const updatedTasks = tasks.filter((task) => task.id !== taskId);
+            setTasks(updatedTasks);
+          },
+        },
+      ]
+    );
+  };
 
   const goToAddTask = () => {
     navigation.navigate("AddTaskScreen", { project });
@@ -42,6 +79,11 @@ const TaskListScreen = ({ navigation, route }) => {
     navigation.navigate("ModifyTaskScreen", { project, task });
   };
 
+
+  const onDragEnd = ({ data }) => {
+    setTasks(data);
+    updateProjectTasks(project.id, data);
+    
   const goToViewTaskScreen = (task) => {
     navigation.navigate("ViewTaskScreen", { project, task });
   };
@@ -58,10 +100,44 @@ const TaskListScreen = ({ navigation, route }) => {
     );
   };
 
-  const rightSwipe = (progress, dragX, projectId, taskId) => {
+  const renderTaskItem = ({ item, drag, isActive }) => {
     return (
-      <TouchableOpacity style={styles.deleteSwipe} onPress={() => handleDeleteTask(projectId, taskId)}>
-        <Text style={styles.deleteSwipeText}>Delete</Text>
+      <TouchableOpacity
+        onLongPress={() => {
+          Vibration.vibrate();
+          drag();
+        }}
+        style={[
+          styles.taskItem,
+          isActive
+            ? { backgroundColor: "#C7DCF5" }
+            : { backgroundColor: "#E3E8ED" },
+        ]}
+      >
+        <View style={styles.taskContentContainer}>
+          <View style={styles.taskTextContainer}>
+            <Text style={{ fontWeight: "bold", color: "black" }}>
+              {item.name}
+            </Text>
+            <Text>{item.description}</Text>
+          </View>
+
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={styles.editButton}
+              onPress={() => goToModifyTask(tasks)}
+            >
+              <Icons.Edit />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.editButton}
+              onPress={() => requestDeleteTask(project.id, item.id)}
+            >
+              <Icons.Delete />
+            </TouchableOpacity>
+          </View>
+        </View>
       </TouchableOpacity>
     );
   };
@@ -74,7 +150,10 @@ const TaskListScreen = ({ navigation, route }) => {
         <View style={styles.projectContainer}>
           <View style={styles.project}>
             <Text style={styles.h1Project}>Project "{project.name}"</Text>
-            <TouchableOpacity style={styles.editButton} onPress={goToModifyProject}>
+            <TouchableOpacity
+              style={styles.editProjectButton}
+              onPress={goToModifyProject}
+            >
               <Text style={styles.textEditButton}>Edit</Text>
             </TouchableOpacity>
           </View>
@@ -86,11 +165,23 @@ const TaskListScreen = ({ navigation, route }) => {
         <View style={styles.taskContainer}>
           <View style={styles.task}>
             <Text style={styles.h1Tasks}>Tasks</Text>
-            <TouchableOpacity style={styles.addTaskButton} onPress={goToAddTask}>
+            <TouchableOpacity
+              style={styles.addTaskButton}
+              onPress={goToAddTask}
+            >
               <Text style={styles.textTaskButton}>Add a Task</Text>
               <Icons.AddIcon />
             </TouchableOpacity>
           </View>
+
+
+          <DraggableFlatList
+            data={tasks}
+            renderItem={renderTaskItem}
+            keyExtractor={(item) => `draggable-item-${item.id}`}
+            onDragEnd={onDragEnd}
+          />
+
           <ScrollView contentContainerStyle={{ maxHeight: 350 }}>
             {project.tasks.map((task) => {
               return (
@@ -114,9 +205,13 @@ const TaskListScreen = ({ navigation, route }) => {
             })}
           </ScrollView>
         </View>
+
         <View style={styles.buttonTray}>
-          <TouchableOpacity style={styles.deleteButton} onPress={requestDelete}>
-            <Text style={styles.textDeleteButton}>Delete project</Text>
+          <TouchableOpacity
+            style={styles.deleteProjectButton}
+            onPress={requestDelete}
+          >
+            <Text style={styles.textDeleteProjectButton}>Delete project</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -155,7 +250,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "black",
   },
-  editButton: {
+  editProjectButton: {
     height: 50,
     width: 80,
     borderRadius: 10,
@@ -200,11 +295,29 @@ const styles = StyleSheet.create({
     color: "black",
   },
   taskItem: {
+    flex: 1,
     padding: 15,
     marginVertical: 10,
-    borderBottomWidth: 1,
+    borderBottomWidth: 4,
+    borderTopWidth: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    backgroundColor: "grey",
     borderRadius: 10,
-    borderColor: "gray",
+    borderColor: "#7F8FA2",
+  },
+  taskContentContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    flex: 1,
+  },
+  taskTextContainer: {
+    flex: 1,
+    marginRight: 20,
+  },
+  buttonContainer: {
+    flexDirection: "row",
   },
   addTaskButton: {
     flexDirection: "row",
@@ -228,17 +341,28 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  deleteButton: {
+  editButton: {
+    height: 50,
+    width: 50,
+    marginLeft: 10,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "black",
+    backgroundColor: "white",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  deleteProjectButton: {
     alignItems: "center",
     justifyContent: "center",
     height: 50,
-    width: 390,
+    width: 370,
     borderRadius: 10,
-    borderWidth: 2,
+    borderWidth: 1.5,
     borderColor: "#DE485A",
     backgroundColor: "white",
   },
-  textDeleteButton: {
+  textDeleteProjectButton: {
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",

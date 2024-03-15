@@ -27,8 +27,8 @@ const Account = ({ color }) => (
 
 //Utility Icons
 const Add = ({ color }) => <MaterialIcons name="add" size={24} color={color} />;
-const Delete = () => <MaterialIcons name="delete" size={16} />;
-const Edit = () => <MaterialIcons name="edit" size={16} />;
+const Delete = () => <AntDesign name="delete" size={24} color="black" />;
+const Edit = () => <AntDesign name="edit" size={24} color="black" />;
 
 const AddIcon = () => <AntDesign name="pluscircleo" size={24} color="black" />;
 

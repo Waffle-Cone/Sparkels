@@ -1,4 +1,11 @@
-import { Keyboard, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Keyboard,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 import SearchBar from "../UI/SearchBar.js";
@@ -36,8 +43,16 @@ const ProjectListScreen = ({ navigation }) => {
     <View style={styles.container}>
       <Text style={styles.h1}>Your Projects</Text>
       <Text style={styles.h2}>Upcoming</Text>
-      <SearchBar placeholder={"Project name"} value={search} onChange={handleSearch} />
-      {!search ? <ProjectList projects={projects} onPress={gotoTaskListScreen} /> : <ProjectList projects={searchResults} onPress={gotoTaskListScreen} />}
+      <SearchBar
+        placeholder={"Project name"}
+        value={search}
+        onChange={handleSearch}
+      />
+      {!search ? (
+        <ProjectList projects={projects} onPress={gotoTaskListScreen} />
+      ) : (
+        <ProjectList projects={searchResults} onPress={gotoTaskListScreen} />
+      )}
     </View>
   );
 };
@@ -77,7 +92,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderLeftWidth: 1,
     borderRightWidth: 1,
-    backgroundColor: "#C7DCF5",
+    backgroundColor: "#C2E7E3",
     marginVertical: 10,
     padding: 20,
     flexDirection: "row",

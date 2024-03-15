@@ -9,6 +9,7 @@ import AddTaskScreen from "./src/components/screens/AddTaskScreen";
 import ModifyProjectScreen from "./src/components/screens/ModifyProjectScreen";
 import ModifyTaskScreen from "./src/components/screens/ModifyTaskScreen";
 import ViewTaskScreen from "./src/components/screens/ViewTaskScreen";
+import SplashScreen from "./src/components/screens/SplashScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -17,13 +18,46 @@ export default function App() {
     <ProjectProvider>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="ProjectListScreen" component={NavigationBottom} options={{ headerShown: false }} />
-          <Stack.Screen name="AddProjectScreen" component={AddProjectScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="TaskListScreen" component={TaskListScreen} options={{ title: " " }} />
-          <Stack.Screen name="AddTaskScreen" component={AddTaskScreen} options={{ title: " " }} />
-          <Stack.Screen name="ModifyTaskScreen" component={ModifyTaskScreen} options={{ title: " " }} />
-          <Stack.Screen name="ModifyProjectScreen" component={ModifyProjectScreen} options={{ title: " " }} />
-          <Stack.Screen name="ViewTaskScreen" component={ViewTaskScreen} options={{ title: " " }} />
+          <Stack.Screen
+            name="SplashScreen"
+            component={SplashScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="ProjectListScreen"
+            component={NavigationBottom}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="AddProjectScreen"
+            component={AddProjectScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="TaskListScreen"
+            component={TaskListScreen}
+            options={{ title: " " }}
+          />
+          <Stack.Screen
+            name="AddTaskScreen"
+            component={AddTaskScreen}
+            options={{ title: " " }}
+          />
+          <Stack.Screen
+            name="ModifyTaskScreen"
+            component={ModifyTaskScreen}
+            options={{ title: " " }}
+          />
+          <Stack.Screen
+            name="ModifyProjectScreen"
+            component={ModifyProjectScreen}
+            options={{ title: " " }}
+          />
+          <Stack.Screen
+            name="ViewTaskScreen"
+            component={ViewTaskScreen}
+            options={{ title: " " }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </ProjectProvider>

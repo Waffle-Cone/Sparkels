@@ -1,122 +1,63 @@
 import "react-native-gesture-handler";
-import { StyleSheet, Text, TouchableOpacity, View, Alert, Animated, Pressable } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
+import { StyleSheet, Text, TouchableOpacity, View, Alert } from "react-native";
+import React, { useContext, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
-import Icons from "../UI/Icons";
-import { GestureHandlerRootView, ScrollView } from "react-native-gesture-handler";
-import Swipeable from "react-native-gesture-handler/Swipeable";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import TaskList from "../entity/task/TaskList";
 
 const TaskListScreen = ({ navigation, route }) => {
   // Initialisations ------------------
   const { project } = route.params;
-  // Sting is displayed to user
-  const displayTaskTime = (value) => {
-    const hours = new Date(value).getHours();
-    const minutes = new Date(value).getMinutes();
-    const breakText = `${hours} Hour(s) and ${minutes} Minute(s)`;
 
-    return breakText;
-  };
-
-  const { handleDelete, handleDeleteTask } = useContext(ProjectContext);
   // State ----------------------------
+  const { handleDelete } = useContext(ProjectContext);
 
   // Handlers -------------------------
-
   const onDelete = () => {
     handleDelete(project.id);
     navigation.goBack();
   };
 
   const requestDelete = () =>
-    Alert.alert("Delete warning", `Are you sure that you want to delete Project ${project.name}`, [{ text: "Cancel" }, { text: "Delete", onPress: onDelete }]);
-
-  const goToAddTask = () => {
-    navigation.navigate("AddTaskScreen", { project });
-  };
+    Alert.alert(
+      "Delete warning",
+      `Are you sure that you want to delete this Project ${project.name}`,
+      [
+        { text: "Cancel" },
+        { text: "Delete", onPress: onDelete, style: "destructive" },
+      ]
+    );
 
   const goToModifyProject = () => {
     navigation.navigate("ModifyProjectScreen", { project });
   };
-  const goToModifyTask = (task) => {
-    navigation.navigate("ModifyTaskScreen", { project, task });
-  };
-
-  const goToViewTaskScreen = (task) => {
-    navigation.navigate("ViewTaskScreen", { project, task });
-  };
-
-  const leftSwipe = (progress, dragX) => {
-    const scale = dragX.interpolate({
-      inputRange: [0, 100],
-      outputRange: [0, 1],
-    });
-    return (
-      <TouchableOpacity style={styles.editSwipe}>
-        <Text style={styles.editSwipeText}>Edit</Text>
-      </TouchableOpacity>
-    );
-  };
-
-  const rightSwipe = (progress, dragX, projectId, taskId) => {
-    return (
-      <TouchableOpacity style={styles.deleteSwipe} onPress={() => handleDeleteTask(projectId, taskId)}>
-        <Text style={styles.deleteSwipeText}>Delete</Text>
-      </TouchableOpacity>
-    );
-  };
 
   // View -----------------------------
-
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={styles.container}>
         <View style={styles.projectContainer}>
           <View style={styles.project}>
             <Text style={styles.h1Project}>Project "{project.name}"</Text>
-            <TouchableOpacity style={styles.editButton} onPress={goToModifyProject}>
+            <TouchableOpacity
+              style={styles.editProjectButton}
+              onPress={goToModifyProject}
+            >
               <Text style={styles.textEditButton}>Edit</Text>
             </TouchableOpacity>
           </View>
-
           <Text style={styles.h2}>Description: {project.description}</Text>
           <Text style={styles.h2}>Due Date: {project.dueDate}</Text>
         </View>
 
-        <View style={styles.taskContainer}>
-          <View style={styles.task}>
-            <Text style={styles.h1Tasks}>Tasks</Text>
-            <TouchableOpacity style={styles.addTaskButton} onPress={goToAddTask}>
-              <Text style={styles.textTaskButton}>Add a Task</Text>
-              <Icons.AddIcon />
-            </TouchableOpacity>
-          </View>
-          <ScrollView contentContainerStyle={{ maxHeight: 350 }}>
-            {project.tasks.map((task) => {
-              return (
-                <Swipeable
-                  key={task.id}
-                  onSwipeableLeftOpen={() => goToModifyTask(task)}
-                  renderLeftActions={leftSwipe}
-                  renderRightActions={(progress, dragX) => rightSwipe(progress, dragX, project.id, task.id)}
-                >
-                  <Pressable delayLongPress={200} onLongPress={() => goToViewTaskScreen(task)}>
-                    <View style={styles.taskItem}>
-                      <View style={styles.taskDetails}>
-                        <Text>Task name: {task.name}</Text>
-                        <Text>Description: {task.description}</Text>
-                        <Text>Time: {displayTaskTime(task.goalTimeStamp)}</Text>
-                      </View>
-                    </View>
-                  </Pressable>
-                </Swipeable>
-              );
-            })}
-          </ScrollView>
-        </View>
+        <TaskList navigation={navigation} route={route} project={project} />
+
         <View style={styles.buttonTray}>
-          <TouchableOpacity style={styles.deleteButton} onPress={requestDelete}>
-            <Text style={styles.textDeleteButton}>Delete project</Text>
+          <TouchableOpacity
+            style={styles.deleteProjectButton}
+            onPress={requestDelete}
+          >
+            <Text style={styles.textDeleteProjectButton}>Delete project</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -132,7 +73,6 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: "white",
   },
-  //PROJECT
   projectContainer: {
     backgroundColor: "white",
     padding: 15,
@@ -155,7 +95,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "black",
   },
-  editButton: {
+  editProjectButton: {
     height: 50,
     width: 80,
     borderRadius: 10,
@@ -171,100 +111,21 @@ const styles = StyleSheet.create({
     color: "black",
     paddingVertical: 8,
   },
-  //TASKS
-  taskContainer: {
-    backgroundColor: "white",
-    //padding: 10,
-    marginBottom: 20,
-    borderRadius: 10,
-    borderColor: "gray",
-  },
-  task: {
-    flexDirection: "row",
-    //borderWidth: 1,
-  },
-  h1Tasks: {
-    flex: 1,
-    paddingBottom: 5,
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "black",
-  },
-  h2: {
-    //paddingBottom: 10,
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: 16,
-    color: "black",
-  },
-  taskItem: {
-    padding: 15,
-    marginVertical: 10,
-    borderBottomWidth: 1,
-    borderRadius: 10,
-    borderColor: "gray",
-  },
-  addTaskButton: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 5,
-    height: 50,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "black",
-    backgroundColor: "white",
-  },
-  textTaskButton: {
-    fontSize: 16,
-    fontWeight: "bold",
-    textAlign: "center",
-    color: "black",
-    padding: 8,
-  },
-  buttonTray: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  deleteButton: {
+  deleteProjectButton: {
     alignItems: "center",
     justifyContent: "center",
     height: 50,
-    width: 390,
+    width: 370,
     borderRadius: 10,
-    borderWidth: 2,
+    borderWidth: 1.5,
     borderColor: "#DE485A",
     backgroundColor: "white",
   },
-  textDeleteButton: {
+  textDeleteProjectButton: {
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
     color: "#DE485A",
     paddingVertical: 8,
-  },
-  editSwipe: {
-    backgroundColor: "blue",
-    justifyContent: "center",
-    alignItems: "center",
-    width: 100,
-  },
-  editSwipeText: {
-    color: "white",
-    fontSize: 18,
-    fontWeight: "500",
-  },
-  deleteSwipe: {
-    backgroundColor: "red",
-    justifyContent: "center",
-    alignItems: "center",
-    width: 100,
-  },
-  deleteSwipeText: {
-    color: "white",
-    fontSize: 18,
-    fontWeight: "500",
   },
 });

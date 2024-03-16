@@ -1,7 +1,16 @@
 class Task {
   // ALL TIME IS IN SECONDS !!!!!!!
-
-  constructor(id, name, description, goalTime, breakTime, goalTimeStamp, breakTimeStamp) {
+  constructor(
+    id,
+    name,
+    description,
+    goalTime,
+    actualTime,
+    breakTime,
+    goalTimeStamp,
+    breakTimeStamp,
+    isCompleted
+  ) {
     this.id = id;
     this.name = name;
     this.description = description;
@@ -10,7 +19,7 @@ class Task {
     this.breakTime = breakTime; // This is how often you want to take a break (Example: if a user sets it to 30 mins then, every 30mins there is a break)
     this.goalTimeStamp = goalTimeStamp;
     this.breakTimeStamp = breakTimeStamp;
-
+    this.isCompleted = isCompleted;
     /**
      1 = not started
      2 = started but not completed
@@ -21,5 +30,4 @@ class Task {
   }
   //methods
 }
-
 export default Task;

@@ -1,4 +1,12 @@
-import { Keyboard, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Keyboard,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import * as Font from "expo-font";
 import React, { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 import SearchBar from "../UI/SearchBar.js";
@@ -6,11 +14,31 @@ import ProjectList from "../entity/project/ProjectList";
 
 const ProjectListScreen = ({ navigation }) => {
   // Initialisations ------------------
+  const useFonts = async () => {
+    await Font.loadAsync({
+      Anybody: require("./../../../assets/fonts/Anybody-Bold.ttf"),
+    });
+  };
+
   const { projects } = useContext(ProjectContext);
 
   // State ---------------------------
   const [search, setSearch] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+
+  useEffect(() => {
+    const loadFonts = async () => {
+      await useFonts();
+      setFontsLoaded(true);
+    };
+
+    loadFonts();
+  }, []);
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   // Handlers -------------------------
   const handleSearch = (search) => {
@@ -36,8 +64,16 @@ const ProjectListScreen = ({ navigation }) => {
     <View style={styles.container}>
       <Text style={styles.h1}>Your Projects</Text>
       <Text style={styles.h2}>Upcoming</Text>
-      <SearchBar placeholder={"Project name"} value={search} onChange={handleSearch} />
-      {!search ? <ProjectList projects={projects} onPress={gotoTaskListScreen} /> : <ProjectList projects={searchResults} onPress={gotoTaskListScreen} />}
+      <SearchBar
+        placeholder={"Project name"}
+        value={search}
+        onChange={handleSearch}
+      />
+      {!search ? (
+        <ProjectList projects={projects} onPress={gotoTaskListScreen} />
+      ) : (
+        <ProjectList projects={searchResults} onPress={gotoTaskListScreen} />
+      )}
     </View>
   );
 };
@@ -58,8 +94,9 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     paddingBottom: 10,
     fontSize: 24,
-    fontWeight: "bold",
     color: "black",
+    fontFamily: "Anybody",
+    fontWeight: "bold",
   },
   h2: {
     alignItems: "center",
@@ -77,7 +114,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderLeftWidth: 1,
     borderRightWidth: 1,
-    backgroundColor: "#C7DCF5",
+    backgroundColor: "#C2E7E3",
     marginVertical: 10,
     padding: 20,
     flexDirection: "row",

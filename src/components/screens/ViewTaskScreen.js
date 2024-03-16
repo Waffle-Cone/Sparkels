@@ -3,11 +3,11 @@ import React from "react";
 import ViewTask from "../entity/task/ViewTask.js";
 
 const ViewTaskScreen = ({ navigation, route }) => {
-  const { project, task } = route.params;
+  const { selectedProject, task } = route.params;
 
   return (
     <View style={styles.container}>
-      <ViewTask navigation={navigation} task={task} project={project} />
+      <ViewTask navigation={navigation} task={task} project={selectedProject} />
     </View>
   );
 };

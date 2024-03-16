@@ -79,6 +79,7 @@ const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) 
   const [goalTimeStamp, setGoalTimeStamp] = useState(task.goalTimeStamp || 1598054400000);
   const [breakTimeStamp, setBreakTimeStamp] = useState(task.breakTimeStamp || 1598052600000);
   const [breakTimeText, setBreakTimeText] = useState(getBreakTimeText(breakTimeStamp));
+
   /*
   useEffect(() => {
     setTask({ ...task, ["goalTime"]: getSeconds(1598054400000), ["goalTimeStamp"]: 1598054400000 });

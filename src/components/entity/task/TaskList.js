@@ -1,13 +1,6 @@
 import "react-native-gesture-handler";
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Alert,
-  Vibration,
-} from "react-native";
-import React, { useContext, useState } from "react";
+import { StyleSheet, Text, TouchableOpacity, View, Alert, Vibration } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "../../context/ProjectContext";
 import Icons from "../../UI/Icons";
 import DraggableFlatList from "react-native-draggable-flatlist";
@@ -15,6 +8,11 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const TaskList = ({ navigation, project }) => {
   // Initialisations ------------------
+  const { getProject } = useContext(ProjectContext);
+  const selectedProject = getProject(project.id)._j;
+
+  // console.log(`Got this from COntext ==== ${JSON.stringify(selectedProject.tasks)}`);
+  //console.log(`Got this from props ==== ${JSON.stringify(project.tasks)}`); // always behind
 
   // String is displayed to user
   const displayTaskTime = (value) => {
@@ -26,82 +24,69 @@ const TaskList = ({ navigation, project }) => {
   };
 
   // State ----------------------------
-  const [tasks, setTasks] = useState(project.tasks);
+  const [tasks, setTasks] = useState(selectedProject.tasks);
   const { handleDeleteTask, updateProjectTasks } = useContext(ProjectContext);
 
+  useEffect(() => {
+    // console.log(`Inside useeffect ==== ${JSON.stringify(selectedProject.tasks)}`);
+    setTasks(selectedProject.tasks);
+  }, [selectedProject.tasks]);
   // Handlers -------------------------
   const requestDeleteTask = (projectId, taskId) => {
-    Alert.alert(
-      "Delete Task",
-      "Are you sure that you want to delete this Task?",
-      [
-        { text: "Cancel" },
-        {
-          text: "Delete",
-          style: "destructive",
-          onPress: async () => {
-            await handleDeleteTask(projectId, taskId);
-            const updatedTasks = tasks.filter((task) => task.id !== taskId);
-            setTasks(updatedTasks);
-          },
+    Alert.alert("Delete Task", "Are you sure that you want to delete this Task?", [
+      { text: "Cancel" },
+      {
+        text: "Delete",
+        style: "destructive",
+        onPress: async () => {
+          await handleDeleteTask(projectId, taskId);
         },
-      ]
-    );
+      },
+    ]);
   };
 
-  const goToAddTask = () => {
-    navigation.navigate("AddTaskScreen", { project });
+  const goToAddTask = (selectedProject) => {
+    navigation.navigate("AddTaskScreen", { selectedProject });
   };
 
   const goToModifyTask = (task) => {
-    navigation.navigate("ModifyTaskScreen", { project, task });
+    navigation.navigate("ModifyTaskScreen", { selectedProject, task });
   };
 
-  const onDragEnd = ({ data }) => {
-    setTasks(data);
+  const onDragEnd = async ({ data }) => {
     updateProjectTasks(project.id, data);
   };
 
   const goToViewTaskScreen = (task) => {
-    navigation.navigate("ViewTaskScreen", { project, task });
+    navigation.navigate("ViewTaskScreen", { selectedProject, task });
   };
 
   const renderTaskItem = ({ item, drag, isActive }) => {
+    //console.log(`TaskList IEMS ==== ${JSON.stringify(item)}`);
     return (
       <TouchableOpacity
-        onPress={() => goToViewTaskScreen(tasks)}
+        onPress={() => goToViewTaskScreen(item)}
         onLongPress={() => {
           Vibration.vibrate();
           drag();
         }}
-        style={[
-          styles.taskItem,
-          isActive
-            ? { backgroundColor: "#C7DCF5" }
-            : { backgroundColor: "#E3E8ED" },
-        ]}
+        style={[styles.taskItem, isActive ? { backgroundColor: "#C7DCF5" } : { backgroundColor: "#E3E8ED" }]}
       >
         <View style={styles.taskContentContainer}>
           <View style={styles.taskTextContainer}>
             <Text style={{ fontWeight: "bold", color: "black" }}>
-              {item.name}
+              {item.name} {item.id}
             </Text>
             <Text>{item.description}</Text>
-            <Text>Time: {displayTaskTime(tasks.goalTimeStamp)}</Text>
+            <Text>Time: {displayTaskTime(item.goalTimeStamp)}</Text>
           </View>
 
           <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={styles.editButton}
-              onPress={() => goToModifyTask(tasks)}
-            >
+            <TouchableOpacity style={styles.editButton} onPress={() => goToModifyTask(item)}>
               <Icons.Edit />
             </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.editButton}
-              onPress={() => requestDeleteTask(project.id, item.id)}
-            >
+            <TouchableOpacity style={styles.editButton} onPress={() => requestDeleteTask(project.id, item.id)}>
               <Icons.Delete />
             </TouchableOpacity>
           </View>
@@ -117,18 +102,13 @@ const TaskList = ({ navigation, project }) => {
       <View style={styles.taskContainer}>
         <View style={styles.task}>
           <Text style={styles.h1Tasks}>Tasks</Text>
-          <TouchableOpacity style={styles.addTaskButton} onPress={goToAddTask}>
+          <TouchableOpacity style={styles.addTaskButton} onPress={() => goToAddTask(selectedProject)}>
             <Text style={styles.textTaskButton}>Add a Task</Text>
             <Icons.AddIcon />
           </TouchableOpacity>
         </View>
 
-        <DraggableFlatList
-          data={tasks}
-          renderItem={renderTaskItem}
-          keyExtractor={(item) => `draggable-item-${item.id}`}
-          onDragEnd={onDragEnd}
-        />
+        <DraggableFlatList data={tasks} renderItem={renderTaskItem} keyExtractor={(item) => `draggable-item-${item.id}`} onDragEnd={onDragEnd} />
       </View>
     </GestureHandlerRootView>
   );

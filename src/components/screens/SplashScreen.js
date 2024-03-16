@@ -1,15 +1,7 @@
-import {
-  TouchableOpacity,
-  StyleSheet,
-  View,
-  Text,
-  SafeAreaView,
-  Image,
-} from "react-native";
+import { TouchableOpacity, StyleSheet, View, Text, SafeAreaView, Image } from "react-native";
 
 const SplashScreen = ({ navigation }) => {
   // Initialisations --------------------------
-  console.log(navigation);
 
   // State ------------------------------------
   // Handlers ---------------------------------
@@ -18,10 +10,7 @@ const SplashScreen = ({ navigation }) => {
   // View -------------------------------------
   return (
     <View style={styles.container}>
-      <Image
-        source={require("../../../assets/ProgressioSplashScreen.png")}
-        style={styles.splash}
-      />
+      <Image source={require("../../../assets/ProgressioSplashScreen.png")} style={styles.splash} />
       <TouchableOpacity onPress={gotoProjectScreen} style={styles.button}>
         <Text style={styles.textButton}>Get Started</Text>
       </TouchableOpacity>

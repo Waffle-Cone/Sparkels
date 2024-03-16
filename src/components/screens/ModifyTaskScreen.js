@@ -4,7 +4,7 @@ import TaskForm from "../entity/task/TaskForm";
 
 const ModifyTaskScreen = ({ navigation, route }) => {
   // Initialisations ------------------
-  const { project, task } = route.params;
+  const { selectedProject, task } = route.params;
 
   //++ getting submition handler from context
   // State ----------------------------
@@ -12,7 +12,7 @@ const ModifyTaskScreen = ({ navigation, route }) => {
   // View -----------------------------
   return (
     <SafeAreaView style={styles.container}>
-      <TaskForm navigation={navigation} submitType="Modify" formTitle="Modify Task" project={project} selectedTask={task} />
+      <TaskForm navigation={navigation} submitType="Modify" formTitle="Modify Task" project={selectedProject} selectedTask={task} />
     </SafeAreaView>
   );
 };

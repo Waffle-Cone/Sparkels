@@ -2,6 +2,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import NavigationBottom from "./src/components/navigation/NavigationBottom";
 import { StyleSheet, Text, View } from "react-native";
+import * as Font from "expo-font";
 import { ProjectProvider } from "./src/components/context/ProjectContext";
 import AddProjectScreen from "./src/components/screens/AddProjectScreen";
 import TaskListScreen from "./src/components/screens/TaskListScreen";

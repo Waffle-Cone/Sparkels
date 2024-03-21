@@ -29,7 +29,10 @@ const ProjectForm = ({ navigation, submitType, formTitle, selectedProject, goBac
       iDList.push(project.id);
     });
     const max = Math.max(...iDList);
-    const newID = max + 1;
+    let newID = max + 1;
+    if (projects.length === 0) {
+      newID = 1;
+    }
     return newID;
   };
 

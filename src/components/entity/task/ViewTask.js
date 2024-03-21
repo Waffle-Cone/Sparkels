@@ -9,7 +9,7 @@
 
 // -----------------------------------------------------
 
-import { Alert, StyleSheet, Text, View, Vibration } from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState, useRef, useContext } from "react";
 import { useTimer, useCountdown } from "react-native-timestamp-timer-hooks";
 import { ProjectContext } from "../../context/ProjectContext";
@@ -19,6 +19,8 @@ import CompletedStats from "../../UI/CompletedStats";
 import StartPauseButtons from "../../UI/StartPauseButtons";
 import MyCountdownCircleTimer from "../../util/MyCountdownCircleTimer";
 import FormatTimeString from "../../util/FormatTimeString";
+import Vibrate from "../../util/Vibrate";
+import MyCounter from "../../UI/MyCounter";
 
 const ViewTask = ({ navigation, task, project }) => {
   // Initialisations ------------------
@@ -125,16 +127,8 @@ const ViewTask = ({ navigation, task, project }) => {
     // task is in overtime mode
   };
 
-  const ONE_SECOND_IN_MS = 1000;
-
-  const PATTERN = [1 * ONE_SECOND_IN_MS, 1 * ONE_SECOND_IN_MS, 1 * ONE_SECOND_IN_MS];
-
-  const vibratePhone = () => {
-    Vibration.vibrate(PATTERN);
-  };
-
   const handleCountdownOver = () => {
-    vibratePhone();
+    Vibrate.pulse();
     setIsPlaying(false);
     Alert.alert("Time is up!", `Have you completed the task?`, [
       {
@@ -166,15 +160,13 @@ const ViewTask = ({ navigation, task, project }) => {
                 handleCountdownOver={handleCountdownOver}
               />
             ) : (
-              <Text style={styles.counter}>{FormatTimeString(counter)[0]}</Text>
+              <MyCounter counter={counter} />
             )}
 
             {completedStatus === 4 ? (
               <StartPauseButtons.OverTime isStart={isStart} handleStartButton={start} handleStopButton={stop} />
             ) : (
-              <>
-                <StartPauseButtons.Normal isStart={isPlaying} handleStartButton={handleStartTimer} handleStopButton={handleStopTimer} />
-              </>
+              <StartPauseButtons.Normal isStart={isPlaying} handleStartButton={handleStartTimer} handleStopButton={handleStopTimer} />
             )}
             <CompleteButton handleComplete={hasCompletedTask} text={"Complete Task"} />
           </>
@@ -194,10 +186,5 @@ const styles = StyleSheet.create({
     gap: 20,
     alignItems: "center",
     backgroundColor: "red",
-  },
-
-  //counter
-  counter: {
-    padding: 20,
   },
 });

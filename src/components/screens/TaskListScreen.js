@@ -12,7 +12,7 @@ const TaskListScreen = ({ navigation, route }) => {
   console.log(project.isCompleted);
 
   // State ----------------------------
-  const { handleDelete, handleCompleteProject } = useContext(ProjectContext);
+  const { handleDelete, handleCompleteProject, handleModify } = useContext(ProjectContext);
 
   // Handlers -------------------------
   const onDelete = () => {
@@ -20,14 +20,27 @@ const TaskListScreen = ({ navigation, route }) => {
     handleDelete(project.id);
   };
 
-  const requestDelete = () =>
+  const requestDelete = () => {
     Alert.alert("Delete warning", `Are you sure that you want to delete this Project ${project.name}`, [
       { text: "Cancel" },
       { text: "Delete", onPress: onDelete, style: "destructive" },
     ]);
+  };
 
   const goToModifyProject = () => {
     navigation.navigate("ModifyProjectScreen", { project });
+  };
+
+  const onProjectComplete = () => {
+    handleCompleteProject(project.id);
+    navigation.navigate("ProjectListScreen");
+  };
+
+  const requestProjectComplete = () => {
+    Alert.alert("Completion warning", `This will auto complete all tasks in Project ${project.name}`, [
+      { text: "Cancel" },
+      { text: "Complete", onPress: onProjectComplete, style: "destructive" },
+    ]);
   };
 
   // View -----------------------------
@@ -44,7 +57,7 @@ const TaskListScreen = ({ navigation, route }) => {
           <Text style={styles.h2}>Description: {project.description}</Text>
           <Text style={styles.h2}>Due Date: {project.dueDate}</Text>
         </View>
-        <CompleteButton handleComplete={() => handleCompleteProject(project.id)} text={"Complete Project"} />
+        <CompleteButton handleComplete={requestProjectComplete} text={"Complete Project"} />
         <TaskList navigation={navigation} route={route} project={project} />
 
         <View style={styles.buttonTray}>

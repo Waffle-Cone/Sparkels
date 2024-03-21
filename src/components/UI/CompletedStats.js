@@ -18,6 +18,13 @@ const TaskCompletedStats = ({ task }) => {
   );
 };
 
+const projectCompletedStates = ({ project }) => {
+  return (
+    <View>
+      <Text>Project completed</Text>
+    </View>
+  );
+};
 CompletedStats.TaskCompletedStats = (task) => TaskCompletedStats(task);
 
 export default CompletedStats;

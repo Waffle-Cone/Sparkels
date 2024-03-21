@@ -19,6 +19,8 @@ const ProjectListScreen = ({ navigation }) => {
   const [searchResults, setSearchResults] = useState([]);
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
+  //console.log(JSON.stringify(projects));
+
   useEffect(() => {
     const loadFonts = async () => {
       await useFonts();

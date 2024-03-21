@@ -10,6 +10,7 @@ const TaskList = ({ navigation, project }) => {
   // Initialisations ------------------
   const { getProject } = useContext(ProjectContext);
   const selectedProject = getProject(project.id)._j;
+  console.log(`TaskList === ${JSON.stringify(selectedProject)}`);
 
   // console.log(`Got this from COntext ==== ${JSON.stringify(selectedProject.tasks)}`);
   //console.log(`Got this from props ==== ${JSON.stringify(project.tasks)}`); // always behind

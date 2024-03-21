@@ -7,6 +7,7 @@ import Form from "../../UI/Form";
 import { ProjectContext } from "../../context/ProjectContext";
 import FormatTimeString from "../../util/FormatTimeString";
 import ToggleDateTimePicker from "../../UI/ToggleDateTimePicker";
+import NextID from "../../util/NextID";
 
 const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) => {
   // Initialisations ------------------
@@ -37,21 +38,6 @@ const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) 
   const newTask = new Task();
   newTask.goalTimeStamp = 1598054400000;
   newTask.goalTime = getSeconds(1598054400000);
-
-  //find max id number and add 1 for new task id
-  const getNextID = () => {
-    let iDList = [];
-    project.tasks.map((task) => {
-      iDList.push(task.id);
-    });
-    const max = Math.max(...iDList);
-    let newID = max + 0.1;
-    if (project.tasks.length === 0) {
-      newID = project.id;
-    }
-
-    return Math.round(newID * 1000) / 1000;
-  };
 
   const errorMessage = {
     name: "Enter task name",
@@ -106,7 +92,7 @@ const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) 
   };
 
   const checkTask = (task) => {
-    console.log(task);
+    //console.log(task);
     let isTaskValid = true;
     Object.keys(task).forEach((key) => {
       if (key === "name" || key === "description") {
@@ -124,12 +110,12 @@ const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) 
 
   const handleSubmit = () => {
     const check = checkTask(task);
-    console.log(errors);
+    //console.log(errors);
     if (check) {
       if (selectedTask) {
         handleModifyTask(project.id, task);
       } else {
-        task.id = getNextID();
+        task.id = NextID.task(project);
         handleAddTask(project.id, task);
       }
       navigation.goBack();

@@ -106,6 +106,12 @@ export const ProjectProvider = ({ children }) => {
     return selectedTask;
   };
 
+  const handleCompleteProject = async (projectId) => {
+    const selectedProject = getProject(projectId);
+    selectedProject._j.isCompleted = true;
+    handleModify(selectedProject);
+  };
+
   // View -----------------------------
   return (
     <ProjectContext.Provider
@@ -120,6 +126,7 @@ export const ProjectProvider = ({ children }) => {
         updateProjectTasks,
         getProject,
         getTask,
+        handleCompleteProject,
       }}
     >
       {children}

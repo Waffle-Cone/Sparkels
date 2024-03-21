@@ -4,13 +4,15 @@ import React, { useContext, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import TaskList from "../entity/task/TaskList";
+import CompleteButton from "../UI/CompleteButton";
 
 const TaskListScreen = ({ navigation, route }) => {
   // Initialisations ------------------
   const { project } = route.params;
+  console.log(project.isCompleted);
 
   // State ----------------------------
-  const { handleDelete } = useContext(ProjectContext);
+  const { handleDelete, handleCompleteProject } = useContext(ProjectContext);
 
   // Handlers -------------------------
   const onDelete = () => {
@@ -42,7 +44,7 @@ const TaskListScreen = ({ navigation, route }) => {
           <Text style={styles.h2}>Description: {project.description}</Text>
           <Text style={styles.h2}>Due Date: {project.dueDate}</Text>
         </View>
-
+        <CompleteButton handleComplete={() => handleCompleteProject(project.id)} text={"Complete Project"} />
         <TaskList navigation={navigation} route={route} project={project} />
 
         <View style={styles.buttonTray}>

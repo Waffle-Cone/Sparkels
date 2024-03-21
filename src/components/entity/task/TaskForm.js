@@ -5,6 +5,8 @@ import React, { useContext, useEffect, useState } from "react";
 import Task from "../../classes/Task";
 import Form from "../../UI/Form";
 import { ProjectContext } from "../../context/ProjectContext";
+import FormatTimeString from "../../util/FormatTimeString";
+import ToggleDateTimePicker from "../../UI/ToggleDateTimePicker";
 
 const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) => {
   // Initialisations ------------------
@@ -35,15 +37,6 @@ const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) 
   const newTask = new Task();
   newTask.goalTimeStamp = 1598054400000;
   newTask.goalTime = getSeconds(1598054400000);
-
-  // Sting is displayed to user
-  const getBreakTimeText = (value) => {
-    const hours = new Date(value).getHours();
-    const minutes = new Date(value).getMinutes();
-    const breakText = `${hours} Hour(s) and ${minutes} Minute(s)`;
-
-    return breakText;
-  };
 
   //find max id number and add 1 for new task id
   const getNextID = () => {
@@ -78,7 +71,7 @@ const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) 
   const [radioButtonYes, setRadioButtonYes] = useState(radioButtonYup);
   const [goalTimeStamp, setGoalTimeStamp] = useState(task.goalTimeStamp || 1598054400000);
   const [breakTimeStamp, setBreakTimeStamp] = useState(task.breakTimeStamp || 1598052600000);
-  const [breakTimeText, setBreakTimeText] = useState(getBreakTimeText(breakTimeStamp));
+  const [breakTimeText, setBreakTimeText] = useState(FormatTimeString.breakTimeText(breakTimeStamp));
 
   /*
   useEffect(() => {
@@ -88,7 +81,7 @@ const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) 
 
   const handleChange = (field, value) => {
     if (field === "breakTime") {
-      setBreakTimeText(getBreakTimeText(value));
+      setBreakTimeText(FormatTimeString.breakTimeText(value));
       setTask({ ...task, ["breakTime"]: getSeconds(value), ["breakTimeStamp"]: value });
     } else if (field === "goalTime") {
       setTask({ ...task, ["goalTime"]: getSeconds(value), ["goalTimeStamp"]: value });
@@ -161,28 +154,15 @@ const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) 
           display="spinner"
           onChange={(value) => handleChange("goalTime", value.nativeEvent.timestamp)}
         />
-        <Text style={styles.radioItemLabel}>Turn on break time reminders?</Text>
-        <View style={styles.radioTray}>
-          <TouchableOpacity onPress={handleRadioButtonNo} style={radioButtonNo ? [styles.radioButtonNo, { backgroundColor: "black" }] : styles.radioButtonNo}>
-            <Text style={styles.textRadioNo}>No</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={handleRadioButtonYes} style={radioButtonYes ? [styles.radioButtonYes, { backgroundColor: "black" }] : styles.radioButtonYes}>
-            <Text style={styles.textRadioYes}>Yes</Text>
-          </TouchableOpacity>
-        </View>
-
-        {radioButtonYes ? (
-          <>
-            <Text style={styles.radioItemLabel}>Every: {breakTimeText}</Text>
-            <DateTimePicker
-              value={new Date(breakTimeStamp)}
-              minuteInterval={5}
-              mode={"countdown"}
-              display="spinner"
-              onChange={(value) => handleChange("breakTime", value.nativeEvent.timestamp)}
-            />
-          </>
-        ) : null}
+        <ToggleDateTimePicker
+          onButtonNo={handleRadioButtonNo}
+          onButtonYes={handleRadioButtonYes}
+          radioButtonNo={radioButtonNo}
+          radioButtonYes={radioButtonYes}
+          breakTimeText={breakTimeText}
+          breakTimeStamp={breakTimeStamp}
+          handleChange={handleChange}
+        />
       </Form>
     </View>
   );
@@ -199,63 +179,5 @@ const styles = StyleSheet.create({
     color: "grey",
     fontSize: 16,
     marginBottom: 5,
-  },
-  radioItemLabel: {
-    color: "grey",
-    alignSelf: "center",
-    fontSize: 16,
-    marginBottom: 5,
-  },
-  radioTray: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
-    gap: 50,
-    marginBottom: 10,
-  },
-  radioButtonNo: {
-    flexDirection: "row",
-    height: 50,
-    width: 50,
-    borderRadius: 50,
-    borderTopWidth: 2,
-    borderLeftWidth: 2,
-    borderRightWidth: 2,
-    borderBottomWidth: 4,
-    borderColor: "#DE485A",
-    backgroundColor: "white",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  radioButtonYes: {
-    flexDirection: "row",
-    height: 50,
-    width: 50,
-    borderRadius: 50,
-    borderTopWidth: 2,
-    borderLeftWidth: 2,
-    borderRightWidth: 2,
-    borderBottomWidth: 4,
-    borderColor: "green",
-    backgroundColor: "white",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  textRadioNo: {
-    fontSize: 16,
-    fontWeight: "bold",
-    textAlign: "center",
-    color: "#DE485A",
-    paddingVertical: 8,
-  },
-  textRadioYes: {
-    fontSize: 16,
-    fontWeight: "bold",
-    textAlign: "center",
-    color: "green",
-    paddingVertical: 8,
-  },
-  radioSelected: {
-    backgroundColor: "red",
   },
 });

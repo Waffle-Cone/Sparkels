@@ -14,19 +14,15 @@ const TaskListScreen = ({ navigation, route }) => {
 
   // Handlers -------------------------
   const onDelete = () => {
+    navigation.navigate("ProjectListScreen");
     handleDelete(project.id);
-    navigation.goBack();
   };
 
   const requestDelete = () =>
-    Alert.alert(
-      "Delete warning",
-      `Are you sure that you want to delete this Project ${project.name}`,
-      [
-        { text: "Cancel" },
-        { text: "Delete", onPress: onDelete, style: "destructive" },
-      ]
-    );
+    Alert.alert("Delete warning", `Are you sure that you want to delete this Project ${project.name}`, [
+      { text: "Cancel" },
+      { text: "Delete", onPress: onDelete, style: "destructive" },
+    ]);
 
   const goToModifyProject = () => {
     navigation.navigate("ModifyProjectScreen", { project });
@@ -39,10 +35,7 @@ const TaskListScreen = ({ navigation, route }) => {
         <View style={styles.projectContainer}>
           <View style={styles.project}>
             <Text style={styles.h1Project}>Project "{project.name}"</Text>
-            <TouchableOpacity
-              style={styles.editProjectButton}
-              onPress={goToModifyProject}
-            >
+            <TouchableOpacity style={styles.editProjectButton} onPress={goToModifyProject}>
               <Text style={styles.textEditButton}>Edit</Text>
             </TouchableOpacity>
           </View>
@@ -53,10 +46,7 @@ const TaskListScreen = ({ navigation, route }) => {
         <TaskList navigation={navigation} route={route} project={project} />
 
         <View style={styles.buttonTray}>
-          <TouchableOpacity
-            style={styles.deleteProjectButton}
-            onPress={requestDelete}
-          >
+          <TouchableOpacity style={styles.deleteProjectButton} onPress={requestDelete}>
             <Text style={styles.textDeleteProjectButton}>Delete project</Text>
           </TouchableOpacity>
         </View>

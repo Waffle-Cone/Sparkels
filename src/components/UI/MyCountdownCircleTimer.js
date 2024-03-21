@@ -11,7 +11,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
-import handleCountdownText from "./countdownText";
+import FormatTimeString from "../util/FormatTimeString";
 
 const MyCountdownCircleTimer = ({ isPlaying, countdownTime, updatedTask, setActualTime, actualTime, setUpdatedTask, handleCountdownOver }) => {
   return (
@@ -32,7 +32,7 @@ const MyCountdownCircleTimer = ({ isPlaying, countdownTime, updatedTask, setActu
         return (
           <View style={styles.stopWatchContainer}>
             <Text>Remaining Time:</Text>
-            <Text>{handleCountdownText(remainingTime)}</Text>
+            <Text>{FormatTimeString.countdown(remainingTime)}</Text>
           </View>
         );
       }}

@@ -3,7 +3,7 @@ import React from "react";
 import FormatTimeString from "../util/FormatTimeString";
 
 const MyCounter = ({ counter }) => {
-  return <Text style={styles.counter}>{FormatTimeString(counter)[0]}</Text>;
+  return <Text style={styles.counter}>{FormatTimeString.counter(counter)[0]}</Text>;
 };
 
 export default MyCounter;

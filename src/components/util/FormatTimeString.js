@@ -8,7 +8,9 @@
 
 // -----------------------------------------------------
 
-const FormatTimeString = (time) => {
+const FormatTimeString = {};
+
+const counter = (time) => {
   let msecs = time % 1000;
 
   if (msecs < 10) {
@@ -26,5 +28,34 @@ const FormatTimeString = (time) => {
 
   return [formatted, seconds];
 };
+
+const countdown = (remainingTime) => {
+  let breakText = ``;
+  let minutes = 0;
+  let hours = 0;
+  if (remainingTime >= 3600) {
+    hours = remainingTime / 3600;
+    minutes = (hours % 1) * 60;
+    breakText = `${Math.trunc(hours)}H: ${Math.trunc(minutes)}M`;
+  } else if (remainingTime >= 60) {
+    minutes = remainingTime / 60;
+    breakText = `${Math.trunc(minutes)} Minute(s)`;
+  } else {
+    breakText = `${remainingTime} Seconds`;
+  }
+  return breakText;
+};
+
+const breakTimeText = (value) => {
+  const hours = new Date(value).getHours();
+  const minutes = new Date(value).getMinutes();
+  const breakText = `${hours} Hour(s) and ${minutes} Minute(s)`;
+
+  return breakText;
+};
+
+FormatTimeString.counter = counter;
+FormatTimeString.countdown = countdown;
+FormatTimeString.breakTimeText = breakTimeText;
 
 export default FormatTimeString;

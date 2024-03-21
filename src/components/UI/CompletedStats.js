@@ -8,8 +8,8 @@ const TaskCompletedStats = ({ task }) => {
   return (
     <View style={styles.taskInfoContainer}>
       <View style={styles.taskInfo}>
-        <Text style={styles.taskInfoText}>Finished Task in: {FormatTimeString(task.actualTime * 1000)[0]}</Text>
-        <Text style={styles.taskInfoText}>Goal Time: {FormatTimeString(task.goalTime * 1000)[0]}</Text>
+        <Text style={styles.taskInfoText}>Finished Task in: {FormatTimeString.counter(task.actualTime * 1000)[0]}</Text>
+        <Text style={styles.taskInfoText}>Goal Time: {FormatTimeString.counter(task.goalTime * 1000)[0]}</Text>
       </View>
       <View style={styles.completionBanner}>
         <Text style={styles.completionText}>Task has been completed</Text>

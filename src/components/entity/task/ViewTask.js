@@ -17,8 +17,7 @@ import HeaderCard from "../../UI/HeaderCard";
 import CompleteButton from "../../UI/CompleteButton";
 import CompletedStats from "../../UI/CompletedStats";
 import StartPauseButtons from "../../UI/StartPauseButtons";
-import MyCountdownCircleTimer from "../../util/MyCountdownCircleTimer";
-import FormatTimeString from "../../util/FormatTimeString";
+import MyCountdownCircleTimer from "../../UI/MyCountdownCircleTimer";
 import Vibrate from "../../util/Vibrate";
 import MyCounter from "../../UI/MyCounter";
 

@@ -38,7 +38,7 @@ const ProjectListScreen = ({ navigation }) => {
     if (search != null) {
       setSearchResults(
         projects.filter((project) => {
-          return project.name.includes(search);
+          return project.name.toLowerCase().includes(search.toLowerCase());
         })
       );
     }

@@ -1,4 +1,14 @@
-export const formatTimeString = (time) => {
+// -----------------------------------------------------
+
+// ACKNOWLEDING EXTERNAL CONTENT
+
+// Some of the following code was wholly, or in part, taken or adapted from the following online source(s):
+
+// https://github.com/leejaehyup/react-native-timestamp-timer-hooks/blob/master/example/src/util.ts
+
+// -----------------------------------------------------
+
+const FormatTimeString = (time) => {
   let msecs = time % 1000;
 
   if (msecs < 10) {
@@ -16,3 +26,5 @@ export const formatTimeString = (time) => {
 
   return [formatted, seconds];
 };
+
+export default FormatTimeString;

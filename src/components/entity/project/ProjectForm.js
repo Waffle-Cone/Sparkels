@@ -20,6 +20,7 @@ import NextID from "../../util/NextID";
 const ProjectForm = ({ navigation, submitType, formTitle, selectedProject, goBack }) => {
   // Initialisations ------------------
   const newProject = new Project();
+  newProject.isCompleted = false;
 
   //error messages to display if submition is wrong
   const errorMessage = {
@@ -28,6 +29,7 @@ const ProjectForm = ({ navigation, submitType, formTitle, selectedProject, goBac
     dueDate: "Enter project due date",
     tasks: "",
     id: "",
+    isCompleted: "",
   };
 
   //++ getting submition handler from context
@@ -55,9 +57,13 @@ const ProjectForm = ({ navigation, submitType, formTitle, selectedProject, goBac
   const checkProject = (project) => {
     let isProjectValid = true;
     Object.keys(project).forEach((key) => {
-      if (!project[key]) {
-        errors[key] = errorMessage[key];
-        isProjectValid = false;
+      if (key !== "isCompleted") {
+        if (!project[key]) {
+          errors[key] = errorMessage[key];
+          isProjectValid = false;
+        } else {
+          errors[key] = null;
+        }
       } else {
         errors[key] = null;
       }
@@ -72,6 +78,8 @@ const ProjectForm = ({ navigation, submitType, formTitle, selectedProject, goBac
     }
     const check = checkProject(project);
     setErrors({ ...errors });
+    console.log(errors);
+    console.log(project);
     if (check) {
       if (selectedProject) {
         selectedProject.name = project.name;

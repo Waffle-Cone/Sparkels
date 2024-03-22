@@ -12,20 +12,44 @@ const TaskCompletedStats = ({ task }) => {
         <Text style={styles.taskInfoText}>Goal Time: {FormatTimeString.counter(task.goalTime * 1000)[0]}</Text>
       </View>
       <View style={styles.completionBanner}>
-        <Text style={styles.completionText}>Task has been completed</Text>
+        <Text style={styles.completionText}>Task Completed</Text>
       </View>
     </View>
   );
 };
 
-const projectCompletedStates = ({ project }) => {
+const ProjectCompletedStates = ({ project }) => {
+  // Initialisations ------------------
+  let totalTimeSpent = 0;
+  let theTotalGoalTime = 0;
+  console.log(` Completed project === ${JSON.stringify(project)}`);
+  if (project.tasks.length > 0) {
+    project.tasks.forEach((task) => {
+      console.log(task);
+      totalTimeSpent = totalTimeSpent + task.actualTime;
+      theTotalGoalTime = theTotalGoalTime + task.goalTime;
+    });
+  }
+  console.log(totalTimeSpent);
+  console.log(theTotalGoalTime);
+
+  // State ----------------------------
+  // Handlers -------------------------
+  // View -----------------------------
   return (
-    <View>
-      <Text>Project completed</Text>
+    <View style={styles.taskInfoContainer}>
+      <View style={styles.taskInfo}>
+        <Text style={styles.taskInfoText}>Project Total Time: {FormatTimeString.counter(totalTimeSpent * 1000)[0]}</Text>
+        <Text style={styles.taskInfoText}>Goal Time Reminder: {FormatTimeString.counter(theTotalGoalTime * 1000)[0]}</Text>
+      </View>
+      <View style={styles.completionBanner}>
+        <Text style={styles.completionText}>Project Completed</Text>
+      </View>
     </View>
   );
 };
 CompletedStats.TaskCompletedStats = (task) => TaskCompletedStats(task);
+CompletedStats.ProjectCompletedStates = (project) => ProjectCompletedStates(project);
 
 export default CompletedStats;
 

@@ -10,10 +10,6 @@ const TaskList = ({ navigation, project }) => {
   // Initialisations ------------------
   const { getProject } = useContext(ProjectContext);
   const selectedProject = getProject(project.id)._j;
-  console.log(`TaskList === ${JSON.stringify(selectedProject)}`);
-
-  // console.log(`Got this from COntext ==== ${JSON.stringify(selectedProject.tasks)}`);
-  //console.log(`Got this from props ==== ${JSON.stringify(project.tasks)}`); // always behind
 
   // String is displayed to user
   const displayTaskTime = (value) => {
@@ -29,7 +25,6 @@ const TaskList = ({ navigation, project }) => {
   const { handleDeleteTask, updateProjectTasks } = useContext(ProjectContext);
 
   useEffect(() => {
-    // console.log(`Inside useeffect ==== ${JSON.stringify(selectedProject.tasks)}`);
     setTasks(selectedProject.tasks);
   }, [selectedProject.tasks]);
   // Handlers -------------------------

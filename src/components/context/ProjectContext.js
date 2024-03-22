@@ -109,15 +109,7 @@ export const ProjectProvider = ({ children }) => {
   const handleCompleteProject = async (projectId) => {
     const selectedProject = getProject(projectId)._j;
     selectedProject.isCompleted = true;
-    const newTasks = [];
-    selectedProject.tasks.forEach((task) => {
-      task["completedStatus"] = 3;
-      task.completedStatus = 3;
-      newTasks.push(task);
-    });
-    selectedProject.tasks = newTasks;
     handleModify(selectedProject);
-    console.log(selectedProject);
   };
 
   // View -----------------------------

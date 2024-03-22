@@ -14,7 +14,7 @@ import React, { useEffect, useState, useRef, useContext } from "react";
 import { useTimer, useCountdown } from "react-native-timestamp-timer-hooks";
 import { ProjectContext } from "../../context/ProjectContext";
 import HeaderCard from "../../UI/HeaderCard";
-import CompleteButton from "../../UI/CompleteButton";
+import { CompleteButton } from "../../UI/CompleteButton";
 import CompletedStats from "../../UI/CompletedStats";
 import StartPauseButtons from "../../UI/StartPauseButtons";
 import MyCountdownCircleTimer from "../../UI/MyCountdownCircleTimer";

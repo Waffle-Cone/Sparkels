@@ -4,24 +4,25 @@ import React, { useContext, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import TaskList from "../entity/task/TaskList";
-import CompleteButton from "../UI/CompleteButton";
+import { CompleteProject } from "../UI/CompleteButton";
+import CompletedStats from "../UI/CompletedStats";
 
 const TaskListScreen = ({ navigation, route }) => {
   // Initialisations ------------------
   const { project } = route.params;
-  console.log(project.isCompleted);
 
   // State ----------------------------
-  const { handleDelete, handleCompleteProject, handleModify } = useContext(ProjectContext);
+  const { handleDelete, handleCompleteProject, getProject } = useContext(ProjectContext);
+  const selectedProject = getProject(project.id)._j;
 
   // Handlers -------------------------
   const onDelete = () => {
     navigation.navigate("ProjectListScreen");
-    handleDelete(project.id);
+    handleDelete(selectedProject.id);
   };
 
   const requestDelete = () => {
-    Alert.alert("Delete warning", `Are you sure that you want to delete this Project ${project.name}`, [
+    Alert.alert("Delete warning", `Are you sure that you want to delete this Project ${selectedProject.name}`, [
       { text: "Cancel" },
       { text: "Delete", onPress: onDelete, style: "destructive" },
     ]);
@@ -32,39 +33,43 @@ const TaskListScreen = ({ navigation, route }) => {
   };
 
   const onProjectComplete = () => {
-    handleCompleteProject(project.id);
+    handleCompleteProject(selectedProject.id);
     navigation.navigate("ProjectListScreen");
   };
 
   const requestProjectComplete = () => {
-    Alert.alert("Completion warning", `This will auto complete all tasks in Project ${project.name}`, [
+    Alert.alert("Completion warning", `This will auto complete all tasks in Project ${selectedProject.name}`, [
       { text: "Cancel" },
       { text: "Complete", onPress: onProjectComplete, style: "destructive" },
     ]);
   };
-
+  console.log(`TaskList ==== ${JSON.stringify(selectedProject.tasks)}`);
   // View -----------------------------
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={styles.container}>
         <View style={styles.projectContainer}>
           <View style={styles.project}>
-            <Text style={styles.h1Project}>Project "{project.name}"</Text>
+            <Text style={styles.h1Project}>Project "{selectedProject.name}"</Text>
             <TouchableOpacity style={styles.editProjectButton} onPress={goToModifyProject}>
               <Text style={styles.textEditButton}>Edit</Text>
             </TouchableOpacity>
           </View>
-          <Text style={styles.h2}>Description: {project.description}</Text>
-          <Text style={styles.h2}>Due Date: {project.dueDate}</Text>
+          <Text style={styles.h2}>Description: {selectedProject.description}</Text>
+          <Text style={styles.h2}>Due Date: {selectedProject.dueDate}</Text>
         </View>
-        <CompleteButton handleComplete={requestProjectComplete} text={"Complete Project"} />
-        <TaskList navigation={navigation} route={route} project={project} />
+        {!selectedProject.isCompleted ? (
+          <>
+            <CompleteProject project={selectedProject} handleComplete={requestProjectComplete} text={"Complete Project"} />
+            <TaskList navigation={navigation} route={route} project={selectedProject} />
+          </>
+        ) : (
+          <CompletedStats.ProjectCompletedStates project={selectedProject} />
+        )}
 
-        <View style={styles.buttonTray}>
-          <TouchableOpacity style={styles.deleteProjectButton} onPress={requestDelete}>
-            <Text style={styles.textDeleteProjectButton}>Delete project</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity style={styles.deleteProjectButton} onPress={requestDelete}>
+          <Text style={styles.textDeleteProjectButton}>Delete project</Text>
+        </TouchableOpacity>
       </View>
     </GestureHandlerRootView>
   );
@@ -75,11 +80,11 @@ export default TaskListScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    gap: 20,
     padding: 20,
     backgroundColor: "white",
   },
   projectContainer: {
-    backgroundColor: "white",
     padding: 15,
     marginBottom: 20,
     borderBottomWidth: 6,
@@ -117,7 +122,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   deleteProjectButton: {
-    alignItems: "center",
+    alignSelf: "center",
     justifyContent: "center",
     height: 50,
     width: 370,
@@ -131,6 +136,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     color: "#DE485A",
-    paddingVertical: 8,
   },
 });

@@ -64,5 +64,4 @@ const styles = StyleSheet.create({
     color: "#33d436",
     paddingVertical: 8,
   },
-  projContainer: {},
 });

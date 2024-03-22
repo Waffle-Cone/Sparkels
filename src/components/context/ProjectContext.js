@@ -95,6 +95,7 @@ export const ProjectProvider = ({ children }) => {
   };
 
   //USE THIS TO GET THE PROJECT. PASS the projectID through props and use this to manipulate the selected project. passing and using the project from props causes state problems.
+  // force get the project again to force state to be synced
   const getProject = async (projectId) => {
     const project = projects.find((project) => project.id === projectId);
     return project;

@@ -1,10 +1,20 @@
+// -----------------------------------------------------
+
+// ACKNOWLEDING EXTERNAL CONTENT
+
+// Some of the following code was wholly, or in part, taken or adapted from the following online source(s):
+
+// DraggableFlatList documentation https://www.npmjs.com/package/react-native-draggable-flatlist
+
+// -----------------------------------------------------
+
 import "react-native-gesture-handler";
 import { StyleSheet, Text, TouchableOpacity, View, Alert, Vibration } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "../../context/ProjectContext";
 import Icons from "../../UI/Icons";
 import DraggableFlatList from "react-native-draggable-flatlist";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { GestureHandlerRootView, ScrollView } from "react-native-gesture-handler";
 import TaskItem from "./TaskItem";
 
 const TaskList = ({ navigation, project }) => {
@@ -98,20 +108,22 @@ export default TaskList;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: "column",
   },
   taskContainer: {
-    //padding: 10,
+    flex: 1,
+    flexDirection: "column",
+    overflow: "hidden",
     backgroundColor: "#ceced0",
     marginBottom: 20,
     borderRadius: 10,
     borderColor: "gray",
     padding: 10,
-    minHeight: 200,
+    paddingBottom: 60,
   },
   task: {
     flexDirection: "row",
     alignItems: "center",
-    padding: 0,
     //borderWidth: 1,
   },
   h1Tasks: {

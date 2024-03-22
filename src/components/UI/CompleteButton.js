@@ -1,5 +1,4 @@
 import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
-import React, { useEffect, useState } from "react";
 
 export const CompleteButtonButton = ({ handleComplete, text }) => {
   return (

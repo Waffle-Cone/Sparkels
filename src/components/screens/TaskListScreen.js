@@ -14,7 +14,7 @@ const TaskListScreen = ({ navigation, route }) => {
 
   // State ----------------------------
   const { handleDelete, handleCompleteProject, getProject } = useContext(ProjectContext);
-  const selectedProject = getProject(project.id)._j;
+  const selectedProject = getProject(project.id)._j; // force get the project again to force state to be synced
 
   // Handlers -------------------------
   const onDelete = () => {
@@ -72,7 +72,7 @@ export default TaskListScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    gap: 20,
+    gap: 5,
     padding: 20,
     backgroundColor: "white",
   },

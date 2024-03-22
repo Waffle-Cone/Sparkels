@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: "gray",
     padding: 10,
+    minHeight: 200,
   },
   task: {
     flexDirection: "row",

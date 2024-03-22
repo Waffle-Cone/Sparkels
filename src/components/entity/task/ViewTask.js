@@ -11,7 +11,7 @@
 
 import { Alert, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState, useRef, useContext } from "react";
-import { useTimer, useCountdown } from "react-native-timestamp-timer-hooks";
+import { useTimer } from "react-native-timestamp-timer-hooks";
 import { ProjectContext } from "../../context/ProjectContext";
 import HeaderCard from "../../UI/HeaderCard";
 import { CompleteButtonButton } from "../../UI/CompleteButton";
@@ -143,7 +143,7 @@ const ViewTask = ({ navigation, task, project }) => {
 
   // View -----------------------------
   return (
-    <View>
+    <View style={{ padding: 2 }}>
       <HeaderCard title={`${task.name} ${task.id}`} description={task.description} time={`Status: ${updatedTask.completedStatus}`} />
       {completedStatus !== 3 ? (
         <View style={styles.body}>
@@ -181,9 +181,7 @@ export default ViewTask;
 
 const styles = StyleSheet.create({
   body: {
-    flex: 1,
     gap: 20,
     alignItems: "center",
-    backgroundColor: "red",
   },
 });

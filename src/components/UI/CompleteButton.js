@@ -46,22 +46,19 @@ export const CompleteProjectButton = ({ project, handleComplete, text }) => {
 const styles = StyleSheet.create({
   //bottom button
   completeTask: {
-    alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
-    height: 50,
-    width: 390,
     borderRadius: 10,
     borderWidth: 2,
     borderBottomWidth: 6,
     borderColor: "#33d436",
     backgroundColor: "white",
+    height: 50,
   },
   textCompleteTask: {
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
     color: "#33d436",
-    paddingVertical: 8,
   },
 });

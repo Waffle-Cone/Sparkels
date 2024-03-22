@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
     borderColor: "#33d436",
     backgroundColor: "white",
     height: 50,
+    minWidth: 350,
   },
   textCompleteTask: {
     fontSize: 16,

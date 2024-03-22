@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     borderColor: "#DE485A",
     backgroundColor: "white",
     height: 50,
-    width: 300,
+    width: 350,
   },
   textDeleteProjectButton: {
     fontSize: 16,

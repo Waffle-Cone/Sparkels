@@ -4,7 +4,7 @@ import React, { useContext, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import TaskList from "../entity/task/TaskList";
-import { CompleteProject } from "../UI/CompleteButton";
+import { CompleteProjectButton } from "../UI/CompleteButton";
 import CompletedStats from "../UI/CompletedStats";
 import HeaderCard from "../UI/HeaderCard";
 
@@ -52,7 +52,7 @@ const TaskListScreen = ({ navigation, route }) => {
         <HeaderCard title={`Project ${selectedProject.name}`} description={selectedProject.description} time={`Due Date: ${selectedProject.dueDate}`} onPress={goToModifyProject} />
         {!selectedProject.isCompleted ? (
           <>
-            <CompleteProject project={selectedProject} handleComplete={requestProjectComplete} text={"Complete Project"} />
+            <CompleteProjectButton project={selectedProject} handleComplete={requestProjectComplete} text={"Complete Project"} />
             <TaskList navigation={navigation} route={route} project={selectedProject} />
           </>
         ) : (

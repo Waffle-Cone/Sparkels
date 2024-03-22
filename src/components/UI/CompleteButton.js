@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 
-export const CompleteButton = ({ handleComplete, text }) => {
+export const CompleteButtonButton = ({ handleComplete, text }) => {
   return (
     <TouchableOpacity style={styles.completeTask} onPress={handleComplete}>
       <Text style={styles.textCompleteTask}>{text}</Text>
@@ -9,7 +9,7 @@ export const CompleteButton = ({ handleComplete, text }) => {
   );
 };
 
-export const CompleteProject = ({ project, handleComplete, text }) => {
+export const CompleteProjectButton = ({ project, handleComplete, text }) => {
   // Initialisations ------------------
   let allTasksCompleted = true;
   if (project.tasks.length > 0) {

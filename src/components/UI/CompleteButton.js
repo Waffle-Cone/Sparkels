@@ -36,7 +36,7 @@ export const CompleteProject = ({ project, handleComplete, text }) => {
         </TouchableOpacity>
       ) : (
         <TouchableOpacity style={[styles.completeTask, { borderColor: "grey" }]} onPress={handleProjectNotCompleted}>
-          <Text style={styles.textCompleteTask}>{text}</Text>
+          <Text style={[styles.textCompleteTask, { color: "grey" }]}>{text}</Text>
         </TouchableOpacity>
       )}
     </>

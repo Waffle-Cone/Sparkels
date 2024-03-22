@@ -94,7 +94,7 @@ const TaskList = ({ navigation, project }) => {
   // View -----------------------------
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView style={styles.container}>
       <View style={styles.taskContainer}>
         <View style={styles.task}>
           <Text style={styles.h1Tasks}>Tasks</Text>
@@ -113,15 +113,21 @@ const TaskList = ({ navigation, project }) => {
 export default TaskList;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   taskContainer: {
-    backgroundColor: "white",
     //padding: 10,
+    backgroundColor: "#ceced0",
     marginBottom: 20,
     borderRadius: 10,
     borderColor: "gray",
+    padding: 10,
   },
   task: {
     flexDirection: "row",
+    alignItems: "center",
+    padding: 0,
     //borderWidth: 1,
   },
   h1Tasks: {

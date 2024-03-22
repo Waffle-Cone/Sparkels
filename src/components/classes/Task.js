@@ -20,9 +20,6 @@ class Task {
     this.completedStatus = 1;
   }
   //methods
-  setActualTime() {
-    console.log("dbfhj");
-  }
 }
 
 export default Task;

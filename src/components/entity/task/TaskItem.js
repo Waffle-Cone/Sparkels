@@ -30,10 +30,10 @@ export default TaskItem;
 
 const styles = StyleSheet.create({
   taskContentContainer: {
+    flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    flex: 1,
   },
   taskTextContainer: {
     flex: 1,

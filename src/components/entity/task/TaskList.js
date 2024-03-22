@@ -120,10 +120,15 @@ const styles = StyleSheet.create({
     borderColor: "gray",
     padding: 10,
     paddingBottom: 60,
+    borderLeftWidth: 20,
   },
   task: {
     flexDirection: "row",
     alignItems: "center",
+    paddingBottom: 10,
+    borderColor: "darkgrey",
+    borderBottomWidth: 4,
+
     //borderWidth: 1,
   },
   h1Tasks: {

@@ -20,6 +20,8 @@ import StartPauseButtons from "../../UI/StartPauseButtons";
 import MyCountdownCircleTimer from "../../UI/MyCountdownCircleTimer";
 import Vibrate from "../../util/Vibrate";
 import MyCounter from "../../UI/MyCounter";
+import Task from "../../classes/Task";
+import GetCompletedStatus from "../../util/GetCompletedStatus";
 
 const ViewTask = ({ navigation, task, project }) => {
   // Initialisations ------------------
@@ -144,7 +146,7 @@ const ViewTask = ({ navigation, task, project }) => {
   // View -----------------------------
   return (
     <View style={{ padding: 2 }}>
-      <HeaderCard title={`${task.name} ${task.id}`} description={task.description} time={`Status: ${updatedTask.completedStatus}`} />
+      <HeaderCard title={`${task.name} ${task.id}`} description={task.description} time={`Status: ${GetCompletedStatus(updatedTask.completedStatus)}`} />
       {completedStatus !== 3 ? (
         <View style={styles.body}>
           <>

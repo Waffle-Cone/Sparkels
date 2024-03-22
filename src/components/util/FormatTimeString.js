@@ -57,5 +57,6 @@ const breakTimeText = (value) => {
 FormatTimeString.counter = counter;
 FormatTimeString.countdown = countdown;
 FormatTimeString.breakTimeText = breakTimeText;
+FormatTimeString.displayTaskTime = breakTimeText;
 
 export default FormatTimeString;

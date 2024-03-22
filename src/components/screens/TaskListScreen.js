@@ -6,6 +6,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import TaskList from "../entity/task/TaskList";
 import { CompleteProject } from "../UI/CompleteButton";
 import CompletedStats from "../UI/CompletedStats";
+import HeaderCard from "../UI/HeaderCard";
 
 const TaskListScreen = ({ navigation, route }) => {
   // Initialisations ------------------
@@ -48,16 +49,7 @@ const TaskListScreen = ({ navigation, route }) => {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={styles.container}>
-        <View style={styles.projectContainer}>
-          <View style={styles.project}>
-            <Text style={styles.h1Project}>Project "{selectedProject.name}"</Text>
-            <TouchableOpacity style={styles.editProjectButton} onPress={goToModifyProject}>
-              <Text style={styles.textEditButton}>Edit</Text>
-            </TouchableOpacity>
-          </View>
-          <Text style={styles.h2}>Description: {selectedProject.description}</Text>
-          <Text style={styles.h2}>Due Date: {selectedProject.dueDate}</Text>
-        </View>
+        <HeaderCard title={`Project ${selectedProject.name}`} description={selectedProject.description} time={`Due Date: ${selectedProject.dueDate}`} onPress={goToModifyProject} />
         {!selectedProject.isCompleted ? (
           <>
             <CompleteProject project={selectedProject} handleComplete={requestProjectComplete} text={"Complete Project"} />

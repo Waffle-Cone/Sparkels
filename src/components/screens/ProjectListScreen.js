@@ -6,35 +6,43 @@
 
 // Fonts documentation https://docs.expo.dev/develop/user-interface/fonts/
 
+// React Native Tab View https://reactnavigation.org/docs/tab-view/
+
 // -----------------------------------------------------
 
 import {
   Keyboard,
-  Pressable,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
   Image,
+  useWindowDimensions,
 } from "react-native";
 import { useFonts } from "expo-font";
 import React, { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 import SearchBar from "../UI/SearchBar.js";
 import ProjectList from "../entity/project/ProjectList";
+import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 
 const ProjectListScreen = ({ navigation }) => {
   // Initialisations ------------------
-
   const [fontsLoaded] = useFonts({
     AnybodyBold: require("./../../../assets/fonts/Anybody-Bold.ttf"),
     AnybodyRegular: require("./../../../assets/fonts/Anybody-Regular.ttf"),
   });
 
+  const layout = useWindowDimensions();
+
   // State ---------------------------
   const { projects } = useContext(ProjectContext);
   const [search, setSearch] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
+  const [index, setIndex] = useState(0);
+  const [routes] = useState([
+    { key: "todo", title: "To do" },
+    { key: "completed", title: "Completed" },
+  ]);
 
   //console.log(JSON.stringify(projects));
 
@@ -57,6 +65,19 @@ const ProjectListScreen = ({ navigation }) => {
     Keyboard.dismiss();
   };
 
+  const ToDoProjects = () => (
+    <View style={{ flex: 1, backgroundColor: "#ff4081" }} />
+  );
+
+  const CompletedProjects = () => (
+    <View style={{ flex: 1, backgroundColor: "#673ab7" }} />
+  );
+
+  const renderScene = SceneMap({
+    todo: ToDoProjects,
+    completed: CompletedProjects,
+  });
+
   // View -----------------------------
   return (
     <View style={styles.container}>
@@ -66,6 +87,13 @@ const ProjectListScreen = ({ navigation }) => {
       />
       <View style={styles.notebookBorder}>
         <Text style={styles.h1}>Your Projects</Text>
+        <TabView
+          navigationState={{ index, routes }}
+          renderScene={renderScene}
+          onIndexChange={setIndex}
+          style={styles.tabView}
+          initialLayout={{ width: layout.width }}
+        />
         <Text style={styles.h2}>To do</Text>
         <SearchBar
           placeholder={"Project name"}
@@ -96,14 +124,12 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     height: "8%",
     width: "100%",
-    marginTop: 80,
+    top: 95,
     zIndex: 2,
   },
   notebookBorder: {
     borderRadius: 15,
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
-    borderBottomWidth: 1,
+    borderWidth: 1,
     padding: 15,
     margin: 5,
     paddingTop: 55,
@@ -148,5 +174,20 @@ const styles = StyleSheet.create({
   },
   projectDetails: {
     flex: 1,
+  },
+  tabView: {
+    flex: 1,
+    marginTop: 20,
+    backgroundColor: "transparent",
+  },
+  tabBar: {
+    backgroundColor: "red",
+  },
+  label: {
+    color: "black",
+    fontWeight: "bold",
+  },
+  indicator: {
+    backgroundColor: "red",
   },
 });

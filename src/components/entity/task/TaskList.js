@@ -19,8 +19,10 @@ import TaskItem from "./TaskItem";
 
 const TaskList = ({ navigation, project }) => {
   // Initialisations ------------------
+
   const { getProject } = useContext(ProjectContext);
   const selectedProject = getProject(project.id)._j;
+
 
   // String is displayed to user
   const displayTaskTime = (value) => {
@@ -34,6 +36,7 @@ const TaskList = ({ navigation, project }) => {
   // State ----------------------------
   const [tasks, setTasks] = useState(selectedProject.tasks);
   const { handleDeleteTask, updateProjectTasks } = useContext(ProjectContext);
+
 
   useEffect(() => {
     setTasks(selectedProject.tasks);

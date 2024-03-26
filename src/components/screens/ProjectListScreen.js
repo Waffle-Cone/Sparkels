@@ -9,7 +9,8 @@ const ProjectListScreen = ({ navigation }) => {
   // Initialisations ------------------
   const useFonts = async () => {
     await Font.loadAsync({
-      Anybody: require("./../../../assets/fonts/Anybody-Bold.ttf"),
+      AnybodyBold: require("./../../../assets/fonts/Anybody-Bold.ttf"),
+      AnybodyRegular: require("./../../../assets/fonts/Anybody-Regular.ttf"),
     });
   };
 
@@ -81,7 +82,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     fontSize: 24,
     color: "black",
-    fontFamily: "Anybody",
+    fontFamily: "AnybodyBold",
     fontWeight: "bold",
   },
   h2: {
@@ -92,6 +93,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "500",
     color: "black",
+    fontFamily: "AnybodyRegular",
   },
   projectContainer: {
     borderRadius: 10,

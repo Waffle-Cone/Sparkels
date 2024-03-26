@@ -20,6 +20,7 @@ const SplashScreen = ({ navigation }) => {
     });
   };
 
+
   // State ------------------------------------
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
@@ -41,10 +42,7 @@ const SplashScreen = ({ navigation }) => {
   // View -------------------------------------
   return (
     <View style={styles.container}>
-      <Image
-        source={require("../../../assets/ProgressioSplashScreen.png")}
-        style={styles.splash}
-      />
+      <Image source={require("../../../assets/ProgressioSplashScreen.png")} style={styles.splash} />
       <TouchableOpacity onPress={gotoProjectScreen} style={styles.button}>
         <Text style={styles.textButton}>Get Started</Text>
       </TouchableOpacity>

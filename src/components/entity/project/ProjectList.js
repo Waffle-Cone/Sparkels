@@ -9,7 +9,7 @@ const ProjectList = ({ projects, onPress }) => {
   return projects.map((project) => {
     return (
       <TouchableOpacity key={project.id} onPress={() => onPress(project)}>
-        <View style={styles.projectContainer}>
+        <View style={project.isCompleted ? [styles.projectContainer, { backgroundColor: "#33d436", borderColor: "#0fb811" }] : styles.projectContainer}>
           <View style={styles.projectDetails}>
             <Text>Project name: {project.name}</Text>
             <Text>Description: {project.description}</Text>
@@ -38,6 +38,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+  projectCompleted: {
+    backgroundColor: "red",
   },
   projectDetails: {
     flex: 1,

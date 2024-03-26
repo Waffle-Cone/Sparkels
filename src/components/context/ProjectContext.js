@@ -9,6 +9,7 @@ export const ProjectProvider = ({ children }) => {
 
   // State ----------------------------
   const [projects, setProjects] = useState(initialProjects);
+  //console.log(`Context ==== ${JSON.stringify(projects)}`);
 
   // Handlers -------------------------
   const loadProjects = async () => {
@@ -33,13 +34,11 @@ export const ProjectProvider = ({ children }) => {
       console.log("Failed to save project to AsyncStorage", error);
     }
   };
-
   useEffect(() => {
     loadProjects();
   }, []);
-
   useEffect(() => {
-    console.log("saved");
+    console.log("SAVED");
     saveProjects();
   }, [projects]);
 
@@ -62,16 +61,12 @@ export const ProjectProvider = ({ children }) => {
   };
 
   const handleModify = async (updatedProject) => {
-    const modifiedProjects = projects.map((project) =>
-      project.id === updatedProject.id ? updatedProject : project
-    );
+    const modifiedProjects = projects.map((project) => (project.id === updatedProject.id ? updatedProject : project));
     setProjects(modifiedProjects);
   };
 
   const handleDelete = async (projectId) => {
-    const updatedProjects = projects.filter(
-      (project) => project.id !== projectId
-    );
+    const updatedProjects = projects.filter((project) => project.id !== projectId);
     setProjects(updatedProjects);
   };
 
@@ -82,9 +77,7 @@ export const ProjectProvider = ({ children }) => {
   };
   const handleModifyTask = async (projectId, updatedTask) => {
     const project = projects.find((project) => project.id === projectId);
-    let newProjectTasks = project.tasks.map((task) =>
-      task.id == updatedTask.id ? updatedTask : task
-    );
+    let newProjectTasks = project.tasks.map((task) => (task.id == updatedTask.id ? updatedTask : task));
     project.tasks = newProjectTasks;
     handleModify(project);
   };
@@ -101,6 +94,25 @@ export const ProjectProvider = ({ children }) => {
     console.log("DELETING", updatedProjects);
   };
 
+  //USE THIS TO GET THE PROJECT. PASS the projectID through props and use this to manipulate the selected project. passing and using the project from props causes state problems.
+  // force get the project again to force state to be synced
+  const getProject = async (projectId) => {
+    const project = projects.find((project) => project.id === projectId);
+    return project;
+  };
+
+  const getTask = async (projectId, task) => {
+    const project = projects.find((project) => project.id === projectId);
+    const selectedTask = project.tasks.find((tasky) => tasky.id === task.id);
+    return selectedTask;
+  };
+
+  const handleCompleteProject = async (projectId) => {
+    const selectedProject = getProject(projectId)._j;
+    selectedProject.isCompleted = true;
+    handleModify(selectedProject);
+  };
+
   // View -----------------------------
   return (
     <ProjectContext.Provider
@@ -113,6 +125,9 @@ export const ProjectProvider = ({ children }) => {
         handleAddTask,
         handleModifyTask,
         updateProjectTasks,
+        getProject,
+        getTask,
+        handleCompleteProject,
       }}
     >
       {children}

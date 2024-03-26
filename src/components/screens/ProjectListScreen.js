@@ -1,11 +1,4 @@
-import {
-  Keyboard,
-  Pressable,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Keyboard, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import * as Font from "expo-font";
 import React, { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
@@ -22,11 +15,12 @@ const ProjectListScreen = ({ navigation }) => {
   };
 
   const { projects } = useContext(ProjectContext);
-
   // State ---------------------------
   const [search, setSearch] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
   const [fontsLoaded, setFontsLoaded] = useState(false);
+
+  //console.log(JSON.stringify(projects));
 
   useEffect(() => {
     const loadFonts = async () => {
@@ -47,7 +41,7 @@ const ProjectListScreen = ({ navigation }) => {
     if (search != null) {
       setSearchResults(
         projects.filter((project) => {
-          return project.name.includes(search);
+          return project.name.toLowerCase().includes(search.toLowerCase());
         })
       );
     }
@@ -65,16 +59,8 @@ const ProjectListScreen = ({ navigation }) => {
     <View style={styles.container}>
       <Text style={styles.h1}>Your Projects</Text>
       <Text style={styles.h2}>Upcoming</Text>
-      <SearchBar
-        placeholder={"Project name"}
-        value={search}
-        onChange={handleSearch}
-      />
-      {!search ? (
-        <ProjectList projects={projects} onPress={gotoTaskListScreen} />
-      ) : (
-        <ProjectList projects={searchResults} onPress={gotoTaskListScreen} />
-      )}
+      <SearchBar placeholder={"Project name"} value={search} onChange={handleSearch} />
+      {!search ? <ProjectList projects={projects} onPress={gotoTaskListScreen} /> : <ProjectList projects={searchResults} onPress={gotoTaskListScreen} />}
     </View>
   );
 };

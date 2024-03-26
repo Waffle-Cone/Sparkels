@@ -1,3 +1,13 @@
+// -----------------------------------------------------
+
+// ACKNOWLEDING EXTERNAL CONTENT
+
+// Some of the following code was wholly, or in part, taken or adapted from the following online source(s):
+
+// Calander component documentation, https://www.npmjs.com/package/react-native-calendars
+
+// -----------------------------------------------------
+
 import { Button, Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { Calendar } from "react-native-calendars";
@@ -5,10 +15,12 @@ import Project from "../../classes/Project";
 import { ProjectContext } from "../../context/ProjectContext";
 import Form from "../../UI/Form";
 import { useIsFocused } from "@react-navigation/native";
+import NextID from "../../util/NextID";
 
 const ProjectForm = ({ navigation, submitType, formTitle, selectedProject, goBack }) => {
   // Initialisations ------------------
   const newProject = new Project();
+  newProject.isCompleted = false;
 
   //error messages to display if submition is wrong
   const errorMessage = {
@@ -17,21 +29,11 @@ const ProjectForm = ({ navigation, submitType, formTitle, selectedProject, goBac
     dueDate: "Enter project due date",
     tasks: "",
     id: "",
+    isCompleted: "",
   };
 
   //++ getting submition handler from context
   const { projects, handleAdd, handleModify } = useContext(ProjectContext);
-
-  //find max id number and add 1 for new project id
-  const getNextID = () => {
-    let iDList = [];
-    projects.map((project) => {
-      iDList.push(project.id);
-    });
-    const max = Math.max(...iDList);
-    const newID = max + 1;
-    return newID;
-  };
 
   // State ----------------------------
   const [project, setProject] = useState(selectedProject || newProject);
@@ -55,9 +57,13 @@ const ProjectForm = ({ navigation, submitType, formTitle, selectedProject, goBac
   const checkProject = (project) => {
     let isProjectValid = true;
     Object.keys(project).forEach((key) => {
-      if (!project[key]) {
-        errors[key] = errorMessage[key];
-        isProjectValid = false;
+      if (key !== "isCompleted") {
+        if (!project[key]) {
+          errors[key] = errorMessage[key];
+          isProjectValid = false;
+        } else {
+          errors[key] = null;
+        }
       } else {
         errors[key] = null;
       }
@@ -68,10 +74,12 @@ const ProjectForm = ({ navigation, submitType, formTitle, selectedProject, goBac
 
   const handleSubmit = () => {
     if (!selectedProject) {
-      project.id = getNextID();
+      project.id = NextID.project(projects);
     }
     const check = checkProject(project);
     setErrors({ ...errors });
+    console.log(errors);
+    console.log(project);
     if (check) {
       if (selectedProject) {
         selectedProject.name = project.name;

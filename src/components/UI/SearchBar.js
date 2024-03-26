@@ -1,3 +1,13 @@
+// -----------------------------------------------------
+
+// ACKNOWLEDING EXTERNAL CONTENT
+
+// Some of the following code was wholly, or in part, taken or adapted from the following online source(s):
+
+// help with style when pressing button, https://reactnative.dev/docs/pressable
+
+// -----------------------------------------------------
+
 import { Pressable, StyleSheet, TextInput, View, Text } from "react-native";
 import SearchLayout from "../layout/SearchLayout";
 import Icons from "./Icons";
@@ -25,7 +35,6 @@ const SearchBar = ({ value, onChange, placeholder }) => {
               {
                 height: pressed ? 1 : 25,
               },
-              styles.wrapperCustom,
             ]}
           >
             <Icons.SearchCancel />

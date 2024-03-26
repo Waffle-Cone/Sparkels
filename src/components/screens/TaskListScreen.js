@@ -8,9 +8,9 @@ import TaskList from "../entity/task/TaskList";
 const TaskListScreen = ({ navigation, route }) => {
   // Initialisations ------------------
   const { project } = route.params;
+  const { handleDelete } = useContext(ProjectContext);
 
   // State ----------------------------
-  const { handleDelete } = useContext(ProjectContext);
 
   // Handlers -------------------------
   const onDelete = () => {

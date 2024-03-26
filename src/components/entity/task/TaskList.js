@@ -15,6 +15,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const TaskList = ({ navigation, project }) => {
   // Initialisations ------------------
+  const { handleDeleteTask, updateProjectTasks } = useContext(ProjectContext);
 
   // String is displayed to user
   const displayTaskTime = (value) => {
@@ -27,7 +28,6 @@ const TaskList = ({ navigation, project }) => {
 
   // State ----------------------------
   const [tasks, setTasks] = useState(project.tasks);
-  const { handleDeleteTask, updateProjectTasks } = useContext(ProjectContext);
 
   // Handlers -------------------------
   const requestDeleteTask = (projectId, taskId) => {

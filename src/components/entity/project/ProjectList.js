@@ -1,5 +1,6 @@
 import { TouchableOpacity, View, StyleSheet, Text } from "react-native";
 import Icons from "../../UI/Icons";
+import { ScrollView } from "react-native-gesture-handler";
 
 const ProjectList = ({ projects, onPress }) => {
   // Initialisations ---------------------
@@ -9,7 +10,16 @@ const ProjectList = ({ projects, onPress }) => {
   return projects.map((project) => {
     return (
       <TouchableOpacity key={project.id} onPress={() => onPress(project)}>
-        <View style={project.isCompleted ? [styles.projectContainer, { backgroundColor: "#33d436", borderColor: "#0fb811" }] : styles.projectContainer}>
+        <View
+          style={
+            project.isCompleted
+              ? [
+                  styles.projectContainer,
+                  { backgroundColor: "#33d436", borderColor: "#0fb811" },
+                ]
+              : styles.projectContainer
+          }
+        >
           <View style={styles.projectDetails}>
             <Text>Project name: {project.name}</Text>
             <Text>Description: {project.description}</Text>

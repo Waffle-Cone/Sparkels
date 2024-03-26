@@ -37,7 +37,13 @@ export default function App() {
           <Stack.Screen
             name="TaskListScreen"
             component={TaskListScreen}
-            options={{ title: " " }}
+            options={{
+              title: " ",
+              headerStyle: {
+                backgroundColor: "#607C9E",
+              },
+              headerTintColor: "#fff",
+            }}
           />
           <Stack.Screen
             name="AddTaskScreen"

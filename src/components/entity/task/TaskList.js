@@ -9,12 +9,22 @@
 // -----------------------------------------------------
 
 import "react-native-gesture-handler";
-import { StyleSheet, Text, TouchableOpacity, View, Alert, Vibration } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Alert,
+  Vibration,
+} from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "../../context/ProjectContext";
 import Icons from "../../UI/Icons";
 import DraggableFlatList from "react-native-draggable-flatlist";
-import { GestureHandlerRootView, ScrollView } from "react-native-gesture-handler";
+import {
+  GestureHandlerRootView,
+  ScrollView,
+} from "react-native-gesture-handler";
 import TaskItem from "./TaskItem";
 
 const TaskList = ({ navigation, project }) => {
@@ -22,7 +32,6 @@ const TaskList = ({ navigation, project }) => {
 
   const { getProject } = useContext(ProjectContext);
   const selectedProject = getProject(project.id)._j;
-
 
   // String is displayed to user
   const displayTaskTime = (value) => {
@@ -37,22 +46,25 @@ const TaskList = ({ navigation, project }) => {
   const [tasks, setTasks] = useState(selectedProject.tasks);
   const { handleDeleteTask, updateProjectTasks } = useContext(ProjectContext);
 
-
   useEffect(() => {
     setTasks(selectedProject.tasks);
   }, [selectedProject.tasks]);
   // Handlers -------------------------
   const requestDeleteTask = (projectId, taskId) => {
-    Alert.alert("Delete Task", "Are you sure that you want to delete this Task?", [
-      { text: "Cancel" },
-      {
-        text: "Delete",
-        style: "destructive",
-        onPress: async () => {
-          await handleDeleteTask(projectId, taskId);
+    Alert.alert(
+      "Delete Task",
+      "Are you sure that you want to delete this Task?",
+      [
+        { text: "Cancel" },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: async () => {
+            await handleDeleteTask(projectId, taskId);
+          },
         },
-      },
-    ]);
+      ]
+    );
   };
 
   const goToAddTask = (selectedProject) => {
@@ -80,9 +92,19 @@ const TaskList = ({ navigation, project }) => {
           Vibration.vibrate();
           drag();
         }}
-        style={[styles.taskItem, isActive ? { backgroundColor: "#C7DCF5" } : { backgroundColor: "#E3E8ED" }]}
+        style={[
+          styles.taskItem,
+          isActive
+            ? { backgroundColor: "#C7DCF5" }
+            : { backgroundColor: "#E3E8ED" },
+        ]}
       >
-        <TaskItem item={item} project={project} goToModifyTask={goToModifyTask} requestDeleteTask={requestDeleteTask} />
+        <TaskItem
+          item={item}
+          project={project}
+          goToModifyTask={goToModifyTask}
+          requestDeleteTask={requestDeleteTask}
+        />
       </TouchableOpacity>
     );
   };
@@ -94,13 +116,21 @@ const TaskList = ({ navigation, project }) => {
       <View style={styles.taskContainer}>
         <View style={styles.task}>
           <Text style={styles.h1Tasks}>Tasks</Text>
-          <TouchableOpacity style={styles.addTaskButton} onPress={() => goToAddTask(selectedProject)}>
+          <TouchableOpacity
+            style={styles.addTaskButton}
+            onPress={() => goToAddTask(selectedProject)}
+          >
             <Text style={styles.textTaskButton}>Add a Task</Text>
             <Icons.AddIcon />
           </TouchableOpacity>
         </View>
 
-        <DraggableFlatList data={tasks} renderItem={renderTaskItem} keyExtractor={(item) => `draggable-item-${item.id}`} onDragEnd={onDragEnd} />
+        <DraggableFlatList
+          data={tasks}
+          onDragEnd={onDragEnd}
+          keyExtractor={(item) => `draggable-item-${item.id}`}
+          renderItem={renderTaskItem}
+        />
       </View>
     </GestureHandlerRootView>
   );
@@ -144,7 +174,6 @@ const styles = StyleSheet.create({
     color: "black",
   },
   h2: {
-    //paddingBottom: 10,
     alignItems: "center",
     justifyContent: "center",
     fontSize: 16,
@@ -155,9 +184,6 @@ const styles = StyleSheet.create({
     padding: 15,
     marginVertical: 10,
     borderBottomWidth: 4,
-    borderTopWidth: 0,
-    borderLeftWidth: 0,
-    borderRightWidth: 0,
     backgroundColor: "grey",
     borderRadius: 10,
     borderColor: "#7F8FA2",

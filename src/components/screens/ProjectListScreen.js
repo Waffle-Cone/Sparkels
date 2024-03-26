@@ -1,5 +1,23 @@
-import { Keyboard, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import * as Font from "expo-font";
+// -----------------------------------------------------
+
+// ACKNOWLEDING EXTERNAL CONTENT
+
+// Some of the following code was wholly, or in part, taken or adapted from the following online source(s):
+
+// Fonts documentation https://docs.expo.dev/develop/user-interface/fonts/
+
+// -----------------------------------------------------
+
+import {
+  Keyboard,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Image,
+} from "react-native";
+import { useFonts } from "expo-font";
 import React, { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 import SearchBar from "../UI/SearchBar.js";
@@ -7,33 +25,18 @@ import ProjectList from "../entity/project/ProjectList";
 
 const ProjectListScreen = ({ navigation }) => {
   // Initialisations ------------------
-  const useFonts = async () => {
-    await Font.loadAsync({
-      AnybodyBold: require("./../../../assets/fonts/Anybody-Bold.ttf"),
-      AnybodyRegular: require("./../../../assets/fonts/Anybody-Regular.ttf"),
-    });
-  };
 
-  const { projects } = useContext(ProjectContext);
+  const [fontsLoaded] = useFonts({
+    AnybodyBold: require("./../../../assets/fonts/Anybody-Bold.ttf"),
+    AnybodyRegular: require("./../../../assets/fonts/Anybody-Regular.ttf"),
+  });
+
   // State ---------------------------
+  const { projects } = useContext(ProjectContext);
   const [search, setSearch] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
-  const [fontsLoaded, setFontsLoaded] = useState(false);
 
   //console.log(JSON.stringify(projects));
-
-  useEffect(() => {
-    const loadFonts = async () => {
-      await useFonts();
-      setFontsLoaded(true);
-    };
-
-    loadFonts();
-  }, []);
-
-  if (!fontsLoaded) {
-    return null;
-  }
 
   // Handlers -------------------------
   const handleSearch = (search) => {
@@ -57,10 +60,24 @@ const ProjectListScreen = ({ navigation }) => {
   // View -----------------------------
   return (
     <View style={styles.container}>
-      <Text style={styles.h1}>Your Projects</Text>
-      <Text style={styles.h2}>Upcoming</Text>
-      <SearchBar placeholder={"Project name"} value={search} onChange={handleSearch} />
-      {!search ? <ProjectList projects={projects} onPress={gotoTaskListScreen} /> : <ProjectList projects={searchResults} onPress={gotoTaskListScreen} />}
+      <Image
+        source={require("../../../assets/notebookHeader.png")}
+        style={styles.notebook}
+      />
+      <View style={styles.notebookBorder}>
+        <Text style={styles.h1}>Your Projects</Text>
+        <Text style={styles.h2}>To do</Text>
+        <SearchBar
+          placeholder={"Project name"}
+          value={search}
+          onChange={handleSearch}
+        />
+        {!search ? (
+          <ProjectList projects={projects} onPress={gotoTaskListScreen} />
+        ) : (
+          <ProjectList projects={searchResults} onPress={gotoTaskListScreen} />
+        )}
+      </View>
     </View>
   );
 };
@@ -70,10 +87,30 @@ export default ProjectListScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    paddingTop: 80,
-    //margin: 20,
+    padding: 5,
+    paddingTop: 95,
+    backgroundColor: "#8390FA",
+  },
+  notebook: {
+    position: "absolute",
+    alignSelf: "center",
+    height: "8%",
+    width: "100%",
+    marginTop: 80,
+    zIndex: 2,
+  },
+  notebookBorder: {
+    borderRadius: 15,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderBottomWidth: 1,
+    padding: 15,
+    margin: 5,
+    paddingTop: 55,
+    paddingBottom: 50,
     backgroundColor: "white",
+    zIndex: 1,
+    marginTop: 20,
   },
   h1: {
     alignItems: "center",

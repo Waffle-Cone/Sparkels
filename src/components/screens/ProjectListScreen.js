@@ -6,7 +6,7 @@
 
 // Fonts documentation https://docs.expo.dev/develop/user-interface/fonts/
 
-// React Native Tab View https://reactnavigation.org/docs/tab-view/
+// Data Filter when pressing buttons https://codesandbox.io/p/sandbox/data-filter-when-pressing-buttons-react-native-iszf2?file=%2Fsrc%2FApp.js
 
 // -----------------------------------------------------
 
@@ -16,7 +16,7 @@ import {
   Text,
   View,
   Image,
-  useWindowDimensions,
+  TouchableOpacity,
 } from "react-native";
 import { useFonts } from "expo-font";
 import React, { useContext, useEffect, useState } from "react";
@@ -32,17 +32,10 @@ const ProjectListScreen = ({ navigation }) => {
     AnybodyRegular: require("./../../../assets/fonts/Anybody-Regular.ttf"),
   });
 
-  const layout = useWindowDimensions();
-
   // State ---------------------------
   const { projects } = useContext(ProjectContext);
   const [search, setSearch] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
-  const [index, setIndex] = useState(0);
-  const [routes] = useState([
-    { key: "todo", title: "To do" },
-    { key: "completed", title: "Completed" },
-  ]);
 
   //console.log(JSON.stringify(projects));
 
@@ -65,19 +58,6 @@ const ProjectListScreen = ({ navigation }) => {
     Keyboard.dismiss();
   };
 
-  const ToDoProjects = () => (
-    <View style={{ flex: 1, backgroundColor: "#ff4081" }} />
-  );
-
-  const CompletedProjects = () => (
-    <View style={{ flex: 1, backgroundColor: "#673ab7" }} />
-  );
-
-  const renderScene = SceneMap({
-    todo: ToDoProjects,
-    completed: CompletedProjects,
-  });
-
   // View -----------------------------
   return (
     <View style={styles.container}>
@@ -87,14 +67,16 @@ const ProjectListScreen = ({ navigation }) => {
       />
       <View style={styles.notebookBorder}>
         <Text style={styles.h1}>Your Projects</Text>
-        <TabView
-          navigationState={{ index, routes }}
-          renderScene={renderScene}
-          onIndexChange={setIndex}
-          style={styles.tabView}
-          initialLayout={{ width: layout.width }}
-        />
-        <Text style={styles.h2}>To do</Text>
+
+        <View style={styles.filterButtonsContainer}>
+          <TouchableOpacity style={styles.todoButton}>
+            <Text style={styles.h2}>To do</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.completedButton}>
+            <Text style={styles.h2}>Completed</Text>
+          </TouchableOpacity>
+        </View>
+
         <SearchBar
           placeholder={"Project name"}
           value={search}
@@ -158,36 +140,33 @@ const styles = StyleSheet.create({
     color: "black",
     fontFamily: "AnybodyRegular",
   },
-  projectContainer: {
-    borderRadius: 10,
-    borderColor: "#607C9E",
-    borderBottomWidth: 6,
-    borderTopWidth: 1,
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
-    backgroundColor: "#C2E7E3",
-    marginVertical: 10,
-    padding: 20,
+  filterButtonsContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
+    marginVertical: 20,
+    borderRadius: 10,
+  },
+  todoButton: {
+    flex: 1,
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderColor: "#607C9E",
+    borderWidth: 1,
+    backgroundColor: "#C2E7E3",
+    padding: 15,
+    //flexDirection: "row",
+    justifyContent: "center",
     alignItems: "center",
   },
-  projectDetails: {
+  completedButton: {
     flex: 1,
-  },
-  tabView: {
-    flex: 1,
-    marginTop: 20,
-    backgroundColor: "transparent",
-  },
-  tabBar: {
-    backgroundColor: "red",
-  },
-  label: {
-    color: "black",
-    fontWeight: "bold",
-  },
-  indicator: {
-    backgroundColor: "red",
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
+    borderColor: "#607C9E",
+    borderWidth: 1,
+    backgroundColor: "#C2E7E3",
+    padding: 15,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

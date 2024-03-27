@@ -11,7 +11,7 @@ export const ProjectProvider = ({ children }) => {
   const [projects, setProjects] = useState(initialProjects);
   //console.log(`Context ==== ${JSON.stringify(projects)}`);
 
-  // Handlers -------------------------
+  // Persistent Storage ---------------
   const loadProjects = async () => {
     console.log("load");
 
@@ -43,6 +43,7 @@ export const ProjectProvider = ({ children }) => {
     saveProjects();
   }, [projects]);
 
+  // Handlers -------------------------
   const updateProjectTasks = (projectId, newTasks) => {
     setProjects((prevProjects) => {
       return prevProjects.map((project) => {

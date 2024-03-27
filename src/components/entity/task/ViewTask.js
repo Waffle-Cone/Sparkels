@@ -139,7 +139,13 @@ const ViewTask = ({ navigation, task, project }) => {
           needsOvertime();
         },
       },
-      { text: "Yes", onPress: hasCompletedTask },
+      {
+        text: "Yes",
+        onPress: () => {
+          updatedTask.actualTime = updatedTask.actualTime + 1;
+          hasCompletedTask();
+        },
+      },
     ]);
   };
 

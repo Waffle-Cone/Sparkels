@@ -68,6 +68,14 @@ const TaskList = ({ navigation, project }) => {
     navigation.navigate("ViewTaskScreen", { selectedProject, task });
   };
 
+  const backgroundColorSelector = (item) => {
+    if (item.completedStatus === 3) {
+      return { backgroundColor: "#C2E7E3" };
+    } else {
+      return { backgroundColor: "#E3E8ED" };
+    }
+  };
+
   const renderTaskItem = ({ item, drag, isActive }) => {
     //console.log(`TaskList IEMS ==== ${JSON.stringify(item)}`);
     return (
@@ -77,7 +85,7 @@ const TaskList = ({ navigation, project }) => {
           Vibration.vibrate();
           drag();
         }}
-        style={[styles.taskItem, isActive ? { backgroundColor: "#C7DCF5" } : { backgroundColor: "#E3E8ED" }]}
+        style={[styles.taskItem, isActive ? { backgroundColor: "#C7DCF5" } : backgroundColorSelector(item)]}
       >
         <TaskItem item={item} project={project} goToModifyTask={goToModifyTask} requestDeleteTask={requestDeleteTask} />
       </TouchableOpacity>

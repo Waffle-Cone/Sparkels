@@ -39,6 +39,11 @@ const ProjectListScreen = ({ navigation }) => {
     AnybodyRegular: require("./../../../assets/fonts/Anybody-Regular.ttf"),
   });
 
+  //<Image
+  //        source={require("../../../assets/notebookHeader.png")}
+  //        style={styles.notebook}
+  //     />
+
   // State ---------------------------
   const { projects } = useContext(ProjectContext);
   const [filterButton, setFilterButton] = useState("todo");
@@ -78,51 +83,52 @@ const ProjectListScreen = ({ navigation }) => {
 
   // View -----------------------------
   return (
-    <View style={styles.container}>
-      <Image
-        source={require("../../../assets/notebookHeader.png")}
-        style={styles.notebook}
-      />
-      <View style={styles.notebookBorder}>
-        <Text style={styles.h1}>Your Projects</Text>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <View style={styles.container}>
+        <View style={styles.notebookBorder}>
+          <Text style={styles.h1}>Your Projects</Text>
 
-        <View style={styles.filterButtonsContainer}>
-          <TouchableOpacity
-            style={[
-              styles.todoButton,
-              filterButton === "todo"
-                ? styles.activeButton
-                : styles.inactiveButton,
-            ]}
-            onPress={() => setFilterButton("todo")}
-          >
-            <Text style={styles.h2}>To do</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles.completedButton,
-              filterButton === "completed"
-                ? styles.activeButton
-                : styles.inactiveButton,
-            ]}
-            onPress={() => setFilterButton("completed")}
-          >
-            <Text style={styles.h2}>Completed</Text>
-          </TouchableOpacity>
+          <View style={styles.filterButtonsContainer}>
+            <TouchableOpacity
+              style={[
+                styles.todoButton,
+                filterButton === "todo"
+                  ? styles.activeButton
+                  : styles.inactiveButton,
+              ]}
+              onPress={() => setFilterButton("todo")}
+            >
+              <Text style={styles.h2}>To do</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.completedButton,
+                filterButton === "completed"
+                  ? styles.activeButton
+                  : styles.inactiveButton,
+              ]}
+              onPress={() => setFilterButton("completed")}
+            >
+              <Text style={styles.h2}>Completed</Text>
+            </TouchableOpacity>
+          </View>
+
+          <SearchBar
+            placeholder={"Search project"}
+            value={search}
+            onChange={handleSearch}
+          />
+          {!search ? (
+            <ProjectList projects={projects} onPress={gotoTaskListScreen} />
+          ) : (
+            <ProjectList
+              projects={searchResults}
+              onPress={gotoTaskListScreen}
+            />
+          )}
         </View>
-
-        <SearchBar
-          placeholder={"Search project"}
-          value={search}
-          onChange={handleSearch}
-        />
-        {!search ? (
-          <ProjectList projects={projects} onPress={gotoTaskListScreen} />
-        ) : (
-          <ProjectList projects={searchResults} onPress={gotoTaskListScreen} />
-        )}
       </View>
-    </View>
+    </GestureHandlerRootView>
   );
 };
 
@@ -132,26 +138,26 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 5,
-    paddingTop: 95,
+    paddingTop: 50,
     backgroundColor: "#8390FA",
   },
   notebook: {
-    position: "absolute",
+    //position: "absolute",
     alignSelf: "center",
     height: "8%",
     width: "100%",
-    top: 95,
-    zIndex: 2,
+    top: 50,
+    zIndex: 1,
   },
   notebookBorder: {
+    height: 760,
     borderRadius: 15,
     borderWidth: 1,
     padding: 15,
     margin: 5,
     paddingTop: 55,
-    paddingBottom: 50,
+    paddingBottom: 20,
     backgroundColor: "white",
-    zIndex: 1,
     marginTop: 20,
   },
   h1: {

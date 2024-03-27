@@ -1,18 +1,23 @@
-import { TouchableOpacity, View, StyleSheet, Text } from "react-native";
-import Icons from "../../UI/Icons";
 import {
+  TouchableOpacity,
+  View,
+  StyleSheet,
+  Text,
+  FlatList,
   ScrollView,
-  GestureHandlerRootView,
-} from "react-native-gesture-handler";
+} from "react-native";
+import Icons from "../../UI/Icons";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const ProjectList = ({ projects, onPress }) => {
   // Initialisations ---------------------
   // State -------------------------------
   // Handlers ----------------------------
+
   // View --------------------------------
   return (
-    <GestureHandlerRootView>
-      <ScrollView>
+    <ScrollView style={styles.container}>
+      <View style={styles.viewContainer}>
         {projects.map((project) => (
           <TouchableOpacity key={project.id} onPress={() => onPress(project)}>
             <View
@@ -37,8 +42,8 @@ const ProjectList = ({ projects, onPress }) => {
             </View>
           </TouchableOpacity>
         ))}
-      </ScrollView>
-    </GestureHandlerRootView>
+      </View>
+    </ScrollView>
   );
 };
 
@@ -46,8 +51,14 @@ export default ProjectList;
 
 const styles = StyleSheet.create({
   container: {
+    paddingBottom: 100,
+  },
+  viewContainer: {
+    //flexDirection: "column",
+    //flexWrap: "wrap",
+    //alignItems: "flex-start",
     flex: 1,
-    flexDirection: "column",
+    overflow: "hidden",
   },
   projectContainer: {
     borderRadius: 10,
@@ -67,6 +78,6 @@ const styles = StyleSheet.create({
     backgroundColor: "red",
   },
   projectDetails: {
-    flex: 1,
+    //flex: 1,
   },
 });

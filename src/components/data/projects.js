@@ -1,7 +1,7 @@
 import Project from "../classes/Project";
 import Task from "../classes/Task";
 
-const first = new Project(1, "MAD 1", "This is soooo long", "2024-02-22", false);
+const first = new Project(1, "MAD 1", "This is sooo long", "2024-02-22", false);
 first.tasks.push(new Task(1.1, "Task", "Helppp", 60, 300, 1598050860000, 1598051100000));
 first.tasks.push(new Task(1.2, "Task", "Helppp", 60, 300, 1598050860000, 1598051100000));
 

@@ -7,6 +7,7 @@ class Project {
     this.dueDate = dueDate;
     this.tasks = [];
     this.isCompleted = isCompleted;
+    this.selectedColor = ["#D8DCFF", "#484F8A"]; // [backgroundColor, borderColor]
   }
 }
 

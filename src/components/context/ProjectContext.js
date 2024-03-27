@@ -38,7 +38,6 @@ export const ProjectProvider = ({ children }) => {
   useEffect(() => {
     loadProjects();
   }, []);
-
   useEffect(() => {
     console.log("SAVED");
     saveProjects();
@@ -64,16 +63,12 @@ export const ProjectProvider = ({ children }) => {
   };
 
   const handleModify = async (updatedProject) => {
-    const modifiedProjects = projects.map((project) =>
-      project.id === updatedProject.id ? updatedProject : project
-    );
+    const modifiedProjects = projects.map((project) => (project.id === updatedProject.id ? updatedProject : project));
     setProjects(modifiedProjects);
   };
 
   const handleDelete = async (projectId) => {
-    const updatedProjects = projects.filter(
-      (project) => project.id !== projectId
-    );
+    const updatedProjects = projects.filter((project) => project.id !== projectId);
     setProjects(updatedProjects);
   };
 
@@ -84,9 +79,7 @@ export const ProjectProvider = ({ children }) => {
   };
   const handleModifyTask = async (projectId, updatedTask) => {
     const project = projects.find((project) => project.id === projectId);
-    let newProjectTasks = project.tasks.map((task) =>
-      task.id == updatedTask.id ? updatedTask : task
-    );
+    let newProjectTasks = project.tasks.map((task) => (task.id == updatedTask.id ? updatedTask : task));
     project.tasks = newProjectTasks;
     handleModify(project);
   };

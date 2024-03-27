@@ -46,9 +46,6 @@ const ViewTask = ({ navigation, task, project }) => {
     // task in overtime mode
     console.log("Overtime");
     overtimeClock = task.actualTime - task.goalTime;
-    overtimeClock;
-    // loadCountdownTime = 0;
-    console.log(` loaded countdown time${loadCountdownTime}`);
   }
 
   // console.log(`Is this object Frozen( cant be changed) ==== ${Object.isFrozen(task)}`); // I HATE CONTEXT>>>>> WHY IS IT FROZEN ON LOADING!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -87,6 +84,13 @@ const ViewTask = ({ navigation, task, project }) => {
     handleModifyTask(project.id, updatedTask);
   }, [actualTime]);
 
+  useEffect(() => {
+    if (updatedTask.completedStatus === 4) {
+      setUpdatedTask({ ...updatedTask });
+      handleModifyTask(project.id, updatedTask);
+    }
+  }, []);
+
   // Handlers -------------------------
   const handleStartTimer = () => {
     if (updatedTask.completedStatus === 1) {
@@ -118,11 +122,12 @@ const ViewTask = ({ navigation, task, project }) => {
   const hasCompletedTask = () => {
     console.log("Well done!");
     updatedTask.completedStatus = 3;
+    setUpdatedTask({ ...updatedTask, ["completedStatus"]: 3 });
+
     // completed successfully
     setCompletedStatus(3);
-    console.log(updatedTask.completedStatus);
+    console.log(JSON.stringify(updatedTask) + " completed successfully");
     handleModifyTask(project.id, updatedTask);
-    navigation.goBack();
   };
 
   const needsOvertime = () => {
@@ -145,7 +150,14 @@ const ViewTask = ({ navigation, task, project }) => {
           needsOvertime();
         },
       },
-      { text: "Yes", onPress: hasCompletedTask },
+      {
+        text: "Yes",
+        onPress: () => {
+          updatedTask.actualTime = updatedTask.actualTime + 1;
+          hasCompletedTask();
+          navigation.goBack();
+        },
+      },
     ]);
   };
 

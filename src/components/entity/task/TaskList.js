@@ -72,6 +72,8 @@ const TaskList = ({ navigation, project }) => {
   const backgroundColorSelector = (item) => {
     if (item.completedStatus === 3) {
       return { backgroundColor: "#C2E7E3" };
+    } else if (item.completedStatus === 2) {
+      return { backgroundColor: "#FFE093" };
     } else {
       return { backgroundColor: "#E3E8ED" };
     }

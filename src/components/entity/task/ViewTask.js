@@ -165,7 +165,7 @@ const ViewTask = ({ navigation, task, project }) => {
             {completedStatus !== 4 ? (
               <MyCountdownCircleTimer
                 isPlaying={isPlaying}
-                countdownTime={2}
+                countdownTime={countdownTime}
                 updatedTask={updatedTask}
                 setActualTime={setActualTime}
                 actualTime={actualTime}

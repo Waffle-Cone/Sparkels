@@ -1,7 +1,17 @@
+// -----------------------------------------------------
+
+// ACKNOWLEDING EXTERNAL CONTENT
+
+// Some of the following code was wholly, or in part, taken or adapted from the following online source(s):
+// https://www.npmjs.com/package/react-native-radio-buttons-group
+
+// -----------------------------------------------------
+
 import { Platform, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, View, Pressable, TouchableOpacity } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import FormLayout from "../layout/FormLayout";
-import { useRef } from "react";
+import { useRef, useMemo, useState } from "react";
+import RadioGroup from "react-native-radio-buttons-group";
 
 const Form = ({ children, submitType, onSubmit, onCancel, title }) => {
   const scrollRef = useRef();
@@ -59,6 +69,20 @@ const InputSelect = ({ label, prompt, options, value, onChange }) => {
     </View>
   );
 };
+
+const ColorPicker = ({ label, prompt, radioButtons, selectedId, onChange }) => {
+  return (
+    <View>
+      <RadioGroup radioButtons={radioButtons} onPress={(id) => onChange(id)} selectedId={selectedId} layout="row" />
+    </View>
+  );
+};
+
+Form.InputText = InputText;
+Form.InputSelect = InputSelect;
+Form.ColorPicker = ColorPicker;
+
+export default Form;
 
 const styles = StyleSheet.create({
   formContainer: {
@@ -129,8 +153,3 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-
-Form.InputText = InputText;
-Form.InputSelect = InputSelect;
-
-export default Form;

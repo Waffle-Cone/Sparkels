@@ -5,11 +5,13 @@
 // Some of the following code was wholly, or in part, taken or adapted from the following online source(s):
 
 // Calander component documentation, https://www.npmjs.com/package/react-native-calendars
+// https://github.com/ThakurBallary/react-native-radio-buttons-group/blob/main/lib/RadioGroup.tsx
+// https://www.npmjs.com/package/react-native-radio-buttons-group
 
 // -----------------------------------------------------
 
 import { Button, Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { Calendar } from "react-native-calendars";
 import Project from "../../classes/Project";
 import { ProjectContext } from "../../context/ProjectContext";
@@ -32,6 +34,30 @@ const ProjectForm = ({ navigation, submitType, formTitle, selectedProject, goBac
     isCompleted: "",
   };
 
+  const radioButtons = useMemo(
+    () => [
+      {
+        id: "1", // acts as primary key, should be unique and non-empty string
+        label: "Default",
+        value: ["#D8DCFF", "#484F8A"], // [backgroundColor, borderColor]
+        color: "#D8DCFF",
+      },
+      {
+        id: "2", // acts as primary key, should be unique and non-empty string
+        label: "Purple",
+        value: ["#e44694", "#cb3e84"], // [backgroundColor, borderColor]
+        color: "#e44694",
+      },
+      {
+        id: "3",
+        label: "Orange",
+        value: ["#eb7474", "#cc6666"], // [backgroundColor, borderColor]
+        color: "#eb7474",
+      },
+    ],
+    []
+  );
+
   //++ getting submition handler from context
   const { projects, handleAdd, handleModify } = useContext(ProjectContext);
 
@@ -39,6 +65,7 @@ const ProjectForm = ({ navigation, submitType, formTitle, selectedProject, goBac
   const [project, setProject] = useState(selectedProject || newProject);
   const [selectedDate, setSelectedDate] = useState(project.dueDate || "");
   const [errors, setErrors] = useState(Object.keys(project).reduce((acc, key) => ({ ...acc, [key]: null }), {})); // = [name: null, description: null, dueDate: null, task: null, id: null]
+  const [selectedId, setSelectedId] = useState(1);
 
   //+++ reset the text inputs back to null when re - visiting
   React.useEffect(() => {
@@ -46,6 +73,7 @@ const ProjectForm = ({ navigation, submitType, formTitle, selectedProject, goBac
       setProject(selectedProject || newProject);
       setSelectedDate(project.dueDate || "");
       setErrors(Object.keys(project).reduce((acc, key) => ({ ...acc, [key]: null }), {})); // = [name: null, description: null, dueDate: null, task: null, id: null]);
+      setSelectedId(1);
     });
     return newPage;
   }, [navigation]);
@@ -71,6 +99,16 @@ const ProjectForm = ({ navigation, submitType, formTitle, selectedProject, goBac
     return isProjectValid;
   };
   const handleChange = (field, value) => setProject({ ...project, [field]: value });
+
+  const handleColorPicker = (id) => {
+    console.log(id);
+    const selectedButton = radioButtons.find((a) => a.id === id);
+    console.log(selectedButton);
+    const colorSelected = selectedButton.value;
+    console.log(colorSelected);
+    setSelectedId(id);
+    handleChange(["selectedColor"], colorSelected);
+  };
 
   const handleSubmit = () => {
     if (!selectedProject) {
@@ -121,8 +159,8 @@ const ProjectForm = ({ navigation, submitType, formTitle, selectedProject, goBac
           }}
         />
       ) : null}
-
       <Text style={styles.error}> {errors["dueDate"]}</Text>
+      <Form.ColorPicker onChange={handleColorPicker} radioButtons={radioButtons} selectedId={selectedId} />
     </Form>
   );
 };

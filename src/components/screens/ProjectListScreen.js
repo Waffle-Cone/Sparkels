@@ -22,15 +22,11 @@ import {
 } from "react-native";
 
 import React, { useContext, useEffect, useState } from "react";
-import {
-  ScrollView,
-  GestureHandlerRootView,
-} from "react-native-gesture-handler";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useFonts } from "expo-font";
 import { ProjectContext } from "../context/ProjectContext";
 import SearchBar from "../UI/SearchBar.js";
 import ProjectList from "../entity/project/ProjectList";
-import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 
 const ProjectListScreen = ({ navigation }) => {
   // Initialisations ------------------
@@ -44,29 +40,30 @@ const ProjectListScreen = ({ navigation }) => {
   const [filterButton, setFilterButton] = useState("todo");
   const [search, setSearch] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
+  const [filteredProjects, setFilteredProjects] = useState([]);
 
   //console.log(JSON.stringify(projects));
 
   // Handlers -------------------------
   useEffect(() => {
-    const filteredProjects = projects.filter((project) => {
-      if (filterButton === "todo") return !project.isCompleted;
-      if (filterButton === "completed") return project.isCompleted;
+    const filterType = projects.filter((project) => {
+      const matchesFilter =
+        filterButton === "completed"
+          ? project.isCompleted
+          : !project.isCompleted;
+      const matchesSearch = search
+        ? project.name.toLowerCase().includes(search.toLowerCase())
+        : true;
+      return matchesFilter && matchesSearch;
     });
-    setSearchResults(filteredProjects);
+
+    setFilteredProjects(filterType);
     console.log(filterButton);
     console.log(filteredProjects);
-  }, [projects, filterButton]);
+  }, [projects, filterButton, search]);
 
   const handleSearch = (search) => {
     setSearch(search);
-    if (search != null) {
-      setSearchResults(
-        projects.filter((project) => {
-          return project.name.toLowerCase().includes(search.toLowerCase());
-        })
-      );
-    }
   };
 
   //passing also the project object clicked
@@ -113,14 +110,10 @@ const ProjectListScreen = ({ navigation }) => {
             value={search}
             onChange={handleSearch}
           />
-          {!search ? (
-            <ProjectList projects={projects} onPress={gotoTaskListScreen} />
-          ) : (
-            <ProjectList
-              projects={searchResults}
-              onPress={gotoTaskListScreen}
-            />
-          )}
+          <ProjectList
+            projects={filteredProjects}
+            onPress={gotoTaskListScreen}
+          />
         </View>
       </View>
     </GestureHandlerRootView>

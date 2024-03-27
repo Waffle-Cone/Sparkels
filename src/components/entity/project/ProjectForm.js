@@ -45,8 +45,8 @@ const ProjectForm = ({ navigation, submitType, formTitle, selectedProject, goBac
       {
         id: "2", // acts as primary key, should be unique and non-empty string
         label: "Purple",
-        value: ["#e44694", "#cb3e84"], // [backgroundColor, borderColor]
-        color: "#e44694",
+        value: ["#d5a6bd", "#c27ba0"], // [backgroundColor, borderColor]
+        color: "#d5a6bd",
       },
       {
         id: "3",
@@ -147,20 +147,23 @@ const ProjectForm = ({ navigation, submitType, formTitle, selectedProject, goBac
       <Form.InputText label={"Project Description"} value={project.description} onChange={(value) => handleChange("description", value)} error={errors["description"]} />
 
       {isFocused ? (
-        <Calendar
-          current={project.dueDate}
-          enableSwipeMonths={true}
-          onDayPress={(day) => {
-            setSelectedDate(day.dateString);
-            handleChange("dueDate", day.dateString);
-          }}
-          markedDates={{
-            [selectedDate]: { selected: true, disableTouchEvents: true },
-          }}
-        />
+        <View>
+          <Text style={styles.itemLabel}>Project Due Date</Text>
+          <Calendar
+            current={project.dueDate}
+            enableSwipeMonths={true}
+            onDayPress={(day) => {
+              setSelectedDate(day.dateString);
+              handleChange("dueDate", day.dateString);
+            }}
+            markedDates={{
+              [selectedDate]: { selected: true, disableTouchEvents: true },
+            }}
+          />
+        </View>
       ) : null}
       <Text style={styles.error}> {errors["dueDate"]}</Text>
-      <Form.ColorPicker onChange={handleColorPicker} radioButtons={radioButtons} selectedId={selectedId} />
+      <Form.ColorPicker label={"Project Colour"} onChange={handleColorPicker} radioButtons={radioButtons} selectedId={selectedId} />
     </Form>
   );
 };
@@ -171,5 +174,10 @@ const styles = StyleSheet.create({
   error: {
     fontSize: 15,
     color: "red",
+  },
+  itemLabel: {
+    color: "black",
+    fontSize: 18,
+    marginBottom: 5,
   },
 });

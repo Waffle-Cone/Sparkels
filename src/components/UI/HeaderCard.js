@@ -1,9 +1,14 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
 
-const HeaderCard = ({ title, description, time, onPress }) => {
+const HeaderCard = ({ title, description, time, onPress, project }) => {
   return (
-    <View style={styles.Container}>
+    <View
+      style={[
+        styles.Container,
+        project ? { backgroundColor: project.selectedColor[0], borderColor: project.selectedColor[1] } : { backgroundColor: "#C7DCF5", borderColor: "#607C9E" },
+      ]}
+    >
       <View style={styles.subject}>
         <Text style={styles.h1}>{title}</Text>
         {!onPress ? null : (
@@ -29,9 +34,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderLeftWidth: 1,
     borderRightWidth: 1,
-    backgroundColor: "#C7DCF5",
     borderRadius: 10,
-    borderColor: "#607C9E",
   },
   subject: {
     flexDirection: "row",

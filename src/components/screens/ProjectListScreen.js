@@ -4,9 +4,11 @@
 
 // Some of the following code was wholly, or in part, taken or adapted from the following online source(s):
 
-// Fonts documentation https://docs.expo.dev/develop/user-interface/fonts/
+// Fonts documentation: https://docs.expo.dev/develop/user-interface/fonts/
 
-// Data Filter when pressing buttons https://codesandbox.io/p/sandbox/data-filter-when-pressing-buttons-react-native-iszf2?file=%2Fsrc%2FApp.js
+// Data Filter when pressing buttons:
+// https://codesandbox.io/p/sandbox/data-filter-when-pressing-buttons-react-native-iszf2?file=%2Fsrc%2FApp.js
+// https://snack.expo.dev/@saachitech/89f0cd?
 
 // -----------------------------------------------------
 
@@ -18,8 +20,13 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import { useFonts } from "expo-font";
+
 import React, { useContext, useEffect, useState } from "react";
+import {
+  ScrollView,
+  GestureHandlerRootView,
+} from "react-native-gesture-handler";
+import { useFonts } from "expo-font";
 import { ProjectContext } from "../context/ProjectContext";
 import SearchBar from "../UI/SearchBar.js";
 import ProjectList from "../entity/project/ProjectList";

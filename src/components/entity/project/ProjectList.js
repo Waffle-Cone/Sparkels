@@ -1,43 +1,54 @@
 import { TouchableOpacity, View, StyleSheet, Text } from "react-native";
 import Icons from "../../UI/Icons";
-import { ScrollView } from "react-native-gesture-handler";
+import {
+  ScrollView,
+  GestureHandlerRootView,
+} from "react-native-gesture-handler";
 
 const ProjectList = ({ projects, onPress }) => {
   // Initialisations ---------------------
   // State -------------------------------
   // Handlers ----------------------------
   // View --------------------------------
-  return projects.map((project) => {
-    return (
-      <TouchableOpacity key={project.id} onPress={() => onPress(project)}>
-        <View
-          style={
-            project.isCompleted
-              ? [
-                  styles.projectContainer,
-                  {
-                    backgroundColor: "#C2E7E3",
-                    borderColor: "#649C95",
-                  },
-                ]
-              : styles.projectContainer
-          }
-        >
-          <View style={styles.projectDetails}>
-            <Text>Project name: {project.name}</Text>
-            <Text>Description: {project.description}</Text>
-            <Text>Due date: {project.dueDate}</Text>
-          </View>
-          <Icons.ArrowRight />
-        </View>
-      </TouchableOpacity>
-    );
-  });
+  return (
+    <GestureHandlerRootView>
+      <ScrollView>
+        {projects.map((project) => (
+          <TouchableOpacity key={project.id} onPress={() => onPress(project)}>
+            <View
+              style={
+                project.isCompleted
+                  ? [
+                      styles.projectContainer,
+                      {
+                        backgroundColor: "#C2E7E3",
+                        borderColor: "#649C95",
+                      },
+                    ]
+                  : styles.projectContainer
+              }
+            >
+              <View style={styles.projectDetails}>
+                <Text>Project name: {project.name}</Text>
+                <Text>Description: {project.description}</Text>
+                <Text>Due date: {project.dueDate}</Text>
+              </View>
+              <Icons.ArrowRight />
+            </View>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+    </GestureHandlerRootView>
+  );
 };
 
 export default ProjectList;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: "column",
+  },
   projectContainer: {
     borderRadius: 10,
     borderColor: "#484F8A",

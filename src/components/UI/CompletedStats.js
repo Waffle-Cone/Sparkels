@@ -10,27 +10,35 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import FormatTimeString from "../util/FormatTimeString";
+import Icons from "./Icons";
 
 const CompletedStats = {};
 
 const Stats = ({ totalTime, goalTime, type }) => {
   return (
-    <View style={styles.taskInfoContainer}>
-      <View style={styles.taskInfo}>
-        <Text style={styles.taskInfoText}>
-          Finished {type} in: {FormatTimeString.counter(totalTime * 1000)[0]}
-        </Text>
-        <Text style={styles.taskInfoText}>Goal Time: {FormatTimeString.counter(goalTime * 1000)[0]}</Text>
-      </View>
-      <View style={styles.completionBanner}>
-        <Text style={styles.completionText}>{type} Completed</Text>
+    <View style={styles.container}>
+      <View style={styles.taskInfoContainer}>
+        <View style={styles.completionBanner}>
+          <Icons.Check />
+          <Text style={styles.completionText}>{type} Completed</Text>
+        </View>
+        <View style={styles.taskInfo}>
+          <Text style={styles.taskInfoText}>
+            Finished {type} in: {FormatTimeString.counter(totalTime * 1000)[0]}
+          </Text>
+          <Text style={styles.taskInfoText}>
+            Goal Time: {FormatTimeString.counter(goalTime * 1000)[0]}
+          </Text>
+        </View>
       </View>
     </View>
   );
 };
 
 const TaskCompletedStats = ({ task }) => {
-  return <Stats totalTime={task.actualTime} goalTime={task.goalTime} type={"Task"} />;
+  return (
+    <Stats totalTime={task.actualTime} goalTime={task.goalTime} type={"Task"} />
+  );
 };
 
 const ProjectCompletedStates = ({ project }) => {
@@ -45,46 +53,58 @@ const ProjectCompletedStates = ({ project }) => {
     });
   }
   // View -----------------------------
-  return <Stats totalTime={totalTimeSpent} goalTime={theTotalGoalTime} type={"Project"} />;
+  return (
+    <Stats
+      totalTime={totalTimeSpent}
+      goalTime={theTotalGoalTime}
+      type={"Project"}
+    />
+  );
 };
 CompletedStats.TaskCompletedStats = (task) => TaskCompletedStats(task);
-CompletedStats.ProjectCompletedStates = (project) => ProjectCompletedStates(project);
+CompletedStats.ProjectCompletedStates = (project) =>
+  ProjectCompletedStates(project);
 
 export default CompletedStats;
 
 const styles = StyleSheet.create({
   // task info when completed
+  container: {
+    flex: 1,
+    alignItems: "center",
+  },
   taskInfoContainer: {
-    height: 200,
+    height: "35%",
+    width: "100%",
     flexDirection: "column",
-    padding: 5,
+    padding: 20,
     borderRadius: 10,
-    borderWidth: 2,
-    borderBottomWidth: 6,
-    borderColor: "#33d436",
+    borderWidth: 1,
+    borderColor: "#2C9F91",
+    backgroundColor: "#D6F0ED",
   },
   completionBanner: {
-    height: 100,
-    borderBottomWidth: 6,
-    borderTopWidth: 1,
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
-    backgroundColor: "#33d436",
+    gap: 10,
+    height: "60%",
+    borderWidth: 2,
+    backgroundColor: "white",
     borderRadius: 10,
-    borderColor: "#0fb811",
+    borderColor: "#2C9F91",
     alignItems: "center",
     justifyContent: "center",
   },
   completionText: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: "bold",
   },
   taskInfo: {
     flex: 1,
-    gap: 30,
+    gap: 20,
+    paddingVertical: 20,
+    paddingBottom: 10,
   },
   taskInfoText: {
-    fontSize: 16,
+    fontSize: 18,
     color: "black",
   },
 });

@@ -40,11 +40,19 @@ const RightArrow = () => (
 const ArrowRight = () => (
   <EvilIcons name="arrow-right" size={34} color="black" />
 );
+
+const Check = () => (
+  <FontAwesome name="check-circle" size={40} color="#41C37D" />
+);
 const SearchCancel = () => <MaterialIcons name="cancel" size={25} />;
 const Search = () => <MaterialIcons name="search" size={20} />;
-const PlayArrow = () => <MaterialIcons name="play-arrow" size={20} />;
+const PlayArrow = ({ color }) => (
+  <MaterialIcons name="play-arrow" size={50} color={color} />
+);
 const Play = () => <FontAwesome5 name="play" size={24} color="black" />;
-const Pause = () => <MaterialIcons name="pause" size={20} />;
+const Pause = ({ color }) => (
+  <MaterialIcons name="pause" size={50} color={color} />
+);
 
 // Compose
 Icons.Account = Account;
@@ -53,6 +61,7 @@ Icons.Add = Add;
 Icons.AddIcon = AddIcon;
 Icons.ArrowRight = ArrowRight;
 Icons.Back = Back;
+Icons.Check = Check;
 Icons.Delete = Delete;
 Icons.Edit = Edit;
 Icons.Project = Project;

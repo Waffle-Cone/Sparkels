@@ -54,11 +54,7 @@ const styles = StyleSheet.create({
     paddingBottom: 100,
   },
   viewContainer: {
-    //flexDirection: "column",
-    //flexWrap: "wrap",
-    //alignItems: "flex-start",
-    flex: 1,
-    overflow: "hidden",
+    paddingVertical: 10,
   },
   projectContainer: {
     borderRadius: 10,

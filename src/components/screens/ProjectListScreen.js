@@ -39,11 +39,6 @@ const ProjectListScreen = ({ navigation }) => {
     AnybodyRegular: require("./../../../assets/fonts/Anybody-Regular.ttf"),
   });
 
-  //<Image
-  //        source={require("../../../assets/notebookHeader.png")}
-  //        style={styles.notebook}
-  //     />
-
   // State ---------------------------
   const { projects } = useContext(ProjectContext);
   const [filterButton, setFilterButton] = useState("todo");
@@ -155,7 +150,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 15,
     margin: 5,
-    paddingTop: 55,
+    paddingVertical: 40,
     paddingBottom: 20,
     backgroundColor: "white",
     marginTop: 20,
@@ -163,7 +158,6 @@ const styles = StyleSheet.create({
   h1: {
     alignItems: "center",
     justifyContent: "center",
-    paddingTop: 5,
     paddingBottom: 10,
     fontSize: 24,
     color: "black",
@@ -173,9 +167,8 @@ const styles = StyleSheet.create({
   h2: {
     alignItems: "center",
     justifyContent: "center",
-    paddingTop: 5,
-    paddingBottom: 10,
     fontSize: 20,
+    paddingVertical: 5,
     fontWeight: "500",
     color: "black",
     fontFamily: "AnybodyRegular",

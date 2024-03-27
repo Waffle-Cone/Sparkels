@@ -1,17 +1,17 @@
-import {
-  Platform,
-  KeyboardAvoidingView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  Pressable,
-  TouchableOpacity,
-} from "react-native";
+// -----------------------------------------------------
+
+// ACKNOWLEDING EXTERNAL CONTENT
+
+// Some of the following code was wholly, or in part, taken or adapted from the following online source(s):
+// https://www.npmjs.com/package/react-native-radio-buttons-group
+
+// -----------------------------------------------------
+
+import { Platform, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, View, Pressable, TouchableOpacity } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import FormLayout from "../layout/FormLayout";
-import { useRef } from "react";
+import { useRef, useMemo, useState } from "react";
+import RadioGroup from "react-native-radio-buttons-group";
 import { useFonts } from "expo-font";
 import Icons from "./Icons";
 
@@ -24,19 +24,8 @@ const Form = ({ children, submitType, onSubmit, onCancel, title }) => {
   return (
     <FormLayout>
       <Text style={styles.title}>{title}</Text>
-      <KeyboardAvoidingView
-        keyboardVerticalOffset={115}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.formContainer}
-        enabled
-      >
-        <ScrollView
-          ref={scrollRef}
-          contentContainerStyle={styles.formItems}
-          onContentSizeChange={() =>
-            scrollRef.current.scrollToEnd({ animated: true })
-          }
-        >
+      <KeyboardAvoidingView keyboardVerticalOffset={115} behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.formContainer} enabled>
+        <ScrollView ref={scrollRef} contentContainerStyle={styles.formItems} onContentSizeChange={() => scrollRef.current.scrollToEnd({ animated: true })}>
           {children}
         </ScrollView>
       </KeyboardAvoidingView>
@@ -67,12 +56,7 @@ const InputText = ({ label, value, onChange, prompt, keyboardType, error }) => {
     <View style={styles.item}>
       <Text style={styles.itemLabel}>{label}</Text>
       {prompt ? <Text style={styles.itemPrompt}>{prompt}</Text> : null}
-      <TextInput
-        style={styles.itemTextInput}
-        value={value}
-        onChangeText={onChange}
-        keyboardType={keyboardType}
-      />
+      <TextInput style={styles.itemTextInput} value={value} onChangeText={onChange} keyboardType={keyboardType} />
       <Text style={styles.error}>{error}</Text>
     </View>
   );
@@ -82,36 +66,32 @@ const InputSelect = ({ label, prompt, options, value, onChange }) => {
   return (
     <View style={styles.item}>
       <Text style={styles.itemLabel}>{label}</Text>
-      {Platform.OS === "ios" ? (
-        <Text style={styles.itemPrompt}>{prompt}</Text>
-      ) : null}
+      {Platform.OS === "ios" ? <Text style={styles.itemPrompt}>{prompt}</Text> : null}
 
-      <Picker
-        mode="dropdown"
-        selectedValue={value}
-        onValueChange={onChange}
-        style={styles.itemPicker}
-      >
-        {!Platform.OS === "ios" ? (
-          <Picker.Item
-            value={null}
-            label={prompt}
-            itemStyle={styles.itemPromptPicker}
-            enabled={false}
-          />
-        ) : null}
+      <Picker mode="dropdown" selectedValue={value} onValueChange={onChange} style={styles.itemPicker}>
+        {!Platform.OS === "ios" ? <Picker.Item value={null} label={prompt} itemStyle={styles.itemPromptPicker} enabled={false} /> : null}
 
         {options.map((option) => (
-          <Picker.Item
-            key={option.value}
-            value={option.value}
-            label={option.label}
-          />
+          <Picker.Item key={option.value} value={option.value} label={option.label} />
         ))}
       </Picker>
     </View>
   );
 };
+
+const ColorPicker = ({ label, prompt, radioButtons, selectedId, onChange }) => {
+  return (
+    <View>
+      <RadioGroup radioButtons={radioButtons} onPress={(id) => onChange(id)} selectedId={selectedId} layout="row" />
+    </View>
+  );
+};
+
+Form.InputText = InputText;
+Form.InputSelect = InputSelect;
+Form.ColorPicker = ColorPicker;
+
+export default Form;
 
 const styles = StyleSheet.create({
   formContainer: {
@@ -189,8 +169,3 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
 });
-
-Form.InputText = InputText;
-Form.InputSelect = InputSelect;
-
-export default Form;

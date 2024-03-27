@@ -15,7 +15,10 @@ const ProjectList = ({ projects, onPress }) => {
             project.isCompleted
               ? [
                   styles.projectContainer,
-                  { backgroundColor: "#33d436", borderColor: "#0fb811" },
+                  {
+                    backgroundColor: "#C2E7E3",
+                    borderColor: "#649C95",
+                  },
                 ]
               : styles.projectContainer
           }

@@ -33,16 +33,16 @@ const OverTime = ({ isStart, handleStartButton, handleStopButton }) => {
           style={styles.timerButtonOverTime}
           onPress={handleStartButton}
         >
+          <Icons.PlayArrow color="#F5895A" />
           <Text style={styles.timerTextOvertime}>Start Overtime</Text>
-          <Icons.AddIcon />
         </TouchableOpacity>
       ) : (
         <TouchableOpacity
           style={styles.timerButtonOverTime}
           onPress={handleStopButton}
         >
+          <Icons.Pause color="#F5895A" />
           <Text style={styles.timerTextOvertime}>Pause OverTime</Text>
-          <Icons.Pause />
         </TouchableOpacity>
       )}
     </>
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 10,
     padding: 5,
-    marginTop: 20,
+    marginVertical: 50,
     width: "100%",
     height: "14%",
     borderRadius: 20,
@@ -78,16 +78,21 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   timerButtonOverTime: {
+    gap: 10,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    padding: 5,
-    width: 130,
-    height: 50,
-    borderRadius: 10,
-    borderWidth: 2,
+    marginTop: 70,
+    marginBottom: 90,
+    width: "80%",
+    height: "20%",
+    borderRadius: 20,
+    borderWidth: 1,
     borderBottomWidth: 6,
-    borderColor: "red",
-    backgroundColor: "white",
+    borderColor: "#F5895A",
+    backgroundColor: "#FFE2D5",
+  },
+  timerTextOvertime: {
+    fontSize: 18,
   },
 });

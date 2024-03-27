@@ -14,8 +14,12 @@ export default MyCounter;
 
 const styles = StyleSheet.create({
   container: {
+    justifyContent: "center",
+    alignItems: "center",
     backgroundColor: "white",
-    borderWidth: 1,
+    borderWidth: 2,
+    marginTop: 40,
+    width: "80%",
     borderBottomWidth: 2,
     borderRadius: 10,
     borderColor: "#607C9E",
@@ -23,6 +27,6 @@ const styles = StyleSheet.create({
   //counter
   counter: {
     padding: 20,
-    fontSize: 30,
+    fontSize: 50,
   },
 });

@@ -30,9 +30,10 @@ const MyCountdownCircleTimer = ({
       style={styles.roundCircle}
       isPlaying={isPlaying}
       duration={countdownTime}
-      colors={["#8390FA", "#F88DAD", "#7AC0B8", "#FAC748"]}
+      colors={["#1D2F6F", "#8390FA", "#FAC748", "#7AC0B8"]}
       strokeWidth={40}
       trailStrokeWidth={50}
+      trailColor="#EAEAFB"
       size={300}
       colorsTime={[
         updatedTask.goalTime * 0.75,

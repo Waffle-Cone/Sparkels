@@ -24,7 +24,6 @@ import Vibrate from "../../util/Vibrate";
 import MyCounter from "../../UI/MyCounter";
 import Task from "../../classes/Task";
 import GetCompletedStatus from "../../util/GetCompletedStatus";
-import { LinearGradient } from "expo-linear-gradient";
 
 const ViewTask = ({ navigation, task, project }) => {
   // Initialisations ------------------

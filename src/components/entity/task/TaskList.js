@@ -19,6 +19,7 @@ import TaskItem from "./TaskItem";
 
 const TaskList = ({ navigation, project }) => {
   // Initialisations ------------------
+
   const { getProject } = useContext(ProjectContext);
   const selectedProject = getProject(project.id)._j;
 
@@ -105,7 +106,7 @@ const TaskList = ({ navigation, project }) => {
           </TouchableOpacity>
         </View>
 
-        <DraggableFlatList data={tasks} renderItem={renderTaskItem} keyExtractor={(item) => `draggable-item-${item.id}`} onDragEnd={onDragEnd} />
+        <DraggableFlatList data={tasks} onDragEnd={onDragEnd} keyExtractor={(item) => item.id} renderItem={renderTaskItem} />
       </View>
     </GestureHandlerRootView>
   );
@@ -149,7 +150,6 @@ const styles = StyleSheet.create({
     color: "black",
   },
   h2: {
-    //paddingBottom: 10,
     alignItems: "center",
     justifyContent: "center",
     fontSize: 16,
@@ -160,9 +160,6 @@ const styles = StyleSheet.create({
     padding: 15,
     marginVertical: 10,
     borderBottomWidth: 4,
-    borderTopWidth: 0,
-    borderLeftWidth: 0,
-    borderRightWidth: 0,
     backgroundColor: "grey",
     borderRadius: 10,
     borderColor: "#7F8FA2",

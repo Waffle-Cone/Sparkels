@@ -25,7 +25,12 @@ const SearchBar = ({ value, onChange, placeholder }) => {
     <View style={styles.container}>
       <SearchLayout>
         <Icons.Search />
-        <TextInput style={styles.searchBar} placeholder={placeholder} value={value} onChangeText={onChange} />
+        <TextInput
+          style={styles.searchBar}
+          placeholder={placeholder}
+          value={value}
+          onChangeText={onChange}
+        />
         {!value ? (
           <Text style={{ width: 25 }}></Text> // placeholder so that the cancel button doesnt shift search input
         ) : (
@@ -47,7 +52,7 @@ const SearchBar = ({ value, onChange, placeholder }) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 5,
+    paddingVertical: 5,
   },
   searchBar: {
     height: 50,

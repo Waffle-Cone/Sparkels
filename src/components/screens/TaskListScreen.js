@@ -1,3 +1,13 @@
+// -----------------------------------------------------
+
+// ACKNOWLEDING EXTERNAL CONTENT
+
+// Some of the following code was wholly, or in part, taken or adapted from the following online source(s):
+
+// Gesture handler: https://docs.swmansion.com/react-native-gesture-handler/docs/fundamentals/installation/
+
+// -----------------------------------------------------
+
 import "react-native-gesture-handler";
 import { StyleSheet, Text, TouchableOpacity, View, Alert } from "react-native";
 import React, { useContext, useState } from "react";
@@ -13,7 +23,8 @@ const TaskListScreen = ({ navigation, route }) => {
   const { project } = route.params;
 
   // State ----------------------------
-  const { handleDelete, handleCompleteProject, getProject } = useContext(ProjectContext);
+  const { handleDelete, handleCompleteProject, getProject } =
+    useContext(ProjectContext);
   const selectedProject = getProject(project.id)._j; // force get the project again to force state to be synced
 
   // Handlers -------------------------
@@ -23,10 +34,14 @@ const TaskListScreen = ({ navigation, route }) => {
   };
 
   const requestDelete = () => {
-    Alert.alert("Delete warning", `Are you sure that you want to delete this Project ${selectedProject.name}`, [
-      { text: "Cancel" },
-      { text: "Delete", onPress: onDelete, style: "destructive" },
-    ]);
+    Alert.alert(
+      "Delete warning",
+      `Are you sure that you want to delete this Project ${selectedProject.name}`,
+      [
+        { text: "Cancel" },
+        { text: "Delete", onPress: onDelete, style: "destructive" },
+      ]
+    );
   };
 
   const goToModifyProject = () => {
@@ -39,27 +54,47 @@ const TaskListScreen = ({ navigation, route }) => {
   };
 
   const requestProjectComplete = () => {
-    Alert.alert("Completion warning", `This will auto complete all tasks in Project ${selectedProject.name}`, [
-      { text: "Cancel" },
-      { text: "Complete", onPress: onProjectComplete, style: "destructive" },
-    ]);
+    Alert.alert(
+      "Completion warning",
+      `This will auto complete all tasks in Project ${selectedProject.name}`,
+      [
+        { text: "Cancel" },
+        { text: "Complete", onPress: onProjectComplete, style: "destructive" },
+      ]
+    );
   };
   console.log(`TaskList ==== ${JSON.stringify(selectedProject.tasks)}`);
   // View -----------------------------
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={styles.container}>
-        <HeaderCard title={`Project ${selectedProject.name}`} description={selectedProject.description} time={`Due Date: ${selectedProject.dueDate}`} onPress={goToModifyProject} />
+        <HeaderCard
+          title={`Project ${selectedProject.name}`}
+          description={selectedProject.description}
+          time={`Due Date: ${selectedProject.dueDate}`}
+          onPress={goToModifyProject}
+        />
         {!selectedProject.isCompleted ? (
           <>
-            <CompleteProjectButton project={selectedProject} handleComplete={requestProjectComplete} text={"Complete Project"} />
-            <TaskList navigation={navigation} route={route} project={selectedProject} />
+            <CompleteProjectButton
+              project={selectedProject}
+              handleComplete={requestProjectComplete}
+              text={"Complete Project"}
+            />
+            <TaskList
+              navigation={navigation}
+              route={route}
+              project={selectedProject}
+            />
           </>
         ) : (
           <CompletedStats.ProjectCompletedStates project={selectedProject} />
         )}
 
-        <TouchableOpacity style={styles.deleteProjectButton} onPress={requestDelete}>
+        <TouchableOpacity
+          style={styles.deleteProjectButton}
+          onPress={requestDelete}
+        >
           <Text style={styles.textDeleteProjectButton}>Delete project</Text>
         </TouchableOpacity>
       </View>

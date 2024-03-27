@@ -11,11 +11,11 @@ const styles = StyleSheet.create({
     gap: 5,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "lightgrey",
+    backgroundColor: "#E3E8ED",
     borderRadius: 7,
     borderWidth: 1,
     borderColor: "lightgray",
-    padding: 5,
+    padding: 1,
   },
 });
 

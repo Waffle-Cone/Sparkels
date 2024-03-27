@@ -56,7 +56,9 @@ const ViewTask = ({ navigation, task, project }) => {
   const [countdownTime, setCountdownTime] = useState(loadCountdownTime);
   const [isPlaying, setIsPlaying] = useState(false);
   const [actualTime, setActualTime] = useState(updatedTask.actualTime);
-  const [completedStatus, setCompletedStatus] = useState(updatedTask.completedStatus);
+  const [completedStatus, setCompletedStatus] = useState(
+    updatedTask.completedStatus
+  );
   console.log(updatedTask);
 
   //the ovettime timer
@@ -109,6 +111,7 @@ const ViewTask = ({ navigation, task, project }) => {
     console.log(actualTime);
     console.log(updatedTask);
   };
+
   const hasCompletedTask = () => {
     console.log("Well done!");
     updatedTask.completedStatus = 3;
@@ -146,7 +149,11 @@ const ViewTask = ({ navigation, task, project }) => {
   // View -----------------------------
   return (
     <View style={{ padding: 2 }}>
-      <HeaderCard title={`${task.name} ${task.id}`} description={task.description} time={`Status: ${GetCompletedStatus(updatedTask.completedStatus)}`} />
+      <HeaderCard
+        title={`${task.name} ${task.id}`}
+        description={task.description}
+        time={`Status: ${GetCompletedStatus(updatedTask.completedStatus)}`}
+      />
       {completedStatus !== 3 ? (
         <View style={styles.body}>
           <>
@@ -165,11 +172,22 @@ const ViewTask = ({ navigation, task, project }) => {
             )}
 
             {completedStatus === 4 ? (
-              <StartPauseButtons.OverTime isStart={isStart} handleStartButton={start} handleStopButton={stop} />
+              <StartPauseButtons.OverTime
+                isStart={isStart}
+                handleStartButton={start}
+                handleStopButton={stop}
+              />
             ) : (
-              <StartPauseButtons.Normal isStart={isPlaying} handleStartButton={handleStartTimer} handleStopButton={handleStopTimer} />
+              <StartPauseButtons.Normal
+                isStart={isPlaying}
+                handleStartButton={handleStartTimer}
+                handleStopButton={handleStopTimer}
+              />
             )}
-            <CompleteButtonButton handleComplete={hasCompletedTask} text={"Complete Task"} />
+            <CompleteButtonButton
+              handleComplete={hasCompletedTask}
+              text={"Complete Task"}
+            />
           </>
         </View>
       ) : (

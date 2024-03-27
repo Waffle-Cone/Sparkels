@@ -1,4 +1,12 @@
-import { Button, Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  Button,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import React, { useContext, useState } from "react";
 import ProjectForm from "../entity/project/ProjectForm";
 
@@ -12,7 +20,12 @@ const ModifyProjectScreen = ({ navigation, route }) => {
   // View -----------------------------
   return (
     <SafeAreaView style={styles.container}>
-      <ProjectForm navigation={navigation} submitType="Modify" formTitle="Modify Project" selectedProject={project} />
+      <ProjectForm
+        navigation={navigation}
+        submitType="Modify"
+        formTitle="Modify Project"
+        selectedProject={project}
+      />
     </SafeAreaView>
   );
 };
@@ -21,5 +34,6 @@ export default ModifyProjectScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#C7DCF5",
   },
 });

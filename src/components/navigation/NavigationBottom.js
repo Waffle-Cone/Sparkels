@@ -61,7 +61,7 @@ const NavigationBottom = () => {
                 top: 10,
               }}
             >
-              <Icons.AddIcon color={focused ? "black" : "#BCBCBC"} />
+              <Icons.AddProject color={focused ? "black" : "#BCBCBC"} />
             </View>
           ),
           tabBarLabel: ({ focused }) => (

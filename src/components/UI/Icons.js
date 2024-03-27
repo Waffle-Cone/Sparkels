@@ -11,7 +11,7 @@ const Icons = {};
 
 //Navigation Bar Icons
 const Project = ({ color }) => (
-  <FontAwesome5 name="tasks" size={24} color="black" />
+  <FontAwesome5 name="tasks" size={24} color={color} />
 );
 const Home = ({ color }) => <FontAwesome name="home" size={30} color={color} />;
 

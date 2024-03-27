@@ -34,12 +34,23 @@ const ProjectListScreen = ({ navigation }) => {
 
   // State ---------------------------
   const { projects } = useContext(ProjectContext);
+  const [filterButton, setFilterButton] = useState("todo");
   const [search, setSearch] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
 
   //console.log(JSON.stringify(projects));
 
   // Handlers -------------------------
+  useEffect(() => {
+    const filteredProjects = projects.filter((project) => {
+      if (filterButton === "todo") return !project.isCompleted;
+      if (filterButton === "completed") return project.isCompleted;
+    });
+    setSearchResults(filteredProjects);
+    console.log(filterButton);
+    console.log(filteredProjects);
+  }, [projects, filterButton]);
+
   const handleSearch = (search) => {
     setSearch(search);
     if (search != null) {
@@ -69,16 +80,32 @@ const ProjectListScreen = ({ navigation }) => {
         <Text style={styles.h1}>Your Projects</Text>
 
         <View style={styles.filterButtonsContainer}>
-          <TouchableOpacity style={styles.todoButton}>
+          <TouchableOpacity
+            style={[
+              styles.todoButton,
+              filterButton === "todo"
+                ? styles.activeButton
+                : styles.inactiveButton,
+            ]}
+            onPress={() => setFilterButton("todo")}
+          >
             <Text style={styles.h2}>To do</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.completedButton}>
+          <TouchableOpacity
+            style={[
+              styles.completedButton,
+              filterButton === "completed"
+                ? styles.activeButton
+                : styles.inactiveButton,
+            ]}
+            onPress={() => setFilterButton("completed")}
+          >
             <Text style={styles.h2}>Completed</Text>
           </TouchableOpacity>
         </View>
 
         <SearchBar
-          placeholder={"Project name"}
+          placeholder={"Search project"}
           value={search}
           onChange={handleSearch}
         />
@@ -148,25 +175,24 @@ const styles = StyleSheet.create({
   },
   todoButton: {
     flex: 1,
+    padding: 10,
+    alignItems: "center",
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,
-    borderColor: "#607C9E",
-    borderWidth: 1,
-    backgroundColor: "#C2E7E3",
-    padding: 15,
-    //flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
   },
   completedButton: {
     flex: 1,
+    padding: 10,
+    alignItems: "center",
     borderTopRightRadius: 10,
     borderBottomRightRadius: 10,
-    borderColor: "#607C9E",
-    borderWidth: 1,
-    backgroundColor: "#C2E7E3",
-    padding: 15,
-    justifyContent: "center",
-    alignItems: "center",
+  },
+  activeButton: {
+    backgroundColor: "#484F8A",
+    //borderWidth: 1,
+    //borderColor: "#3D7972",
+  },
+  inactiveButton: {
+    backgroundColor: "#E3E5F2",
   },
 });

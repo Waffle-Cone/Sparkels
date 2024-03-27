@@ -10,16 +10,36 @@
 
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
+import {
+  CountdownCircleTimer,
+  useCountdown,
+} from "react-native-countdown-circle-timer";
 import FormatTimeString from "../util/FormatTimeString";
 
-const MyCountdownCircleTimer = ({ isPlaying, countdownTime, updatedTask, setActualTime, actualTime, setUpdatedTask, handleCountdownOver }) => {
+const MyCountdownCircleTimer = ({
+  isPlaying,
+  countdownTime,
+  updatedTask,
+  setActualTime,
+  actualTime,
+  setUpdatedTask,
+  handleCountdownOver,
+}) => {
   return (
     <CountdownCircleTimer
+      style={styles.roundCircle}
       isPlaying={isPlaying}
       duration={countdownTime}
-      colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
-      colorsTime={[updatedTask.goalTime * 0.75, updatedTask.goalTime * 0.5, updatedTask.goalTime * 0.25, 0]}
+      colors={["#8390FA", "#F88DAD", "#7AC0B8", "#FAC748"]}
+      strokeWidth={40}
+      trailStrokeWidth={50}
+      size={300}
+      colorsTime={[
+        updatedTask.goalTime * 0.75,
+        updatedTask.goalTime * 0.5,
+        updatedTask.goalTime * 0.25,
+        0,
+      ]}
       onUpdate={() => {
         setActualTime(actualTime + 1);
         setUpdatedTask({ ...updatedTask, ["actualTime"]: actualTime });
@@ -31,8 +51,10 @@ const MyCountdownCircleTimer = ({ isPlaying, countdownTime, updatedTask, setActu
       {({ remainingTime }) => {
         return (
           <View style={styles.stopWatchContainer}>
-            <Text>Remaining Time:</Text>
-            <Text>{FormatTimeString.countdown(remainingTime)}</Text>
+            <Text style={styles.textLabel}>Remaining Time:</Text>
+            <Text style={styles.textCountdown}>
+              {FormatTimeString.countdown(remainingTime)}
+            </Text>
           </View>
         );
       }}
@@ -49,5 +71,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: 10,
+  },
+  textLabel: {
+    fontSize: 18,
+  },
+  textCountdown: {
+    fontSize: 18,
+    fontWeight: "bold",
   },
 });

@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   notebookBorder: {
-    height: 760,
+    height: "95%",
     borderRadius: 15,
     borderWidth: 1,
     padding: 15,

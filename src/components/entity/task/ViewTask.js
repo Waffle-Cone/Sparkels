@@ -7,6 +7,8 @@
 // React Native Countdown timer code, https://www.npmjs.com/package/react-native-countdown-circle-timer
 // React Timer, https://github.com/leejaehyup/react-native-timestamp-timer-hooks/blob/master/example/src/Timer.tsx
 
+// Linear Gradient Background https://docs.expo.dev/versions/latest/sdk/linear-gradient/
+
 // -----------------------------------------------------
 
 import { Alert, StyleSheet, Text, View } from "react-native";
@@ -22,6 +24,7 @@ import Vibrate from "../../util/Vibrate";
 import MyCounter from "../../UI/MyCounter";
 import Task from "../../classes/Task";
 import GetCompletedStatus from "../../util/GetCompletedStatus";
+import { LinearGradient } from "expo-linear-gradient";
 
 const ViewTask = ({ navigation, task, project }) => {
   // Initialisations ------------------
@@ -53,7 +56,9 @@ const ViewTask = ({ navigation, task, project }) => {
   const [countdownTime, setCountdownTime] = useState(loadCountdownTime);
   const [isPlaying, setIsPlaying] = useState(false);
   const [actualTime, setActualTime] = useState(updatedTask.actualTime);
-  const [completedStatus, setCompletedStatus] = useState(updatedTask.completedStatus);
+  const [completedStatus, setCompletedStatus] = useState(
+    updatedTask.completedStatus
+  );
   console.log(updatedTask);
 
   //the ovettime timer
@@ -158,8 +163,12 @@ const ViewTask = ({ navigation, task, project }) => {
 
   // View -----------------------------
   return (
-    <View style={{ padding: 2 }}>
-      <HeaderCard title={`${task.name} ${task.id}`} description={task.description} time={`Status: ${GetCompletedStatus(updatedTask.completedStatus)}`} />
+    <View style={{ flex: 1 }}>
+      <HeaderCard
+        title={`${task.name} ${task.id}`}
+        description={task.description}
+        time={`Status: ${GetCompletedStatus(updatedTask.completedStatus)}`}
+      />
       {completedStatus !== 3 ? (
         <View style={styles.body}>
           <>
@@ -178,15 +187,20 @@ const ViewTask = ({ navigation, task, project }) => {
             )}
 
             {completedStatus === 4 ? (
-              <StartPauseButtons.OverTime isStart={isStart} handleStartButton={start} handleStopButton={stop} />
+              <StartPauseButtons.OverTime
+                isStart={isStart}
+                handleStartButton={start}
+                handleStopButton={stop}
+              />
             ) : (
-              <StartPauseButtons.Normal isStart={isPlaying} handleStartButton={handleStartTimer} handleStopButton={handleStopTimer} />
+              <StartPauseButtons.Normal
+                isStart={isPlaying}
+                handleStartButton={handleStartTimer}
+                handleStopButton={handleStopTimer}
+              />
             )}
             <CompleteButtonButton
-              handleComplete={() => {
-                hasCompletedTask();
-                navigation.goBack();
-              }}
+              handleComplete={hasCompletedTask}
               text={"Complete Task"}
             />
           </>
@@ -202,7 +216,7 @@ export default ViewTask;
 
 const styles = StyleSheet.create({
   body: {
-    gap: 20,
+    //gap: 20,
     alignItems: "center",
   },
 });

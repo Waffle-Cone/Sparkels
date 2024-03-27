@@ -12,9 +12,11 @@ export const CompleteButtonButton = ({ handleComplete, text }) => {
   // Initialisations ------------------
 
   return (
-    <TouchableOpacity style={styles.completeTask} onPress={handleComplete}>
-      <Text style={styles.textCompleteTask}>{text}</Text>
-    </TouchableOpacity>
+    <View style={styles.buttonCompleteTray}>
+      <TouchableOpacity style={styles.completeTask} onPress={handleComplete}>
+        <Text style={styles.textCompleteTask}>{text}</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 
@@ -50,10 +52,10 @@ export const CompleteProjectButton = ({ project, handleComplete, text }) => {
         </TouchableOpacity>
       ) : (
         <TouchableOpacity
-          style={[styles.completeTask, { borderColor: "grey" }]}
+          style={styles.completeTaskProject}
           onPress={handleProjectNotCompleted}
         >
-          <Text style={[styles.textCompleteTask, { color: "grey" }]}>
+          <Text style={[styles.textCompleteTask, { color: "#375E59" }]}>
             {text}
           </Text>
         </TouchableOpacity>
@@ -64,21 +66,41 @@ export const CompleteProjectButton = ({ project, handleComplete, text }) => {
 
 const styles = StyleSheet.create({
   //bottom button
+  buttonCompleteTray: {
+    flex: 1,
+    gap: 30,
+    justifyContent: "center",
+    alignItems: "flex-end",
+    //paddingTop: 50,
+    //paddingBottom: 20,
+  },
+  completeTaskProject: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 20,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderBottomWidth: 6,
+    borderColor: "#649C95",
+    backgroundColor: "#C2E7E3",
+    height: 60,
+    minWidth: "100%",
+  },
   completeTask: {
     alignItems: "center",
     justifyContent: "center",
+    marginTop: 300,
     borderRadius: 10,
     borderWidth: 2,
     borderBottomWidth: 6,
-    borderColor: "#33d436",
-    backgroundColor: "white",
-    height: 50,
-    minWidth: 350,
+    borderColor: "#649C95",
+    backgroundColor: "#C2E7E3",
+    height: 60,
+    minWidth: "100%",
   },
   textCompleteTask: {
-    fontSize: 16,
-    fontWeight: "bold",
+    fontSize: 18,
     textAlign: "center",
-    color: "#33d436",
+    color: "#375E59",
   },
 });

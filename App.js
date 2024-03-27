@@ -80,7 +80,13 @@ export default function App() {
           <Stack.Screen
             name="ViewTaskScreen"
             component={ViewTaskScreen}
-            options={{ title: " " }}
+            options={{
+              title: " ",
+              headerStyle: {
+                backgroundColor: "#C2E7E3",
+              },
+              headerTintColor: "#fff",
+            }}
           />
         </Stack.Navigator>
       </NavigationContainer>

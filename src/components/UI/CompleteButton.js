@@ -47,7 +47,10 @@ export const CompleteProjectButton = ({ project, handleComplete, text }) => {
   return (
     <>
       {allTasksCompleted ? (
-        <TouchableOpacity style={styles.completeTask} onPress={handleComplete}>
+        <TouchableOpacity
+          style={styles.completeTaskProject}
+          onPress={handleComplete}
+        >
           <Text style={styles.textCompleteTask}>{text}</Text>
         </TouchableOpacity>
       ) : (
@@ -89,7 +92,7 @@ const styles = StyleSheet.create({
   completeTask: {
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 300,
+    marginTop: 250,
     borderRadius: 10,
     borderWidth: 2,
     borderBottomWidth: 6,

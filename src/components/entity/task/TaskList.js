@@ -9,12 +9,22 @@
 // -----------------------------------------------------
 
 import "react-native-gesture-handler";
-import { StyleSheet, Text, TouchableOpacity, View, Alert, Vibration } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Alert,
+  Vibration,
+} from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "../../context/ProjectContext";
 import Icons from "../../UI/Icons";
 import DraggableFlatList from "react-native-draggable-flatlist";
-import { GestureHandlerRootView, ScrollView } from "react-native-gesture-handler";
+import {
+  GestureHandlerRootView,
+  ScrollView,
+} from "react-native-gesture-handler";
 import TaskItem from "./TaskItem";
 
 const TaskList = ({ navigation, project }) => {
@@ -41,16 +51,20 @@ const TaskList = ({ navigation, project }) => {
   }, [selectedProject.tasks]);
   // Handlers -------------------------
   const requestDeleteTask = (projectId, taskId) => {
-    Alert.alert("Delete Task", "Are you sure that you want to delete this Task?", [
-      { text: "Cancel" },
-      {
-        text: "Delete",
-        style: "destructive",
-        onPress: async () => {
-          await handleDeleteTask(projectId, taskId);
+    Alert.alert(
+      "Delete Task",
+      "Are you sure that you want to delete this Task?",
+      [
+        { text: "Cancel" },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: async () => {
+            await handleDeleteTask(projectId, taskId);
+          },
         },
-      },
-    ]);
+      ]
+    );
   };
 
   const goToAddTask = (selectedProject) => {
@@ -88,9 +102,19 @@ const TaskList = ({ navigation, project }) => {
           Vibration.vibrate();
           drag();
         }}
-        style={[styles.taskItem, isActive ? { backgroundColor: "#C7DCF5" } : backgroundColorSelector(item)]}
+        style={[
+          styles.taskItem,
+          isActive
+            ? { backgroundColor: "#C7DCF5" }
+            : backgroundColorSelector(item),
+        ]}
       >
-        <TaskItem item={item} project={project} goToModifyTask={goToModifyTask} requestDeleteTask={requestDeleteTask} />
+        <TaskItem
+          item={item}
+          project={project}
+          goToModifyTask={goToModifyTask}
+          requestDeleteTask={requestDeleteTask}
+        />
       </TouchableOpacity>
     );
   };
@@ -102,13 +126,21 @@ const TaskList = ({ navigation, project }) => {
       <View style={styles.taskContainer}>
         <View style={styles.task}>
           <Text style={styles.h1Tasks}>Tasks</Text>
-          <TouchableOpacity style={styles.addTaskButton} onPress={() => goToAddTask(selectedProject)}>
+          <TouchableOpacity
+            style={styles.addTaskButton}
+            onPress={() => goToAddTask(selectedProject)}
+          >
             <Text style={styles.textTaskButton}>Add a Task</Text>
             <Icons.AddIcon />
           </TouchableOpacity>
         </View>
 
-        <DraggableFlatList data={tasks} onDragEnd={onDragEnd} keyExtractor={(item) => item.id} renderItem={renderTaskItem} />
+        <DraggableFlatList
+          data={tasks}
+          onDragEnd={onDragEnd}
+          keyExtractor={(item) => item.id}
+          renderItem={renderTaskItem}
+        />
       </View>
     </GestureHandlerRootView>
   );

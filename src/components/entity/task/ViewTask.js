@@ -7,6 +7,8 @@
 // React Native Countdown timer code, https://www.npmjs.com/package/react-native-countdown-circle-timer
 // React Timer, https://github.com/leejaehyup/react-native-timestamp-timer-hooks/blob/master/example/src/Timer.tsx
 
+// Linear Gradient Background https://docs.expo.dev/versions/latest/sdk/linear-gradient/
+
 // -----------------------------------------------------
 
 import { Alert, StyleSheet, Text, View } from "react-native";
@@ -22,6 +24,7 @@ import Vibrate from "../../util/Vibrate";
 import MyCounter from "../../UI/MyCounter";
 import Task from "../../classes/Task";
 import GetCompletedStatus from "../../util/GetCompletedStatus";
+import { LinearGradient } from "expo-linear-gradient";
 
 const ViewTask = ({ navigation, task, project }) => {
   // Initialisations ------------------
@@ -148,7 +151,7 @@ const ViewTask = ({ navigation, task, project }) => {
 
   // View -----------------------------
   return (
-    <View style={{ padding: 2 }}>
+    <View style={{ flex: 1 }}>
       <HeaderCard
         title={`${task.name} ${task.id}`}
         description={task.description}
@@ -201,7 +204,7 @@ export default ViewTask;
 
 const styles = StyleSheet.create({
   body: {
-    gap: 20,
+    //gap: 20,
     alignItems: "center",
   },
 });

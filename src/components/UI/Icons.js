@@ -43,6 +43,7 @@ const ArrowRight = () => (
 const SearchCancel = () => <MaterialIcons name="cancel" size={25} />;
 const Search = () => <MaterialIcons name="search" size={20} />;
 const PlayArrow = () => <MaterialIcons name="play-arrow" size={20} />;
+const Play = () => <FontAwesome5 name="play" size={24} color="black" />;
 const Pause = () => <MaterialIcons name="pause" size={20} />;
 
 // Compose
@@ -61,6 +62,7 @@ Icons.Tasks = Tasks;
 Icons.SearchCancel = SearchCancel;
 Icons.Search = Search;
 Icons.PlayArrow = PlayArrow;
+Icons.Play = Play;
 Icons.Pause = Pause;
 
 export default Icons;

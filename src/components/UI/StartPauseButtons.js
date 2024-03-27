@@ -8,9 +8,12 @@ const Normal = ({ isStart, handleStartButton, handleStopButton }) => {
   return (
     <>
       {!isStart ? (
-        <TouchableOpacity style={styles.timerButton} onPress={handleStartButton}>
+        <TouchableOpacity
+          style={styles.timerButton}
+          onPress={handleStartButton}
+        >
+          <Icons.Play />
           <Text style={styles.timerButtonText}>Start</Text>
-          <Icons.PlayArrow />
         </TouchableOpacity>
       ) : (
         <TouchableOpacity style={styles.timerButton} onPress={handleStopButton}>
@@ -26,12 +29,18 @@ const OverTime = ({ isStart, handleStartButton, handleStopButton }) => {
   return (
     <>
       {!isStart ? (
-        <TouchableOpacity style={styles.timerButtonOverTime} onPress={handleStartButton}>
+        <TouchableOpacity
+          style={styles.timerButtonOverTime}
+          onPress={handleStartButton}
+        >
           <Text style={styles.timerTextOvertime}>Start Overtime</Text>
           <Icons.AddIcon />
         </TouchableOpacity>
       ) : (
-        <TouchableOpacity style={styles.timerButtonOverTime} onPress={handleStopButton}>
+        <TouchableOpacity
+          style={styles.timerButtonOverTime}
+          onPress={handleStopButton}
+        >
           <Text style={styles.timerTextOvertime}>Pause OverTime</Text>
           <Icons.Pause />
         </TouchableOpacity>
@@ -50,16 +59,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    gap: 10,
     padding: 5,
-    width: 100,
-    height: 50,
-    borderRadius: 10,
+    marginTop: 20,
+    width: "100%",
+    height: "14%",
+    borderRadius: 20,
     borderWidth: 1,
+    borderBottomWidth: 4,
     borderColor: "black",
     backgroundColor: "white",
   },
   timerButtonText: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: "bold",
     textAlign: "center",
     color: "black",

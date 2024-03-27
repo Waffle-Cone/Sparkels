@@ -128,7 +128,7 @@ const TaskList = ({ navigation, project }) => {
         <DraggableFlatList
           data={tasks}
           onDragEnd={onDragEnd}
-          keyExtractor={(item) => `draggable-item-${item.id}`}
+          keyExtractor={(item) => item.id}
           renderItem={renderTaskItem}
         />
       </View>

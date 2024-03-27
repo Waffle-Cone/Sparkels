@@ -1,4 +1,12 @@
-import { Button, Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  Button,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import { useContext, useState } from "react";
 import TaskForm from "../entity/task/TaskForm";
 
@@ -11,12 +19,22 @@ const AddTaskScreen = ({ navigation, route }) => {
   // State ----------------------------
   // Handlers -------------------------
   // View -----------------------------
-  return <TaskForm navigation={navigation} submitType={"Add"} formTitle={"Add Task"} project={selectedProject} />;
+  return (
+    <SafeAreaView style={styles.container}>
+      <TaskForm
+        navigation={navigation}
+        submitType={"Add"}
+        formTitle={"Add Task"}
+        project={selectedProject}
+      />
+    </SafeAreaView>
+  );
 };
 
 export default AddTaskScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#BACDFF",
   },
 });

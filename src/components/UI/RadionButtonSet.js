@@ -5,10 +5,24 @@ const RadionButtonSet = ({ label, onPress, state }) => {
     <>
       <Text style={styles.radioItemLabel}>{label}</Text>
       <View style={styles.radioTray}>
-        <TouchableOpacity onPress={onPress[0]} style={state[0] ? [styles.radioButtonNo, { backgroundColor: "black" }] : styles.radioButtonNo}>
+        <TouchableOpacity
+          onPress={onPress[0]}
+          style={
+            state[0]
+              ? [styles.radioButtonNo, { backgroundColor: "black" }]
+              : styles.radioButtonNo
+          }
+        >
           <Text style={styles.textRadioNo}>No</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={onPress[1]} style={state[1] ? [styles.radioButtonYes, { backgroundColor: "black" }] : styles.radioButtonYes}>
+        <TouchableOpacity
+          onPress={onPress[1]}
+          style={
+            state[1]
+              ? [styles.radioButtonYes, { backgroundColor: "black" }]
+              : styles.radioButtonYes
+          }
+        >
           <Text style={styles.textRadioYes}>Yes</Text>
         </TouchableOpacity>
       </View>
@@ -20,9 +34,9 @@ export default RadionButtonSet;
 
 const styles = StyleSheet.create({
   radioItemLabel: {
-    color: "grey",
+    color: "black",
     alignSelf: "center",
-    fontSize: 16,
+    fontSize: 18,
     marginBottom: 5,
   },
   radioTray: {

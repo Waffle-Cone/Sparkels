@@ -1,6 +1,16 @@
-import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Alert,
+  Button,
+} from "react-native";
+import React from "react";
 
 export const CompleteButtonButton = ({ handleComplete, text }) => {
+  // Initialisations ------------------
+
   return (
     <TouchableOpacity style={styles.completeTask} onPress={handleComplete}>
       <Text style={styles.textCompleteTask}>{text}</Text>
@@ -10,6 +20,7 @@ export const CompleteButtonButton = ({ handleComplete, text }) => {
 
 export const CompleteProjectButton = ({ project, handleComplete, text }) => {
   // Initialisations ------------------
+
   let allTasksCompleted = true;
   if (project.tasks.length > 0) {
     project.tasks.forEach((task) => {
@@ -23,7 +34,11 @@ export const CompleteProjectButton = ({ project, handleComplete, text }) => {
   // State ----------------------------
   // Handlers -------------------------
   const handleProjectNotCompleted = () => {
-    Alert.alert("Finish Tasks!", `All tasks must be completed for ${project.name}`, [{ text: "Cancel" }]);
+    Alert.alert(
+      "Finish Tasks!",
+      `All tasks must be completed for ${project.name}`,
+      [{ text: "Cancel" }]
+    );
   };
   // View -----------------------------
 
@@ -34,8 +49,13 @@ export const CompleteProjectButton = ({ project, handleComplete, text }) => {
           <Text style={styles.textCompleteTask}>{text}</Text>
         </TouchableOpacity>
       ) : (
-        <TouchableOpacity style={[styles.completeTask, { borderColor: "grey" }]} onPress={handleProjectNotCompleted}>
-          <Text style={[styles.textCompleteTask, { color: "grey" }]}>{text}</Text>
+        <TouchableOpacity
+          style={[styles.completeTask, { borderColor: "grey" }]}
+          onPress={handleProjectNotCompleted}
+        >
+          <Text style={[styles.textCompleteTask, { color: "grey" }]}>
+            {text}
+          </Text>
         </TouchableOpacity>
       )}
     </>

@@ -47,17 +47,35 @@ export default function App() {
           <Stack.Screen
             name="AddTaskScreen"
             component={AddTaskScreen}
-            options={{ title: " " }}
+            options={{
+              title: " ",
+              headerStyle: {
+                backgroundColor: "#BACDFF",
+              },
+              headerTintColor: "#fff",
+            }}
           />
           <Stack.Screen
             name="ModifyTaskScreen"
             component={ModifyTaskScreen}
-            options={{ title: " " }}
+            options={{
+              title: " ",
+              headerStyle: {
+                backgroundColor: "#BACDFF",
+              },
+              headerTintColor: "#fff",
+            }}
           />
           <Stack.Screen
             name="ModifyProjectScreen"
             component={ModifyProjectScreen}
-            options={{ title: " " }}
+            options={{
+              title: " ",
+              headerStyle: {
+                backgroundColor: "#C7DCF5",
+              },
+              headerTintColor: "#fff",
+            }}
           />
           <Stack.Screen
             name="ViewTaskScreen"

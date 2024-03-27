@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingVertical: 5,
     fontWeight: "500",
-    color: "black",
+    color: "white",
     fontFamily: "AnybodyRegular",
   },
   filterButtonsContainer: {

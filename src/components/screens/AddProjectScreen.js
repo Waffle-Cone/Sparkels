@@ -23,7 +23,7 @@ export default AddProjectScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#7AC0B8",
+    backgroundColor: "#CFD3F7",
   },
   formContainer: {
     //borderWidth: 1,

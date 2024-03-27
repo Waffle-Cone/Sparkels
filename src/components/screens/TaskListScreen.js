@@ -6,17 +6,20 @@
 
 // Gesture handler: https://docs.swmansion.com/react-native-gesture-handler/docs/fundamentals/installation/
 
+// Lottie Confetti Animation: https://dev.to/barrymichaeldoyle/react-native-tutorial-how-to-implement-a-celebration-confetti-burst-3if2
+
 // -----------------------------------------------------
 
 import "react-native-gesture-handler";
 import { StyleSheet, Text, TouchableOpacity, View, Alert } from "react-native";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef } from "react";
 import { ProjectContext } from "../context/ProjectContext";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import TaskList from "../entity/task/TaskList";
 import { CompleteProjectButton } from "../UI/CompleteButton";
 import CompletedStats from "../UI/CompletedStats";
 import HeaderCard from "../UI/HeaderCard";
+import LottieView from "lottie-react-native";
 
 const TaskListScreen = ({ navigation, route }) => {
   // Initialisations ------------------
@@ -48,9 +51,15 @@ const TaskListScreen = ({ navigation, route }) => {
     navigation.navigate("ModifyProjectScreen", { project });
   };
 
+  const confettiRef = useRef(null);
+  function triggerConfetti() {
+    confettiRef.current?.play(0);
+    console.log(confettiRef.current);
+  }
   const onProjectComplete = () => {
+    triggerConfetti();
     handleCompleteProject(selectedProject.id);
-    navigation.navigate("ProjectListScreen");
+    //navigation.navigate("ProjectListScreen");
   };
 
   const requestProjectComplete = () => {
@@ -97,6 +106,14 @@ const TaskListScreen = ({ navigation, route }) => {
         >
           <Text style={styles.textDeleteProjectButton}>Delete project</Text>
         </TouchableOpacity>
+        <LottieView
+          ref={confettiRef}
+          source={require("./../../../assets/confetti.json")}
+          autoPlay={false}
+          loop={false}
+          style={styles.lottie}
+          resizeMode="cover"
+        />
       </View>
     </GestureHandlerRootView>
   );
@@ -165,5 +182,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     color: "#DE485A",
+  },
+  lottie: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 1000,
+    pointerEvents: "none",
   },
 });

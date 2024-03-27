@@ -1,4 +1,12 @@
-import { Button, Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  Button,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import React, { useContext, useState } from "react";
 import TaskForm from "../entity/task/TaskForm";
 
@@ -12,7 +20,13 @@ const ModifyTaskScreen = ({ navigation, route }) => {
   // View -----------------------------
   return (
     <SafeAreaView style={styles.container}>
-      <TaskForm navigation={navigation} submitType="Modify" formTitle="Modify Task" project={selectedProject} selectedTask={task} />
+      <TaskForm
+        navigation={navigation}
+        submitType="Modify"
+        formTitle="Modify Task"
+        project={selectedProject}
+        selectedTask={task}
+      />
     </SafeAreaView>
   );
 };
@@ -21,5 +35,6 @@ export default ModifyTaskScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#BACDFF",
   },
 });

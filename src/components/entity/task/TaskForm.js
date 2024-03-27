@@ -1,4 +1,13 @@
-import { Button, Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  Button,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import React, { useContext, useEffect, useState } from "react";
@@ -9,7 +18,13 @@ import FormatTimeString from "../../util/FormatTimeString";
 import ToggleDateTimePicker from "../../UI/ToggleDateTimePicker";
 import NextID from "../../util/NextID";
 
-const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) => {
+const TaskForm = ({
+  navigation,
+  submitType,
+  formTitle,
+  project,
+  selectedTask,
+}) => {
   // Initialisations ------------------
 
   const { handleAddTask, handleModifyTask } = useContext(ProjectContext);
@@ -51,13 +66,21 @@ const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) 
 
   // State ----------------------------
   const [task, setTask] = useState(selectedTask || newTask);
-  const [errors, setErrors] = useState(Object.keys(task).reduce((acc, key) => ({ ...acc, [key]: null }), {}));
+  const [errors, setErrors] = useState(
+    Object.keys(task).reduce((acc, key) => ({ ...acc, [key]: null }), {})
+  );
 
   const [radioButtonNo, setRadioButtonNo] = useState(radioButtonNope);
   const [radioButtonYes, setRadioButtonYes] = useState(radioButtonYup);
-  const [goalTimeStamp, setGoalTimeStamp] = useState(task.goalTimeStamp || 1598054400000);
-  const [breakTimeStamp, setBreakTimeStamp] = useState(task.breakTimeStamp || 1598052600000);
-  const [breakTimeText, setBreakTimeText] = useState(FormatTimeString.breakTimeText(breakTimeStamp));
+  const [goalTimeStamp, setGoalTimeStamp] = useState(
+    task.goalTimeStamp || 1598054400000
+  );
+  const [breakTimeStamp, setBreakTimeStamp] = useState(
+    task.breakTimeStamp || 1598052600000
+  );
+  const [breakTimeText, setBreakTimeText] = useState(
+    FormatTimeString.breakTimeText(breakTimeStamp)
+  );
 
   /*
   useEffect(() => {
@@ -68,9 +91,17 @@ const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) 
   const handleChange = (field, value) => {
     if (field === "breakTime") {
       setBreakTimeText(FormatTimeString.breakTimeText(value));
-      setTask({ ...task, ["breakTime"]: getSeconds(value), ["breakTimeStamp"]: value });
+      setTask({
+        ...task,
+        ["breakTime"]: getSeconds(value),
+        ["breakTimeStamp"]: value,
+      });
     } else if (field === "goalTime") {
-      setTask({ ...task, ["goalTime"]: getSeconds(value), ["goalTimeStamp"]: value });
+      setTask({
+        ...task,
+        ["goalTime"]: getSeconds(value),
+        ["goalTimeStamp"]: value,
+      });
     } else {
       setTask({ ...task, [field]: value });
     }
@@ -80,14 +111,22 @@ const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) 
     if (radioButtonNo) {
       setRadioButtonNo(false);
     }
-    setTask({ ...task, ["breakTime"]: getSeconds(1598052600000), ["breakTimeStamp"]: 1598052600000 });
+    setTask({
+      ...task,
+      ["breakTime"]: getSeconds(1598052600000),
+      ["breakTimeStamp"]: 1598052600000,
+    });
     setRadioButtonYes(true);
   };
   const handleRadioButtonNo = () => {
     if (radioButtonYes) {
       setRadioButtonYes(false);
     }
-    setTask({ ...task, ["breakTime"]: undefined, ["breakTimeStamp"]: undefined });
+    setTask({
+      ...task,
+      ["breakTime"]: undefined,
+      ["breakTimeStamp"]: undefined,
+    });
     setRadioButtonNo(true);
   };
 
@@ -129,16 +168,33 @@ const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) 
 
   return (
     <View style={styles.taskForm}>
-      <Form submitType={submitType} onSubmit={handleSubmit} onCancel={handleCancel} title={formTitle}>
-        <Form.InputText label={"Task Name"} value={task.name} onChange={(value) => handleChange("name", value)} error={errors["name"]} />
-        <Form.InputText label={"Task Description"} value={task.description} onChange={(value) => handleChange("description", value)} error={errors["description"]} />
+      <Form
+        submitType={submitType}
+        onSubmit={handleSubmit}
+        onCancel={handleCancel}
+        title={formTitle}
+      >
+        <Form.InputText
+          label={"Task Name"}
+          value={task.name}
+          onChange={(value) => handleChange("name", value)}
+          error={errors["name"]}
+        />
+        <Form.InputText
+          label={"Task Description"}
+          value={task.description}
+          onChange={(value) => handleChange("description", value)}
+          error={errors["description"]}
+        />
         <Text style={styles.itemLabel}>Goal time to finish task?</Text>
         <DateTimePicker
           value={new Date(goalTimeStamp)}
           minuteInterval={1}
           mode={"countdown"}
           display="spinner"
-          onChange={(value) => handleChange("goalTime", value.nativeEvent.timestamp)}
+          onChange={(value) =>
+            handleChange("goalTime", value.nativeEvent.timestamp)
+          }
         />
         <ToggleDateTimePicker
           onButtonNo={handleRadioButtonNo}
@@ -162,8 +218,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   itemLabel: {
-    color: "grey",
-    fontSize: 16,
+    color: "black",
+    fontSize: 18,
     marginBottom: 5,
   },
 });

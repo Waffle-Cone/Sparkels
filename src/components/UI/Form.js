@@ -53,6 +53,7 @@ const Form = ({ children, submitType, onSubmit, onCancel, title }) => {
           </TouchableOpacity>
         ) : (
           <TouchableOpacity onPress={onSubmit} style={styles.button}>
+            <Icons.Edit />
             <Text style={styles.buttonText}>Modify</Text>
           </TouchableOpacity>
         )}
@@ -121,7 +122,7 @@ const styles = StyleSheet.create({
     padding: 30,
     fontSize: 28,
     fontWeight: "bold",
-    color: "white",
+    color: "black",
     fontFamily: "AnybodyBold",
   },
   formItems: {
@@ -131,7 +132,7 @@ const styles = StyleSheet.create({
     //backgroundColor: "red"
   },
   itemLabel: {
-    color: "white",
+    color: "black",
     fontSize: 18,
     marginBottom: 5,
   },

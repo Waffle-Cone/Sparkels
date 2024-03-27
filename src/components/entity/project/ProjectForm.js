@@ -8,7 +8,15 @@
 
 // -----------------------------------------------------
 
-import { Button, Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  Button,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { Calendar } from "react-native-calendars";
 import Project from "../../classes/Project";
@@ -17,7 +25,13 @@ import Form from "../../UI/Form";
 import { useIsFocused } from "@react-navigation/native";
 import NextID from "../../util/NextID";
 
-const ProjectForm = ({ navigation, submitType, formTitle, selectedProject, goBack }) => {
+const ProjectForm = ({
+  navigation,
+  submitType,
+  formTitle,
+  selectedProject,
+  goBack,
+}) => {
   // Initialisations ------------------
   const newProject = new Project();
   newProject.isCompleted = false;
@@ -38,14 +52,18 @@ const ProjectForm = ({ navigation, submitType, formTitle, selectedProject, goBac
   // State ----------------------------
   const [project, setProject] = useState(selectedProject || newProject);
   const [selectedDate, setSelectedDate] = useState(project.dueDate || "");
-  const [errors, setErrors] = useState(Object.keys(project).reduce((acc, key) => ({ ...acc, [key]: null }), {})); // = [name: null, description: null, dueDate: null, task: null, id: null]
+  const [errors, setErrors] = useState(
+    Object.keys(project).reduce((acc, key) => ({ ...acc, [key]: null }), {})
+  ); // = [name: null, description: null, dueDate: null, task: null, id: null]
 
   //+++ reset the text inputs back to null when re - visiting
   React.useEffect(() => {
     const newPage = navigation.addListener("focus", () => {
       setProject(selectedProject || newProject);
       setSelectedDate(project.dueDate || "");
-      setErrors(Object.keys(project).reduce((acc, key) => ({ ...acc, [key]: null }), {})); // = [name: null, description: null, dueDate: null, task: null, id: null]);
+      setErrors(
+        Object.keys(project).reduce((acc, key) => ({ ...acc, [key]: null }), {})
+      ); // = [name: null, description: null, dueDate: null, task: null, id: null]);
     });
     return newPage;
   }, [navigation]);
@@ -70,7 +88,8 @@ const ProjectForm = ({ navigation, submitType, formTitle, selectedProject, goBac
     });
     return isProjectValid;
   };
-  const handleChange = (field, value) => setProject({ ...project, [field]: value });
+  const handleChange = (field, value) =>
+    setProject({ ...project, [field]: value });
 
   const handleSubmit = () => {
     if (!selectedProject) {
@@ -104,9 +123,24 @@ const ProjectForm = ({ navigation, submitType, formTitle, selectedProject, goBac
 
   // View -----------------------------
   return (
-    <Form submitType={submitType} onSubmit={handleSubmit} onCancel={handleCancel} title={formTitle}>
-      <Form.InputText label={"Project Name"} value={project.name} onChange={(value) => handleChange("name", value)} error={errors["name"]} />
-      <Form.InputText label={"Project Description"} value={project.description} onChange={(value) => handleChange("description", value)} error={errors["description"]} />
+    <Form
+      submitType={submitType}
+      onSubmit={handleSubmit}
+      onCancel={handleCancel}
+      title={formTitle}
+    >
+      <Form.InputText
+        label={"Project Name"}
+        value={project.name}
+        onChange={(value) => handleChange("name", value)}
+        error={errors["name"]}
+      />
+      <Form.InputText
+        label={"Project Description"}
+        value={project.description}
+        onChange={(value) => handleChange("description", value)}
+        error={errors["description"]}
+      />
 
       {isFocused ? (
         <Calendar

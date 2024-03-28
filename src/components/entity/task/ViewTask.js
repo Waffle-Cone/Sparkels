@@ -121,13 +121,6 @@ const ViewTask = ({ navigation, task, project }) => {
     console.log(updatedTask);
   };
 
-  const confettiRef = useRef(null);
-
-  function triggerConfetti() {
-    confettiRef.current?.play(0);
-    console.log(confettiRef.current);
-  }
-
   const hasCompletedTask = () => {
     console.log("Well done!");
     updatedTask.completedStatus = 3;
@@ -164,7 +157,6 @@ const ViewTask = ({ navigation, task, project }) => {
         onPress: () => {
           updatedTask.actualTime = updatedTask.actualTime + 1;
           hasCompletedTask();
-          navigation.goBack();
         },
       },
     ]);
@@ -256,27 +248,13 @@ const ViewTask = ({ navigation, task, project }) => {
               <Text style={styles.pauseSoundButtonText}>Pause Sound</Text>
             </TouchableOpacity>
             <CompleteButtonButton
-              handleComplete={() => {
-                triggerConfetti();
-                hasCompletedTask();
-              }}
+              handleComplete={hasCompletedTask}
               text={"Complete Task"}
             />
           </>
         </View>
       ) : (
-        <>
-          <LottieView
-            ref={confettiRef}
-            source={require("./../../../../assets/confetti.json")}
-            autoPlay={false}
-            loop={false}
-            style={styles.lottie}
-            resizeMode="cover"
-          />
-
-          <CompletedStats.TaskCompletedStats task={task} />
-        </>
+        <CompletedStats.TaskCompletedStats task={updatedTask} />
       )}
     </View>
   );

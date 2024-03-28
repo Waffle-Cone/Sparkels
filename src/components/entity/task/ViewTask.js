@@ -24,6 +24,7 @@ import Vibrate from "../../util/Vibrate";
 import MyCounter from "../../UI/MyCounter";
 import Task from "../../classes/Task";
 import GetCompletedStatus from "../../util/GetCompletedStatus";
+import LottieView from "lottie-react-native";
 
 const ViewTask = ({ navigation, task, project }) => {
   // Initialisations ------------------
@@ -118,6 +119,12 @@ const ViewTask = ({ navigation, task, project }) => {
     console.log(updatedTask);
   };
 
+  const confettiRef = useRef(null);
+  function triggerConfetti() {
+    confettiRef.current?.play(0);
+    console.log(confettiRef.current);
+  }
+
   const hasCompletedTask = () => {
     console.log("Well done!");
     updatedTask.completedStatus = 3;
@@ -127,6 +134,7 @@ const ViewTask = ({ navigation, task, project }) => {
     setCompletedStatus(3);
     console.log(JSON.stringify(updatedTask) + " completed successfully");
     handleModifyTask(project.id, updatedTask);
+    triggerConfetti();
   };
 
   const needsOvertime = () => {
@@ -202,6 +210,14 @@ const ViewTask = ({ navigation, task, project }) => {
               handleComplete={hasCompletedTask}
               text={"Complete Task"}
             />
+            <LottieView
+              ref={confettiRef}
+              source={require("./../../../../assets/confetti.json")}
+              autoPlay={false}
+              loop={false}
+              style={styles.lottie}
+              resizeMode="cover"
+            />
           </>
         </View>
       ) : (
@@ -217,5 +233,14 @@ const styles = StyleSheet.create({
   body: {
     //gap: 20,
     alignItems: "center",
+  },
+  lottie: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 1000,
+    pointerEvents: "none",
   },
 });

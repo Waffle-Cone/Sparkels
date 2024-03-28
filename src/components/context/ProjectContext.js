@@ -4,11 +4,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const ProjectContext = createContext();
 
-export const ProjectProvider = ({ children }) => {
+export const ProjectProvider = ({ children, getHeaderProject }) => {
   // Initialisations ------------------
 
   // State ----------------------------
   const [projects, setProjects] = useState(initialProjects);
+  const [projectForStyling, setProjectForStyling] = useState(null);
   //console.log(`Context ==== ${JSON.stringify(projects)}`);
 
   // Persistent Storage ---------------
@@ -122,6 +123,14 @@ export const ProjectProvider = ({ children }) => {
     handleModify(selectedProject);
   };
 
+  const selectedProjectForHeaderStyle = async (project) => {
+    setProjectForStyling(project);
+  };
+
+  useEffect(() => {
+    getHeaderProject(projectForStyling);
+  }, [projectForStyling]);
+
   // View -----------------------------
   return (
     <ProjectContext.Provider
@@ -137,6 +146,7 @@ export const ProjectProvider = ({ children }) => {
         getProject,
         getTask,
         handleCompleteProject,
+        selectedProjectForHeaderStyle,
       }}
     >
       {children}

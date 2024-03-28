@@ -27,9 +27,9 @@ const TaskListScreen = ({ navigation, route }) => {
   const { project } = route.params;
 
   // State ----------------------------
-  const { handleDelete, handleCompleteProject, getProject } =
-    useContext(ProjectContext);
+  const { handleDelete, handleCompleteProject, getProject, selectedProjectForHeaderStyle } = useContext(ProjectContext);
   const selectedProject = getProject(project.id)._j; // force get the project again to force state to be synced
+  selectedProjectForHeaderStyle(selectedProject);
 
   // Handlers -------------------------
   const onDelete = () => {
@@ -38,14 +38,10 @@ const TaskListScreen = ({ navigation, route }) => {
   };
 
   const requestDelete = () => {
-    Alert.alert(
-      "Delete warning",
-      `Are you sure that you want to delete this Project ${selectedProject.name}`,
-      [
-        { text: "Cancel" },
-        { text: "Delete", onPress: onDelete, style: "destructive" },
-      ]
-    );
+    Alert.alert("Delete warning", `Are you sure that you want to delete this Project ${selectedProject.name}`, [
+      { text: "Cancel" },
+      { text: "Delete", onPress: onDelete, style: "destructive" },
+    ]);
   };
 
   const goToModifyProject = () => {
@@ -64,14 +60,10 @@ const TaskListScreen = ({ navigation, route }) => {
   };
 
   const requestProjectComplete = () => {
-    Alert.alert(
-      "Completion warning",
-      `This will auto complete all tasks in Project ${selectedProject.name}`,
-      [
-        { text: "Cancel" },
-        { text: "Complete", onPress: onProjectComplete, style: "destructive" },
-      ]
-    );
+    Alert.alert("Completion warning", `This will auto complete all tasks in Project ${selectedProject.name}`, [
+      { text: "Cancel" },
+      { text: "Complete", onPress: onProjectComplete, style: "destructive" },
+    ]);
   };
   console.log(`TaskList ==== ${JSON.stringify(selectedProject.tasks)}`);
   // View -----------------------------
@@ -83,40 +75,22 @@ const TaskListScreen = ({ navigation, route }) => {
           description={selectedProject.description}
           time={`Due Date: ${selectedProject.dueDate}`}
           onPress={goToModifyProject}
-          backgroundColor="#C7DCF5"
+          project={selectedProject}
         />
         {!selectedProject.isCompleted ? (
           <>
-            <CompleteProjectButton
-              project={selectedProject}
-              handleComplete={requestProjectComplete}
-              text={"Complete Project"}
-            />
-            <TaskList
-              navigation={navigation}
-              route={route}
-              project={selectedProject}
-            />
+            <CompleteProjectButton project={selectedProject} handleComplete={requestProjectComplete} text={"Complete Project"} />
+            <TaskList navigation={navigation} route={route} project={selectedProject} />
           </>
         ) : (
           <CompletedStats.ProjectCompletedStates project={selectedProject} />
         )}
 
-        <TouchableOpacity
-          style={styles.deleteProjectButton}
-          onPress={requestDelete}
-        >
+        <TouchableOpacity style={styles.deleteProjectButton} onPress={requestDelete}>
           <Icons.Delete color="#DE485A" />
           <Text style={styles.textDeleteProjectButton}>Delete project</Text>
         </TouchableOpacity>
-        <LottieView
-          ref={confettiRef}
-          source={require("./../../../assets/confetti.json")}
-          autoPlay={false}
-          loop={false}
-          style={styles.lottie}
-          resizeMode="cover"
-        />
+        <LottieView ref={confettiRef} source={require("./../../../assets/confetti.json")} autoPlay={false} loop={false} style={styles.lottie} resizeMode="cover" />
       </View>
     </GestureHandlerRootView>
   );

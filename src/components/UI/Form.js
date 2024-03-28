@@ -15,17 +15,28 @@ import RadioGroup from "react-native-radio-buttons-group";
 import { useFonts } from "expo-font";
 import Icons from "./Icons";
 
-const Form = ({ children, submitType, onSubmit, onCancel, title }) => {
+const Form = ({ children, submitType, onSubmit, onCancel, title, isTaskPage }) => {
   const [fontsLoaded] = useFonts({
     AnybodyBold: require("./../../../assets/fonts/Anybody-Bold.ttf"),
     AnybodyRegular: require("./../../../assets/fonts/Anybody-Regular.ttf"),
   });
   const scrollRef = useRef();
+  const pageLoaded = useRef(false);
+  console.log(pageLoaded.current);
   return (
     <FormLayout>
       <Text style={styles.title}>{title}</Text>
       <KeyboardAvoidingView keyboardVerticalOffset={115} behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.formContainer} enabled>
-        <ScrollView ref={scrollRef} contentContainerStyle={styles.formItems} onContentSizeChange={() => scrollRef.current.scrollToEnd({ animated: true })}>
+        <ScrollView
+          ref={scrollRef}
+          contentContainerStyle={styles.formItems}
+          onContentSizeChange={() => {
+            if (pageLoaded.current && isTaskPage) {
+              scrollRef.current.scrollToEnd({ animated: true });
+            }
+            pageLoaded.current = true;
+          }}
+        >
           {children}
         </ScrollView>
       </KeyboardAvoidingView>
@@ -81,8 +92,9 @@ const InputSelect = ({ label, prompt, options, value, onChange }) => {
 
 const ColorPicker = ({ label, prompt, radioButtons, selectedId, onChange }) => {
   return (
-    <View>
-      <RadioGroup radioButtons={radioButtons} onPress={(id) => onChange(id)} selectedId={selectedId} layout="row" />
+    <View style={{ paddingBottom: 20 }}>
+      <Text style={styles.itemLabel}>{label}</Text>
+      <RadioGroup containerStyle={styles.colorPicker} radioButtons={radioButtons} onPress={(id) => onChange(id)} selectedId={selectedId} layout="row" />
     </View>
   );
 };
@@ -167,5 +179,11 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 18,
+  },
+  colorPicker: {
+    backgroundColor: "white",
+    borderRadius: 7,
+    borderWidth: 1,
+    borderColor: "black",
   },
 });

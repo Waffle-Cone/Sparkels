@@ -7,7 +7,9 @@
 // React Native Countdown timer code, https://www.npmjs.com/package/react-native-countdown-circle-timer
 // React Timer, https://github.com/leejaehyup/react-native-timestamp-timer-hooks/blob/master/example/src/Timer.tsx
 
-// Linear Gradient Background https://docs.expo.dev/versions/latest/sdk/linear-gradient/
+// Linear Gradient Background: https://docs.expo.dev/versions/latest/sdk/linear-gradient/
+
+// Background Sound: https://docs.expo.dev/versions/latest/sdk/audio/
 
 // -----------------------------------------------------
 
@@ -22,13 +24,11 @@ import StartPauseButtons from "../../UI/StartPauseButtons";
 import MyCountdownCircleTimer from "../../UI/MyCountdownCircleTimer";
 import Vibrate from "../../util/Vibrate";
 import MyCounter from "../../UI/MyCounter";
-import Task from "../../classes/Task";
 import Icons from "../../UI/Icons";
 import GetCompletedStatus from "../../util/GetCompletedStatus";
-import LottieView from "lottie-react-native";
 import { Audio } from "expo-av";
 
-const ViewTask = ({ navigation, task, project }) => {
+const ViewTask = ({ task, project }) => {
   // Initialisations ------------------
   const { handleModifyTask } = useContext(ProjectContext);
   let loadCountdownTime = 0;

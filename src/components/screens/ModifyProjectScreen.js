@@ -1,12 +1,4 @@
-import {
-  Button,
-  Pressable,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { SafeAreaView, StyleSheet } from "react-native";
 import React, { useContext, useState } from "react";
 import ProjectForm from "../entity/project/ProjectForm";
 

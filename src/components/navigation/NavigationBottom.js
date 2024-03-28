@@ -1,10 +1,9 @@
 import React from "react";
-import { StyleSheet, Text, View, Image, SafeAreaView } from "react-native";
+import { Text, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ProjectListScreen from "../screens/ProjectListScreen";
 import Icons from "../UI/Icons";
 import AddProjectScreen from "../screens/AddProjectScreen";
-import AddTaskScreen from "../screens/AddTaskScreen";
 
 const Tab = createBottomTabNavigator();
 

@@ -1,5 +1,4 @@
-import { Button, Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
+import { StyleSheet, Text, View } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import React, { useContext, useEffect, useState } from "react";
 import Task from "../../classes/Task";
@@ -9,7 +8,13 @@ import FormatTimeString from "../../util/FormatTimeString";
 import ToggleDateTimePicker from "../../UI/ToggleDateTimePicker";
 import NextID from "../../util/NextID";
 
-const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) => {
+const TaskForm = ({
+  navigation,
+  submitType,
+  formTitle,
+  project,
+  selectedTask,
+}) => {
   // Initialisations ------------------
 
   const { handleAddTask, handleModifyTask } = useContext(ProjectContext);
@@ -51,13 +56,21 @@ const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) 
 
   // State -----------------------------------------------
   const [task, setTask] = useState(selectedTask || newTask);
-  const [errors, setErrors] = useState(Object.keys(task).reduce((acc, key) => ({ ...acc, [key]: null }), {}));
+  const [errors, setErrors] = useState(
+    Object.keys(task).reduce((acc, key) => ({ ...acc, [key]: null }), {})
+  );
 
   const [radioButtonNo, setRadioButtonNo] = useState(radioButtonNope);
   const [radioButtonYes, setRadioButtonYes] = useState(radioButtonYup);
-  const [goalTimeStamp, setGoalTimeStamp] = useState(task.goalTimeStamp || 1598054400000);
-  const [breakTimeStamp, setBreakTimeStamp] = useState(task.breakTimeStamp || 1598052600000);
-  const [breakTimeText, setBreakTimeText] = useState(FormatTimeString.breakTimeText(breakTimeStamp));
+  const [goalTimeStamp, setGoalTimeStamp] = useState(
+    task.goalTimeStamp || 1598054400000
+  );
+  const [breakTimeStamp, setBreakTimeStamp] = useState(
+    task.breakTimeStamp || 1598052600000
+  );
+  const [breakTimeText, setBreakTimeText] = useState(
+    FormatTimeString.breakTimeText(breakTimeStamp)
+  );
 
   /*
   useEffect(() => {
@@ -146,16 +159,34 @@ const TaskForm = ({ navigation, submitType, formTitle, project, selectedTask }) 
   // View ------------------------------------------------
   return (
     <View style={styles.taskForm}>
-      <Form submitType={submitType} onSubmit={handleSubmit} onCancel={handleCancel} title={formTitle} isTaskPage={true}>
-        <Form.InputText label={"Task Name"} value={task.name} onChange={(value) => handleChange("name", value)} error={errors["name"]} />
-        <Form.InputText label={"Task Description"} value={task.description} onChange={(value) => handleChange("description", value)} error={errors["description"]} />
+      <Form
+        submitType={submitType}
+        onSubmit={handleSubmit}
+        onCancel={handleCancel}
+        title={formTitle}
+        isTaskPage={true}
+      >
+        <Form.InputText
+          label={"Task Name"}
+          value={task.name}
+          onChange={(value) => handleChange("name", value)}
+          error={errors["name"]}
+        />
+        <Form.InputText
+          label={"Task Description"}
+          value={task.description}
+          onChange={(value) => handleChange("description", value)}
+          error={errors["description"]}
+        />
         <Text style={styles.itemLabel}>Goal time to finish task?</Text>
         <DateTimePicker
           value={new Date(goalTimeStamp)}
           minuteInterval={1}
           mode={"countdown"}
           display="spinner"
-          onChange={(value) => handleChange("goalTime", value.nativeEvent.timestamp)}
+          onChange={(value) =>
+            handleChange("goalTime", value.nativeEvent.timestamp)
+          }
         />
         <ToggleDateTimePicker
           onButtonNo={handleRadioButtonNo}

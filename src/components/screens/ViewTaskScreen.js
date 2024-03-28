@@ -8,7 +8,7 @@
 
 // -----------------------------------------------------
 
-import { StyleSheet, Text, View, SafeAreaView } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import ViewTask from "../entity/task/ViewTask.js";
 import { LinearGradient } from "expo-linear-gradient";

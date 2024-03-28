@@ -1,11 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Alert,
-  Button,
-} from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
 import React from "react";
 import Icons from "./Icons";
 
@@ -79,7 +72,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "flex-end",
     paddingTop: 50,
-    //paddingBottom: 20,
   },
   completeTaskProject: {
     flexDirection: "row",

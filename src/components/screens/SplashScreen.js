@@ -1,11 +1,4 @@
-import {
-  TouchableOpacity,
-  StyleSheet,
-  View,
-  Text,
-  SafeAreaView,
-  Image,
-} from "react-native";
+import { TouchableOpacity, StyleSheet, View, Text, Image } from "react-native";
 import * as Font from "expo-font";
 import React, { useEffect, useState } from "react";
 
@@ -112,7 +105,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 10,
-    //marginTop: 100,
     marginBottom: 100,
   },
   textButton: {

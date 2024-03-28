@@ -21,10 +21,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "../../context/ProjectContext";
 import Icons from "../../UI/Icons";
 import DraggableFlatList from "react-native-draggable-flatlist";
-import {
-  GestureHandlerRootView,
-  ScrollView,
-} from "react-native-gesture-handler";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import TaskItem from "./TaskItem";
 
 const TaskList = ({ navigation, project }) => {

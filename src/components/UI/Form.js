@@ -7,7 +7,17 @@
 
 // -----------------------------------------------------
 
-import { Platform, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, View, Pressable, TouchableOpacity } from "react-native";
+import {
+  Platform,
+  KeyboardAvoidingView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Pressable,
+  TouchableOpacity,
+} from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import FormLayout from "../layout/FormLayout";
 import { useRef, useMemo, useState } from "react";
@@ -15,18 +25,32 @@ import RadioGroup from "react-native-radio-buttons-group";
 import { useFonts } from "expo-font";
 import Icons from "./Icons";
 
-const Form = ({ children, submitType, onSubmit, onCancel, title, isTaskPage }) => {
+const Form = ({
+  children,
+  submitType,
+  onSubmit,
+  onCancel,
+  title,
+  isTaskPage,
+}) => {
   const [fontsLoaded] = useFonts({
     AnybodyBold: require("./../../../assets/fonts/Anybody-Bold.ttf"),
     AnybodyRegular: require("./../../../assets/fonts/Anybody-Regular.ttf"),
   });
+
   const scrollRef = useRef();
   const pageLoaded = useRef(false);
   console.log(pageLoaded.current);
+
   return (
     <FormLayout>
       <Text style={styles.title}>{title}</Text>
-      <KeyboardAvoidingView keyboardVerticalOffset={115} behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.formContainer} enabled>
+      <KeyboardAvoidingView
+        keyboardVerticalOffset={115}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.formContainer}
+        enabled
+      >
         <ScrollView
           ref={scrollRef}
           contentContainerStyle={styles.formItems}
@@ -67,7 +91,12 @@ const InputText = ({ label, value, onChange, prompt, keyboardType, error }) => {
     <View style={styles.item}>
       <Text style={styles.itemLabel}>{label}</Text>
       {prompt ? <Text style={styles.itemPrompt}>{prompt}</Text> : null}
-      <TextInput style={styles.itemTextInput} value={value} onChangeText={onChange} keyboardType={keyboardType} />
+      <TextInput
+        style={styles.itemTextInput}
+        value={value}
+        onChangeText={onChange}
+        keyboardType={keyboardType}
+      />
       <Text style={styles.error}>{error}</Text>
     </View>
   );
@@ -77,13 +106,31 @@ const InputSelect = ({ label, prompt, options, value, onChange }) => {
   return (
     <View style={styles.item}>
       <Text style={styles.itemLabel}>{label}</Text>
-      {Platform.OS === "ios" ? <Text style={styles.itemPrompt}>{prompt}</Text> : null}
+      {Platform.OS === "ios" ? (
+        <Text style={styles.itemPrompt}>{prompt}</Text>
+      ) : null}
 
-      <Picker mode="dropdown" selectedValue={value} onValueChange={onChange} style={styles.itemPicker}>
-        {!Platform.OS === "ios" ? <Picker.Item value={null} label={prompt} itemStyle={styles.itemPromptPicker} enabled={false} /> : null}
+      <Picker
+        mode="dropdown"
+        selectedValue={value}
+        onValueChange={onChange}
+        style={styles.itemPicker}
+      >
+        {!Platform.OS === "ios" ? (
+          <Picker.Item
+            value={null}
+            label={prompt}
+            itemStyle={styles.itemPromptPicker}
+            enabled={false}
+          />
+        ) : null}
 
         {options.map((option) => (
-          <Picker.Item key={option.value} value={option.value} label={option.label} />
+          <Picker.Item
+            key={option.value}
+            value={option.value}
+            label={option.label}
+          />
         ))}
       </Picker>
     </View>
@@ -94,7 +141,13 @@ const ColorPicker = ({ label, prompt, radioButtons, selectedId, onChange }) => {
   return (
     <View style={{ paddingBottom: 20 }}>
       <Text style={styles.itemLabel}>{label}</Text>
-      <RadioGroup containerStyle={styles.colorPicker} radioButtons={radioButtons} onPress={(id) => onChange(id)} selectedId={selectedId} layout="row" />
+      <RadioGroup
+        containerStyle={styles.colorPicker}
+        radioButtons={radioButtons}
+        onPress={(id) => onChange(id)}
+        selectedId={selectedId}
+        layout="row"
+      />
     </View>
   );
 };
@@ -121,7 +174,6 @@ const styles = StyleSheet.create({
     gap: 9,
     paddingLeft: 40,
     paddingRight: 40,
-    //backgroundColor: "red"
   },
   itemLabel: {
     color: "black",
@@ -135,7 +187,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 7,
     borderWidth: 1,
-    //borderColor: "#407E7A",
     borderColor: "black",
   },
   itemPicker: {
@@ -156,7 +207,7 @@ const styles = StyleSheet.create({
   buttonTray: {
     flex: 1,
     gap: 30,
-    maxHeight: 0, // use only what is needed for the buttons
+    maxHeight: 0,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "flex-end",

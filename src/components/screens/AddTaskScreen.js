@@ -1,13 +1,4 @@
-import {
-  Button,
-  Pressable,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
-import { useContext, useState } from "react";
+import { SafeAreaView, StyleSheet } from "react-native";
 import TaskForm from "../entity/task/TaskForm";
 
 const AddTaskScreen = ({ navigation, route }) => {

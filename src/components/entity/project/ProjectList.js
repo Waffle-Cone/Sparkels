@@ -1,6 +1,4 @@
-import { TouchableOpacity, View, StyleSheet, Text, FlatList, ScrollView } from "react-native";
-import Icons from "../../UI/Icons";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { View, StyleSheet, ScrollView } from "react-native";
 import ProjectItem from "./ProjectItem";
 
 const ProjectList = ({ projects, onPress }) => {

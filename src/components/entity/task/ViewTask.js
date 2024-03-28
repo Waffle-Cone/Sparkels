@@ -131,10 +131,10 @@ const ViewTask = ({ navigation, task, project }) => {
     setUpdatedTask({ ...updatedTask, ["completedStatus"]: 3 });
 
     // completed successfully
+    triggerConfetti();
     setCompletedStatus(3);
     console.log(JSON.stringify(updatedTask) + " completed successfully");
     handleModifyTask(project.id, updatedTask);
-    triggerConfetti();
   };
 
   const needsOvertime = () => {
@@ -175,6 +175,7 @@ const ViewTask = ({ navigation, task, project }) => {
         title={`${task.name} ${task.id}`}
         description={task.description}
         time={`Status: ${GetCompletedStatus(updatedTask.completedStatus)}`}
+        backgroundColor="white"
       />
       {completedStatus !== 3 ? (
         <View style={styles.body}>

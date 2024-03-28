@@ -38,6 +38,7 @@ export const ProjectProvider = ({ children }) => {
   useEffect(() => {
     loadProjects();
   }, []);
+
   useEffect(() => {
     console.log("SAVED");
     saveProjects();

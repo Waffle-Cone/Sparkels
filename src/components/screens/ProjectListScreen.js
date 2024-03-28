@@ -39,7 +39,6 @@ const ProjectListScreen = ({ navigation }) => {
   const { projects } = useContext(ProjectContext);
   const [filterButton, setFilterButton] = useState("todo");
   const [search, setSearch] = useState(null);
-  const [searchResults, setSearchResults] = useState([]);
   const [filteredProjects, setFilteredProjects] = useState([]);
 
   //console.log(JSON.stringify(projects));

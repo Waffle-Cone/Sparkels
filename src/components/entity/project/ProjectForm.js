@@ -10,7 +10,15 @@
 
 // -----------------------------------------------------
 
-import { Button, Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  Button,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { Calendar } from "react-native-calendars";
 import Project from "../../classes/Project";
@@ -19,7 +27,13 @@ import Form from "../../UI/Form";
 import { useIsFocused } from "@react-navigation/native";
 import NextID from "../../util/NextID";
 
-const ProjectForm = ({ navigation, submitType, formTitle, selectedProject, goBack }) => {
+const ProjectForm = ({
+  navigation,
+  submitType,
+  formTitle,
+  selectedProject,
+  goBack,
+}) => {
   // Initialisations ------------------
   const newProject = new Project();
   newProject.isCompleted = false;
@@ -40,19 +54,19 @@ const ProjectForm = ({ navigation, submitType, formTitle, selectedProject, goBac
         id: "1", // acts as primary key, should be unique and non-empty string
         label: "Default",
         value: ["#D8DCFF", "#484F8A"], // [backgroundColor, borderColor]
-        color: "#D8DCFF",
+        color: "#484F8A",
       },
       {
         id: "2", // acts as primary key, should be unique and non-empty string
-        label: "Purple",
-        value: ["#e44694", "#cb3e84"], // [backgroundColor, borderColor]
-        color: "#e44694",
+        label: "Blue",
+        value: ["#C7DCF5", "#4581C9"], // [backgroundColor, borderColor]
+        color: "#4581C9",
       },
       {
         id: "3",
         label: "Orange",
-        value: ["#eb7474", "#cc6666"], // [backgroundColor, borderColor]
-        color: "#eb7474",
+        value: ["#F6CCBB", "#E37452"], // [backgroundColor, borderColor]
+        color: "#E37452",
       },
     ],
     []
@@ -64,7 +78,9 @@ const ProjectForm = ({ navigation, submitType, formTitle, selectedProject, goBac
   // State ----------------------------
   const [project, setProject] = useState(selectedProject || newProject);
   const [selectedDate, setSelectedDate] = useState(project.dueDate || "");
-  const [errors, setErrors] = useState(Object.keys(project).reduce((acc, key) => ({ ...acc, [key]: null }), {})); // = [name: null, description: null, dueDate: null, task: null, id: null]
+  const [errors, setErrors] = useState(
+    Object.keys(project).reduce((acc, key) => ({ ...acc, [key]: null }), {})
+  ); // = [name: null, description: null, dueDate: null, task: null, id: null]
   const [selectedId, setSelectedId] = useState(1);
 
   //+++ reset the text inputs back to null when re - visiting
@@ -72,7 +88,9 @@ const ProjectForm = ({ navigation, submitType, formTitle, selectedProject, goBac
     const newPage = navigation.addListener("focus", () => {
       setProject(selectedProject || newProject);
       setSelectedDate(project.dueDate || "");
-      setErrors(Object.keys(project).reduce((acc, key) => ({ ...acc, [key]: null }), {})); // = [name: null, description: null, dueDate: null, task: null, id: null]);
+      setErrors(
+        Object.keys(project).reduce((acc, key) => ({ ...acc, [key]: null }), {})
+      ); // = [name: null, description: null, dueDate: null, task: null, id: null]);
       setSelectedId(1);
     });
     return newPage;
@@ -98,7 +116,8 @@ const ProjectForm = ({ navigation, submitType, formTitle, selectedProject, goBac
     });
     return isProjectValid;
   };
-  const handleChange = (field, value) => setProject({ ...project, [field]: value });
+  const handleChange = (field, value) =>
+    setProject({ ...project, [field]: value });
 
   const handleColorPicker = (id) => {
     console.log(id);
@@ -142,9 +161,24 @@ const ProjectForm = ({ navigation, submitType, formTitle, selectedProject, goBac
 
   // View -----------------------------
   return (
-    <Form submitType={submitType} onSubmit={handleSubmit} onCancel={handleCancel} title={formTitle}>
-      <Form.InputText label={"Project Name"} value={project.name} onChange={(value) => handleChange("name", value)} error={errors["name"]} />
-      <Form.InputText label={"Project Description"} value={project.description} onChange={(value) => handleChange("description", value)} error={errors["description"]} />
+    <Form
+      submitType={submitType}
+      onSubmit={handleSubmit}
+      onCancel={handleCancel}
+      title={formTitle}
+    >
+      <Form.InputText
+        label={"Project Name"}
+        value={project.name}
+        onChange={(value) => handleChange("name", value)}
+        error={errors["name"]}
+      />
+      <Form.InputText
+        label={"Project Description"}
+        value={project.description}
+        onChange={(value) => handleChange("description", value)}
+        error={errors["description"]}
+      />
 
       {isFocused ? (
         <Calendar
@@ -160,7 +194,11 @@ const ProjectForm = ({ navigation, submitType, formTitle, selectedProject, goBac
         />
       ) : null}
       <Text style={styles.error}> {errors["dueDate"]}</Text>
-      <Form.ColorPicker onChange={handleColorPicker} radioButtons={radioButtons} selectedId={selectedId} />
+      <Form.ColorPicker
+        onChange={handleColorPicker}
+        radioButtons={radioButtons}
+        selectedId={selectedId}
+      />
     </Form>
   );
 };

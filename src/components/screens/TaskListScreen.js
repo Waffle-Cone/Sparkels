@@ -20,6 +20,7 @@ import { CompleteProjectButton } from "../UI/CompleteButton";
 import CompletedStats from "../UI/CompletedStats";
 import HeaderCard from "../UI/HeaderCard";
 import LottieView from "lottie-react-native";
+import Icons from "../UI/Icons";
 
 const TaskListScreen = ({ navigation, route }) => {
   // Initialisations ------------------
@@ -82,6 +83,7 @@ const TaskListScreen = ({ navigation, route }) => {
           description={selectedProject.description}
           time={`Due Date: ${selectedProject.dueDate}`}
           onPress={goToModifyProject}
+          backgroundColor="#C7DCF5"
         />
         {!selectedProject.isCompleted ? (
           <>
@@ -104,6 +106,7 @@ const TaskListScreen = ({ navigation, route }) => {
           style={styles.deleteProjectButton}
           onPress={requestDelete}
         >
+          <Icons.Delete color="#DE485A" />
           <Text style={styles.textDeleteProjectButton}>Delete project</Text>
         </TouchableOpacity>
         <LottieView
@@ -166,6 +169,8 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   deleteProjectButton: {
+    flexDirection: "row",
+    gap: 10,
     alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
@@ -175,7 +180,7 @@ const styles = StyleSheet.create({
     borderColor: "#DE485A",
     backgroundColor: "white",
     height: 50,
-    width: 350,
+    width: "100%",
   },
   textDeleteProjectButton: {
     fontSize: 16,

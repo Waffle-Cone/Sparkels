@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Switch,
 } from "react-native";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -25,8 +26,7 @@ const TaskForm = ({
   project,
   selectedTask,
 }) => {
-  // Initialisations ------------------
-
+  // Initialisations -----------------------------------
   const { handleAddTask, handleModifyTask } = useContext(ProjectContext);
   let radioButtonNope = true;
   let radioButtonYup = false;
@@ -64,7 +64,7 @@ const TaskForm = ({
     breakTimeStamp: "break time stamp",
   };
 
-  // State ----------------------------
+  // State -----------------------------------------------
   const [task, setTask] = useState(selectedTask || newTask);
   const [errors, setErrors] = useState(
     Object.keys(task).reduce((acc, key) => ({ ...acc, [key]: null }), {})
@@ -86,7 +86,7 @@ const TaskForm = ({
   useEffect(() => {
     setTask({ ...task, ["goalTime"]: getSeconds(1598054400000), ["goalTimeStamp"]: 1598054400000 });
   }, []);*/
-  // Handlers -------------------------
+  // Handlers ---------------------------------------------
 
   const handleChange = (field, value) => {
     if (field === "breakTime") {
@@ -118,6 +118,7 @@ const TaskForm = ({
     });
     setRadioButtonYes(true);
   };
+
   const handleRadioButtonNo = () => {
     if (radioButtonYes) {
       setRadioButtonYes(false);
@@ -164,8 +165,8 @@ const TaskForm = ({
   const handleCancel = () => {
     navigation.goBack();
   };
-  // View -----------------------------
 
+  // View ------------------------------------------------
   return (
     <View style={styles.taskForm}>
       <Form

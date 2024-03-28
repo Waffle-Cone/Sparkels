@@ -7,6 +7,7 @@ import {
   Button,
 } from "react-native";
 import React from "react";
+import Icons from "./Icons";
 
 export const CompleteButtonButton = ({ handleComplete, text }) => {
   // Initialisations ------------------
@@ -14,6 +15,7 @@ export const CompleteButtonButton = ({ handleComplete, text }) => {
   return (
     <View style={styles.buttonCompleteTray}>
       <TouchableOpacity style={styles.completeTask} onPress={handleComplete}>
+        <Icons.CheckComplete color="#649C95" />
         <Text style={styles.textCompleteTask}>{text}</Text>
       </TouchableOpacity>
     </View>
@@ -51,6 +53,7 @@ export const CompleteProjectButton = ({ project, handleComplete, text }) => {
           style={styles.completeTaskProject}
           onPress={handleComplete}
         >
+          <Icons.CheckComplete color="#649C95" />
           <Text style={styles.textCompleteTask}>{text}</Text>
         </TouchableOpacity>
       ) : (
@@ -58,6 +61,7 @@ export const CompleteProjectButton = ({ project, handleComplete, text }) => {
           style={styles.completeTaskProject}
           onPress={handleProjectNotCompleted}
         >
+          <Icons.CheckComplete color="#649C95" />
           <Text style={[styles.textCompleteTask, { color: "#375E59" }]}>
             {text}
           </Text>
@@ -74,10 +78,12 @@ const styles = StyleSheet.create({
     gap: 30,
     justifyContent: "center",
     alignItems: "flex-end",
-    //paddingTop: 50,
+    paddingTop: 50,
     //paddingBottom: 20,
   },
   completeTaskProject: {
+    flexDirection: "row",
+    gap: 10,
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 20,
@@ -90,6 +96,8 @@ const styles = StyleSheet.create({
     minWidth: "100%",
   },
   completeTask: {
+    flexDirection: "row",
+    gap: 10,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 250,

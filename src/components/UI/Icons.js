@@ -27,7 +27,9 @@ const Account = ({ color }) => (
 
 //Utility Icons
 const Add = ({ color }) => <MaterialIcons name="add" size={24} color={color} />;
-const Delete = () => <AntDesign name="delete" size={24} color="black" />;
+const Delete = ({ color }) => (
+  <AntDesign name="delete" size={24} color={color} />
+);
 const Edit = () => <AntDesign name="edit" size={24} color="black" />;
 const Back = () => <AntDesign name="back" size={24} color="black" />;
 
@@ -43,6 +45,12 @@ const ArrowRight = () => (
 
 const Check = () => (
   <FontAwesome name="check-circle" size={40} color="#41C37D" />
+);
+const CheckComplete = ({ color }) => (
+  <AntDesign name="checkcircleo" size={24} color={color} />
+);
+const Minus = ({ color }) => (
+  <AntDesign name="minuscircleo" size={24} color={color} />
 );
 const SearchCancel = () => <MaterialIcons name="cancel" size={25} />;
 const Search = () => <MaterialIcons name="search" size={20} />;
@@ -62,16 +70,18 @@ Icons.AddIcon = AddIcon;
 Icons.ArrowRight = ArrowRight;
 Icons.Back = Back;
 Icons.Check = Check;
+Icons.CheckComplete = CheckComplete;
 Icons.Delete = Delete;
 Icons.Edit = Edit;
-Icons.Project = Project;
 Icons.Home = Home;
-Icons.RightArrow = RightArrow;
-Icons.Tasks = Tasks;
-Icons.SearchCancel = SearchCancel;
-Icons.Search = Search;
-Icons.PlayArrow = PlayArrow;
-Icons.Play = Play;
+Icons.Minus = Minus;
 Icons.Pause = Pause;
+Icons.Play = Play;
+Icons.PlayArrow = PlayArrow;
+Icons.Project = Project;
+Icons.RightArrow = RightArrow;
+Icons.Search = Search;
+Icons.SearchCancel = SearchCancel;
+Icons.Tasks = Tasks;
 
 export default Icons;

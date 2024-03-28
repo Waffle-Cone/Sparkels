@@ -206,7 +206,8 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: "black",
+    borderBottomWidth: 3,
+    borderColor: "#64696E",
     backgroundColor: "white",
   },
   textTaskButton: {

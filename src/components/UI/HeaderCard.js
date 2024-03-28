@@ -1,14 +1,16 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
+import Icons from "./Icons";
 
-const HeaderCard = ({ title, description, time, onPress }) => {
+const HeaderCard = ({ title, description, time, onPress, backgroundColor }) => {
   return (
-    <View style={styles.Container}>
+    <View style={[styles.Container, { backgroundColor: backgroundColor }]}>
       <View style={styles.subject}>
         <Text style={styles.h1}>{title}</Text>
         {!onPress ? null : (
           <TouchableOpacity style={styles.editButton} onPress={onPress}>
             <Text style={styles.textEditButton}>Edit</Text>
+            <Icons.Edit />
           </TouchableOpacity>
         )}
       </View>
@@ -25,10 +27,8 @@ const styles = StyleSheet.create({
   Container: {
     padding: 15,
     marginBottom: 20,
-    borderBottomWidth: 6,
-    borderTopWidth: 1,
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
+    borderWidth: 1,
+    borderBottomWidth: 2,
     backgroundColor: "#C7DCF5",
     borderRadius: 10,
     borderColor: "#607C9E",
@@ -51,11 +51,15 @@ const styles = StyleSheet.create({
     color: "black",
   },
   editButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
     height: 50,
-    width: 80,
+    width: "35%",
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: "black",
+    borderBottomWidth: 3,
+    borderColor: "#607C9E",
     backgroundColor: "white",
     justifyContent: "center",
   },

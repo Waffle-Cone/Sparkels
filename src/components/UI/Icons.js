@@ -64,6 +64,9 @@ const Play = () => <FontAwesome5 name="play" size={24} color="black" />;
 const Pause = ({ color }) => (
   <MaterialIcons name="pause" size={50} color={color} />
 );
+const PauseSound = ({ color }) => (
+  <FontAwesome5 name="pause-circle" size={24} color={color} />
+);
 
 // Compose
 Icons.Account = Account;
@@ -80,6 +83,7 @@ Icons.Home = Home;
 Icons.Minus = Minus;
 Icons.Music = Music;
 Icons.Pause = Pause;
+Icons.PauseSound = PauseSound;
 Icons.Play = Play;
 Icons.PlayArrow = PlayArrow;
 Icons.Project = Project;

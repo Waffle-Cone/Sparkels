@@ -184,6 +184,13 @@ const ViewTask = ({ navigation, task, project }) => {
     }
   }
 
+  async function pauseSound() {
+    if (backgroundSound) {
+      console.log("Pausing Sound");
+      await backgroundSound.pauseAsync();
+    }
+  }
+
   useEffect(() => {
     return () => {
       if (backgroundSound) {
@@ -241,6 +248,13 @@ const ViewTask = ({ navigation, task, project }) => {
                 Play Background Sound
               </Text>
             </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.pauseSoundButton}
+              onPress={pauseSound}
+            >
+              <Icons.PauseSound color="white" />
+              <Text style={styles.pauseSoundButtonText}>Pause Sound</Text>
+            </TouchableOpacity>
             <CompleteButtonButton
               handleComplete={hasCompletedTask}
               text={"Complete Task"}
@@ -280,6 +294,19 @@ const styles = StyleSheet.create({
   },
   playSoundButtonText: {
     fontSize: 16,
+    color: "white",
+    textAlign: "center",
+  },
+  pauseSoundButton: {
+    flexDirection: "row",
+    gap: 10,
+    alignItems: "center",
+    backgroundColor: "#7087DA",
+    padding: 10,
+    borderRadius: 10,
+    margin: 5,
+  },
+  pauseSoundButtonText: {
     color: "white",
     textAlign: "center",
   },

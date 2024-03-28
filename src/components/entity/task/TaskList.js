@@ -85,9 +85,11 @@ const TaskList = ({ navigation, project }) => {
 
   const backgroundColorSelector = (item) => {
     if (item.completedStatus === 3) {
-      return { backgroundColor: "#C2E7E3" };
+      return { backgroundColor: "#C2E7E3", borderColor: "#649C95" };
     } else if (item.completedStatus === 2) {
-      return { backgroundColor: "#FFE093" };
+      return { backgroundColor: "#FFE093", borderColor: "#E0AB27" };
+    } else if (item.completedStatus === 4) {
+      return { backgroundColor: "#FFB9BD", borderColor: "#D5555D" };
     } else {
       return { backgroundColor: "#E3E8ED" };
     }
@@ -105,7 +107,7 @@ const TaskList = ({ navigation, project }) => {
         style={[
           styles.taskItem,
           isActive
-            ? { backgroundColor: "#C7DCF5" }
+            ? { backgroundColor: "#E3E8ED" }
             : backgroundColorSelector(item),
         ]}
       >

@@ -62,6 +62,7 @@ const ViewTask = ({ navigation, task, project }) => {
   );
   console.log(updatedTask);
   const [backgroundSound, setBackgroundSound] = useState();
+  const [isSoundPlaying, setIsSoundPlaying] = useState(false);
 
   //the ovettime timer
   const { counter, start, stop, reset, isStart } = useTimer({
@@ -192,6 +193,16 @@ const ViewTask = ({ navigation, task, project }) => {
     };
   }, [backgroundSound]);
 
+  const handlePlaySound = () => {
+    if (isSoundPlaying) {
+      pauseSound();
+      setIsSoundPlaying(false);
+    } else {
+      playSound();
+      setIsSoundPlaying(true);
+    }
+  };
+
   // View -----------------------------
   return (
     <View style={{ flex: 1 }}>
@@ -231,22 +242,26 @@ const ViewTask = ({ navigation, task, project }) => {
                 handleStopButton={handleStopTimer}
               />
             )}
-            <TouchableOpacity
-              style={styles.playSoundButton}
-              onPress={playSound}
-            >
-              <Icons.Music color="white" />
-              <Text style={styles.playSoundButtonText}>
-                Play Background Sound
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.pauseSoundButton}
-              onPress={pauseSound}
-            >
-              <Icons.PauseSound color="white" />
-              <Text style={styles.pauseSoundButtonText}>Pause Sound</Text>
-            </TouchableOpacity>
+            {isSoundPlaying ? (
+              <TouchableOpacity
+                style={styles.pauseSoundButton}
+                onPress={handlePlaySound}
+              >
+                <Icons.PauseSound color="white" />
+                <Text style={styles.pauseSoundButtonText}>Pause Sound</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={styles.playSoundButton}
+                onPress={handlePlaySound}
+              >
+                <Icons.Music color="white" />
+                <Text style={styles.playSoundButtonText}>
+                  Play Background Sound
+                </Text>
+              </TouchableOpacity>
+            )}
+
             <CompleteButtonButton
               handleComplete={hasCompletedTask}
               text={"Complete Task"}
@@ -274,7 +289,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#1D2F6F",
     paddingHorizontal: 20,
     paddingVertical: 10,
-    borderRadius: 10,
+    borderRadius: 40,
   },
   playSoundButtonText: {
     fontSize: 16,
@@ -287,8 +302,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#7087DA",
     padding: 10,
-    borderRadius: 10,
-    margin: 5,
+    borderRadius: 30,
+    //margin: 5,
   },
   pauseSoundButtonText: {
     color: "white",

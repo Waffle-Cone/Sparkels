@@ -52,6 +52,9 @@ const CheckComplete = ({ color }) => (
 const Minus = ({ color }) => (
   <AntDesign name="minuscircleo" size={24} color={color} />
 );
+const Music = ({ color }) => (
+  <Ionicons name="musical-notes" size={24} color={color} />
+);
 const SearchCancel = () => <MaterialIcons name="cancel" size={25} />;
 const Search = () => <MaterialIcons name="search" size={20} />;
 const PlayArrow = ({ color }) => (
@@ -75,6 +78,7 @@ Icons.Delete = Delete;
 Icons.Edit = Edit;
 Icons.Home = Home;
 Icons.Minus = Minus;
+Icons.Music = Music;
 Icons.Pause = Pause;
 Icons.Play = Play;
 Icons.PlayArrow = PlayArrow;

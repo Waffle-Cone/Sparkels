@@ -11,7 +11,7 @@
 
 // -----------------------------------------------------
 
-import { Alert, StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React, { useEffect, useState, useRef, useContext } from "react";
 import { useTimer } from "react-native-timestamp-timer-hooks";
 import { ProjectContext } from "../../context/ProjectContext";
@@ -23,8 +23,10 @@ import MyCountdownCircleTimer from "../../UI/MyCountdownCircleTimer";
 import Vibrate from "../../util/Vibrate";
 import MyCounter from "../../UI/MyCounter";
 import Task from "../../classes/Task";
+import Icons from "../../UI/Icons";
 import GetCompletedStatus from "../../util/GetCompletedStatus";
 import LottieView from "lottie-react-native";
+import { Audio } from "expo-av";
 
 const ViewTask = ({ navigation, task, project }) => {
   // Initialisations ------------------
@@ -52,7 +54,6 @@ const ViewTask = ({ navigation, task, project }) => {
 
   // State ----------------------------
   const [updatedTask, setUpdatedTask] = useState(task);
-
   const [countdownTime, setCountdownTime] = useState(loadCountdownTime);
   const [isPlaying, setIsPlaying] = useState(false);
   const [actualTime, setActualTime] = useState(updatedTask.actualTime);
@@ -60,6 +61,7 @@ const ViewTask = ({ navigation, task, project }) => {
     updatedTask.completedStatus
   );
   console.log(updatedTask);
+  const [backgroundSound, setBackgroundSound] = useState();
 
   //the ovettime timer
   const { counter, start, stop, reset, isStart } = useTimer({
@@ -168,6 +170,29 @@ const ViewTask = ({ navigation, task, project }) => {
     ]);
   };
 
+  async function playSound() {
+    console.log("Loading Sound");
+    try {
+      const { sound } = await Audio.Sound.createAsync(
+        require("./../../../../assets/HeliumTrackTribe.mp3"),
+        { shouldPlay: true }
+      );
+      setBackgroundSound(sound);
+      console.log("Playing Sound");
+    } catch (error) {
+      console.log(error, "Error playing sound");
+    }
+  }
+
+  useEffect(() => {
+    return () => {
+      if (backgroundSound) {
+        console.log("Unloading Sound");
+        backgroundSound.unloadAsync();
+      }
+    };
+  }, [backgroundSound]);
+
   // View -----------------------------
   return (
     <View style={{ flex: 1 }}>
@@ -207,6 +232,15 @@ const ViewTask = ({ navigation, task, project }) => {
                 handleStopButton={handleStopTimer}
               />
             )}
+            <TouchableOpacity
+              style={styles.playSoundButton}
+              onPress={playSound}
+            >
+              <Icons.Music color="white" />
+              <Text style={styles.playSoundButtonText}>
+                Play Background Sound
+              </Text>
+            </TouchableOpacity>
             <CompleteButtonButton
               handleComplete={hasCompletedTask}
               text={"Complete Task"}
@@ -234,6 +268,20 @@ const styles = StyleSheet.create({
   body: {
     //gap: 20,
     alignItems: "center",
+  },
+  playSoundButton: {
+    flexDirection: "row",
+    gap: 10,
+    alignItems: "center",
+    backgroundColor: "#1D2F6F",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 10,
+  },
+  playSoundButtonText: {
+    fontSize: 16,
+    color: "white",
+    textAlign: "center",
   },
   lottie: {
     position: "absolute",

@@ -122,6 +122,7 @@ const ViewTask = ({ navigation, task, project }) => {
   };
 
   const confettiRef = useRef(null);
+
   function triggerConfetti() {
     confettiRef.current?.play(0);
     console.log(confettiRef.current);
@@ -133,7 +134,6 @@ const ViewTask = ({ navigation, task, project }) => {
     setUpdatedTask({ ...updatedTask, ["completedStatus"]: 3 });
 
     // completed successfully
-    triggerConfetti();
     setCompletedStatus(3);
     console.log(JSON.stringify(updatedTask) + " completed successfully");
     handleModifyTask(project.id, updatedTask);
@@ -256,21 +256,27 @@ const ViewTask = ({ navigation, task, project }) => {
               <Text style={styles.pauseSoundButtonText}>Pause Sound</Text>
             </TouchableOpacity>
             <CompleteButtonButton
-              handleComplete={hasCompletedTask}
+              handleComplete={() => {
+                triggerConfetti();
+                hasCompletedTask();
+              }}
               text={"Complete Task"}
-            />
-            <LottieView
-              ref={confettiRef}
-              source={require("./../../../../assets/confetti.json")}
-              autoPlay={false}
-              loop={false}
-              style={styles.lottie}
-              resizeMode="cover"
             />
           </>
         </View>
       ) : (
-        <CompletedStats.TaskCompletedStats task={task} />
+        <>
+          <LottieView
+            ref={confettiRef}
+            source={require("./../../../../assets/confetti.json")}
+            autoPlay={false}
+            loop={false}
+            style={styles.lottie}
+            resizeMode="cover"
+          />
+
+          <CompletedStats.TaskCompletedStats task={task} />
+        </>
       )}
     </View>
   );

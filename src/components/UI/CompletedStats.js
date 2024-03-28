@@ -8,13 +8,26 @@
 
 // -----------------------------------------------------
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import FormatTimeString from "../util/FormatTimeString";
 import Icons from "./Icons";
+import LottieView from "lottie-react-native";
 
 const CompletedStats = {};
 
 const Stats = ({ totalTime, goalTime, type }) => {
+  const confettiRef = useRef(null);
+
+  function triggerConfetti() {
+    confettiRef.current?.play(0);
+    console.log("confett", confettiRef.current);
+  }
+  console.log("completed stats");
+
+  useEffect(() => {
+    triggerConfetti();
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.taskInfoContainer}>
@@ -31,6 +44,14 @@ const Stats = ({ totalTime, goalTime, type }) => {
           </Text>
         </View>
       </View>
+      <LottieView
+        ref={confettiRef}
+        source={require("./../../../assets/confetti.json")}
+        autoPlay={false}
+        loop={false}
+        style={styles.lottie}
+        resizeMode="cover"
+      />
     </View>
   );
 };
@@ -106,5 +127,14 @@ const styles = StyleSheet.create({
   taskInfoText: {
     fontSize: 18,
     color: "black",
+  },
+  lottie: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 1000,
+    pointerEvents: "none",
   },
 });
